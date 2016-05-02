@@ -3,4 +3,5 @@
   <route url="/projet_formation/web/" module="News" action="index" />
   <route url="/projet_formation/web/news-([0-9]+)\.html" module="News" action="show" vars="id"/>
   <route url="/projet_formation/web/commenter-([0-9]+)\.html" module="News" action="insertComment" vars="news" />
+  <route url="/projet_formation/web/device" module="Device" action="index" />
 </routes>

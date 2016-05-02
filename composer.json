@@ -1,0 +1,6 @@
+{
+    "name": "ycaillon-morisseau/projet_formation",
+    "require": {
+        "mobiledetect/mobiledetectlib": "^2.8"
+    }
+}

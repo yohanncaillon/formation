@@ -1,0 +1,1 @@
+<p> Vous utilisez : <?php echo($device); ?></p>
