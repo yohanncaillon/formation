@@ -7,6 +7,7 @@ if (!isset($_GET['app']) || !file_exists(__DIR__.'/../App/'.$_GET['app'])) $_GET
 // On commence par inclure la classe nous permettant d'enregistrer nos autoload
 require __DIR__.'/../lib/OCFram/SplClassLoader.php';
 
+date_default_timezone_set('Europe/Berlin');
 // On va ensuite enregistrer les autoloads correspondant à chaque vendor (OCFram, App, Model, etc.)
 $OCFramLoader = new SplClassLoader('OCFram', dirname(__DIR__). '\\lib');
 $OCFramLoader->register();
@@ -18,6 +19,9 @@ $modelLoader = new SplClassLoader('Model', dirname(__DIR__).'\\lib\\vendors');
 $modelLoader->register();
 
 $entityLoader = new SplClassLoader('Entity', dirname(__DIR__).'\\lib\\vendors');
+$entityLoader->register();
+
+$entityLoader = new SplClassLoader('FormBuilder', dirname(__DIR__).'\\lib\\vendors');
 $entityLoader->register();
 
 // Il ne nous suffit plus qu'à déduire le nom de la classe et à l'instancier

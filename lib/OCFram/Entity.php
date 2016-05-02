@@ -3,6 +3,8 @@ namespace OCFram;
 
 abstract class Entity implements \ArrayAccess
 {
+  use Hydrator;
+
   protected $erreurs = [],
             $id;
 

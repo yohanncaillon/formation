@@ -22,7 +22,7 @@ abstract class Application
   public function getController()
   {
     $router = new Router;
- 
+
     $xml = new \DOMDocument;
     $xml->load(__DIR__.'/../../App/'.$this->name.'/Config/routes.xml');
  

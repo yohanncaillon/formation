@@ -65,6 +65,7 @@ class NewsController extends BackController
     else
     {
       $comment = new Comment;
+      
     }
  
     $formBuilder = new CommentFormBuilder($comment);
@@ -78,7 +79,7 @@ class NewsController extends BackController
     {
       $this->app->user()->setFlash('Le commentaire a bien été ajouté, merci !');
  
-      $this->app->httpResponse()->redirect('news-'.$request->getData('news').'.html');
+      $this->app->httpResponse()->redirect('/news-'.$request->getData('news').'.html');
     }
  
     $this->page->addVar('comment', $comment);
