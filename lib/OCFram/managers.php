@@ -15,6 +15,7 @@ class Managers
 
   public function getManagerOf($module)
   {
+
     if (!is_string($module) || empty($module))
     {
       throw new \InvalidArgumentException('Le module spécifié est invalide');

@@ -52,6 +52,7 @@
         {
             $this->_namespace = $ns;
             $this->_includePath = $includePath;
+
         }
 
         /**

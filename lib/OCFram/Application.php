@@ -32,7 +32,6 @@ abstract class Application
     foreach ($routes as $route)
     {
       $vars = [];
- 
       // On regarde si des variables sont présentes dans l'URL.
       if ($route->hasAttribute('vars'))
       {
@@ -45,6 +44,7 @@ abstract class Application
  
     try
     {
+      
       // On récupère la route correspondante à l'URL.
       $matchedRoute = $router->getRoute($this->httpRequest->requestURI());
     }
