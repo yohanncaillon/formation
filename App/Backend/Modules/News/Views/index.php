@@ -1,6 +1,9 @@
-<p style="text-align: center">Il y a actuellement <?= $nombreNews ?> news. En voici la liste :</p>
+
+<h1><i class="glyphicon glyphicon-tasks"></i> Espace Administration</h1>
+<hr>
+<p style="text-align: center">Il y a actuellement <b><?= $nombreNews ?> news.</b> En voici la liste :</p>
  
-<table>
+<table class="table table-striped">
   <tr><th>Auteur</th><th>Titre</th><th>Date d'ajout</th><th>Dernière modification</th><th>Action</th></tr>
 <?php
 foreach ($listeNews as $news)

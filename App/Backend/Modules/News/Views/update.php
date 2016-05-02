@@ -1,8 +1,6 @@
-<h2>Modifier une news</h2>
+<h1>Modifier une news</h1>
+<hr>
 <form action="" method="post">
-  <p>
     <?= $form ?>
- 
-    <input type="submit" value="Modifier" />
-  </p>
+    <button type="submit" class="btn btn-default">Modifier</button>
 </form>
