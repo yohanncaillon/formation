@@ -70,7 +70,7 @@ class NewsController extends BackController
         $formHandler = new FormHandler($form, $this->managers->getManagerOf('Comments'), $request);
 
         if ($formHandler->process()) {
-            $this->app->user()->setFlash('Le commentaire a bien été ajouté, merci !');
+            $this->app->session()->setFlash('Le commentaire a bien été ajouté, merci !');
 
             $this->app->httpResponse()->redirect('/news-' . $request->getData('news') . '.html');
         }

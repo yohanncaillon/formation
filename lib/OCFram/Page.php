@@ -25,7 +25,7 @@ class Page extends ApplicationComponent
 
         }
 
-        $user = $this->app->user();
+        $session = $this->app->session();
 
         extract($this->vars);
 

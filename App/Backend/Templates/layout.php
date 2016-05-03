@@ -25,7 +25,7 @@
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
                         <li><a href="/projet_formation/">Accueil</a></li>
-                        <?php if ($user->isAuthenticated()) { ?>
+                        <?php if ($session->isAuthenticated()) { ?>
                             <li class="active"><a href="/projet_formation/admin/">Admin</a></li>
                             <li><a href="/projet_formation/admin/news-insert.html">Ajouter une news</a></li>
                             <li><a href="/projet_formation/admin/logout">Se déconnecter</a></li>
@@ -37,8 +37,7 @@
         <div class="container">
             <div id="content-wrap">
                 <section id="main">
-                    <?php if ($user->hasFlash()) echo '<p style="text-align: center;">', $user->getFlash(), '</p>'; ?>
-
+                    <?php if ($session->hasFlash()) echo '<p style="text-align: center;">', $session->getFlash(), '</p>'; ?>
                     <?= $content ?>
                 </section>
             </div>

@@ -10,6 +10,9 @@ require __DIR__ . '/../lib/OCFram/SplClassLoader.php';
 require __DIR__ . '/../vendor/autoload.php';
 
 date_default_timezone_set('Europe/Berlin');
+\Carbon\Carbon::setLocale('fr');
+setlocale(LC_TIME, 'French');
+
 // On va ensuite enregistrer les autoloads correspondant à chaque vendor (OCFram, App, Model, etc.)
 $OCFramLoader = new SplClassLoader('OCFram', dirname(__DIR__) . '\\lib');
 $OCFramLoader->register();
