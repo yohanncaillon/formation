@@ -19,6 +19,7 @@ abstract class Application
         $this->name = '';
     }
 
+
     public function getController()
     {
         $router = new Router;
