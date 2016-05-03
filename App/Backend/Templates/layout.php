@@ -51,6 +51,7 @@
                         <?php if ($user->isAuthenticated()) { ?>
                             <li class="active"><a href="/projet_formation/web/admin/">Admin</a></li>
                             <li><a href="/projet_formation/web/admin/news-insert.html">Ajouter une news</a></li>
+                            <li><a href="/projet_formation/web/admin/logout">Se déconnecter</a></li>
                         <?php } ?>
                     </ul>
                 </div><!--/.nav-collapse -->

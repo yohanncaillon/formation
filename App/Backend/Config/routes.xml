@@ -8,4 +8,6 @@
            vars="id"/>
     <route url="/projet_formation/web/admin/comment-delete-([0-9]+)\.html" module="News" action="deleteComment"
            vars="id"/>
+    <route url="/projet_formation/web/admin/logout" module="Connexion" action="logout"
+           vars="id"/>
 </routes>

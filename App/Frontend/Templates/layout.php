@@ -13,7 +13,7 @@
 <body>
 <div id="wrap">
     <header>
-        <h1><a href="/projet_formation/web/">Mon super site</a></h1>
+        <h1><a href="/projet_formation/web/">PHP c tro lol</a></h1>
         <p>Comment ça, il n'y a presque rien ?</p>
     </header>
 
@@ -23,6 +23,7 @@
             <?php if ($user->isAuthenticated()) { ?>
                 <li><a href="/projet_formation/web/admin/">Admin</a></li>
                 <li><a href="/projet_formation/web/admin/news-insert.html">Ajouter une news</a></li>
+                <li><a href="/projet_formation/web/admin/logout">Se déconnecter</a></li>
             <?php } ?>
         </ul>
     </nav>
@@ -34,7 +35,7 @@
             <?= $content ?>
         </section>
     </div>
-    
+
 
     <footer></footer>
 </div>
