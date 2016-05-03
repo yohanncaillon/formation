@@ -3,13 +3,13 @@ namespace OCFram;
 
 class HTTPRequest
 {
-    public function cookieData($key) {
-
+    public function cookieData($key)
+    {
         return isset($_COOKIE[$key]) ? $_COOKIE[$key] : null;
     }
 
-  public function cookieExists($key) {
-
+    public function cookieExists($key)
+    {
         return isset($_COOKIE[$key]);
     }
 

@@ -3,88 +3,82 @@ namespace OCFram;
 
 class Route
 {
-  protected $action;
-  protected $module;
-  protected $url;
-  protected $varsNames;
-  protected $vars = [];
+    protected $action;
+    protected $module;
+    protected $url;
+    protected $varsNames;
+    protected $vars = [];
 
-  public function __construct($url, $module, $action, array $varsNames)
-  {
-    $this->setUrl($url);
-    $this->setModule($module);
-    $this->setAction($action);
-    $this->setVarsNames($varsNames);
-  }
-
-  public function hasVars()
-  {
-    return !empty($this->varsNames);
-  }
-
-  public function match($url)
-  {
-    if (preg_match('`^'.$this->url.'$`', $url, $matches))
+    public function __construct($url, $module, $action, array $varsNames)
     {
-      return $matches;
+        $this->setUrl($url);
+        $this->setModule($module);
+        $this->setAction($action);
+        $this->setVarsNames($varsNames);
     }
-    else
+
+    public function hasVars()
     {
-      return false;
+        return !empty($this->varsNames);
     }
-  }
 
-  public function setAction($action)
-  {
-    if (is_string($action))
+    public function match($url)
     {
-      $this->action = $action;
+        if (preg_match('`^' . $this->url . '$`', $url, $matches)) {
+            return $matches;
+        } else {
+            return false;
+        }
     }
-  }
 
-  public function setModule($module)
-  {
-    if (is_string($module))
+    public function setAction($action)
     {
-      $this->module = $module;
+        if (is_string($action)) {
+            $this->action = $action;
+        }
     }
-  }
 
-  public function setUrl($url)
-  {
-    if (is_string($url))
+    public function setModule($module)
     {
-      $this->url = $url;
+        if (is_string($module)) {
+            $this->module = $module;
+        }
     }
-  }
 
-  public function setVarsNames(array $varsNames)
-  {
-    $this->varsNames = $varsNames;
-  }
+    public function setUrl($url)
+    {
+        if (is_string($url)) {
+            $this->url = $url;
+        }
+    }
 
-  public function setVars(array $vars)
-  {
-    $this->vars = $vars;
-  }
+    public function setVarsNames(array $varsNames)
+    {
+        $this->varsNames = $varsNames;
+    }
 
-  public function action()
-  {
-    return $this->action;
-  }
+    public function setVars(array $vars)
+    {
+        $this->vars = $vars;
+    }
 
-  public function module()
-  {
-    return $this->module;
-  }
+    public function action()
+    {
+        return $this->action;
+    }
 
-  public function vars()
-  {
-    return $this->vars;
-  }
+    public function module()
+    {
+        return $this->module;
+    }
 
-  public function varsNames()
-  {
-    return $this->varsNames;
-  }
+    public function vars()
+    {
+        return $this->vars;
+    }
+
+    public function varsNames()
+    {
+        return $this->varsNames;
+    }
 }

@@ -12,15 +12,15 @@ class DeviceController extends BackController
     {
 
         $detect = new Mobile_Detect;
-        $deviceType = "<b>".($detect->isMobile() ? ($detect->isTablet() ? 'une tablette' : 'un téléphone') : 'un ordinateur')." </b><br>";
+        $deviceType = "<b>" . ($detect->isMobile() ? ($detect->isTablet() ? 'une tablette' : 'un téléphone') : 'un ordinateur') . " </b><br>";
 
-        foreach($detect->getProperties() as $name => $match) {
+        foreach ($detect->getProperties() as $name => $match) {
 
             $check = $detect->version($name);
-            if($check!==false) {
+            if ($check !== false) {
 
-                $deviceType .= " Le navigateur est composé de <i>".$name."</i>";
-                $deviceType .= " avec la version : ".$check." <br>";
+                $deviceType .= " Le navigateur est composé de <i>" . $name . "</i>";
+                $deviceType .= " avec la version : " . $check . " <br>";
             }
 
         }

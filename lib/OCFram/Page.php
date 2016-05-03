@@ -1,11 +1,11 @@
 <?php
 namespace OCFram;
- 
+
 class Page extends ApplicationComponent
 {
     protected $contentFile;
     protected $vars = [];
- 
+
     public function addVar($var, $value)
     {
         if (!is_string($var) || is_numeric($var) || empty($var)) {
@@ -30,21 +30,20 @@ class Page extends ApplicationComponent
         extract($this->vars);
 
         ob_start();
-            require $this->contentFile;
+        require $this->contentFile;
         $content = ob_get_clean();
 
         ob_start();
-        require __DIR__.'/../../App/'.$this->app->name().'/Templates/layout.php';
+        require __DIR__ . '/../../App/' . $this->app->name() . '/Templates/layout.php';
         return ob_get_clean();
     }
 
     public function setContentFile($contentFile)
     {
-    if (!is_string($contentFile) || empty($contentFile))
-    {
-    throw new \InvalidArgumentException('La vue spécifiée est invalide');
-    }
+        if (!is_string($contentFile) || empty($contentFile)) {
+            throw new \InvalidArgumentException('La vue spécifiée est invalide');
+        }
 
-    $this->contentFile = $contentFile;
+        $this->contentFile = $contentFile;
     }
 }
