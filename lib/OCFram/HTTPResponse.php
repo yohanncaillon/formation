@@ -13,7 +13,7 @@ class HTTPResponse extends ApplicationComponent
     public function redirect($location)
     {
 
-        header('Location: /projet_formation/web' . $location);
+        header('Location: /projet_formation' . $location);
         exit;
     }
 
