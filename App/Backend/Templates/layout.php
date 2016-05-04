@@ -25,11 +25,11 @@
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
                         <li><a href="/">Accueil</a></li>
-                        <?php if ($session->isAuthenticated()) { ?>
+                        <?php if ($session->isAuthenticated()) : ?>
                             <li class="active"><a href="/admin/">Admin</a></li>
                             <li><a href="/admin/news-insert.html">Ajouter une news</a></li>
                             <li><a href="/admin/logout">Se déconnecter</a></li>
-                        <?php } ?>
+                        <?php endif; ?>
                     </ul>
                 </div><!--/.nav-collapse -->
             </div>

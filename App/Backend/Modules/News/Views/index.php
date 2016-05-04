@@ -1,4 +1,4 @@
-<h1><i class="glyphicon glyphicon-tasks"></i> Espace Administration</h1>
+<h1>Espace Administration</h1>
 <hr>
 <p style="text-align: center">Il y a actuellement <b><?= $nombreNews ?> news.</b> En voici la liste :</p>
 

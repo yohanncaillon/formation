@@ -1,1 +1,1 @@
-<p> Vous utilisez : <?php echo($device); ?></p>
+<p> Vous utilisez : <?= $device ?></p>

@@ -21,13 +21,13 @@
     <nav>
         <ul>
             <li><a href="/">Accueil</a></li>
-            <?php if ($session->isAuthenticated()) { ?>
+            <?php if ($session->isAuthenticated()) : ?>
                 <li><a href="/admin/">Admin</a></li>
                 <li><a href="/admin/news-insert.html">Ajouter une news</a></li>
                 <li><a href="/admin/logout">Se déconnecter</a></li>
-            <?php } else { ?>
+            <?php else : ?>
                 <li><a href="/admin/login">Connexion</a></li>
-            <?php } ?>
+            <?php endif; ?>
         </ul>
     </nav>
 

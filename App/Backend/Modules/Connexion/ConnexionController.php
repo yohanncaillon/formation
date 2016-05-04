@@ -4,6 +4,7 @@ namespace App\Backend\Modules\Connexion;
 use \OCFram\BackController;
 use \OCFram\HTTPRequest;
 use \OCFram\User;
+use \FormBuilder\LoginFormBuilder;
 
 class ConnexionController extends BackController
 {
@@ -11,6 +12,7 @@ class ConnexionController extends BackController
     public function executeIndex(HTTPRequest $request) {
 
         $this->page->addVar('title', 'Connexion');
+
         if ($request->postExists('login')) {
 
             $login = $request->postData('login');

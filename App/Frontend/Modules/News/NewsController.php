@@ -14,13 +14,15 @@ class NewsController extends BackController
         $nombreNews = $this->app->config()->get('nombre_news');
         $nombreCaracteres = $this->app->config()->get('nombre_caracteres');
 
+        $request->getData('page') != null ? $page = $request->getData('page') : $page = 0;
+
         // On ajoute une définition pour le titre.
         $this->page->addVar('title', 'Liste des ' . $nombreNews . ' dernières news');
 
         // On récupère le manager des news.
         $manager = $this->managers->getManagerOf('News');
 
-        $listeNews = $manager->getList(0, $nombreNews);
+        $listeNews = $manager->getList($page*$nombreNews, ($page*$nombreNews)+$nombreNews+1);
 
         foreach ($listeNews as $news) {
             if (strlen($news->contenu()) > $nombreCaracteres) {
@@ -30,9 +32,18 @@ class NewsController extends BackController
                 $news->setContenu($debut);
             }
         }
+        $next = false;
+
+        if(sizeof($listeNews) == $nombreNews+1) {
+
+            $next = true;
+            array_pop($listeNews);
+        }
 
         // On ajoute la variable $listeNews à la vue.
         $this->page->addVar('listeNews', $listeNews);
+        $this->page->addVar('pageNumber', $page);
+        $this->page->addVar('next', $next);
     }
 
     public function executeShow(HTTPRequest $request)
