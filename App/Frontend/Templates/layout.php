@@ -15,7 +15,7 @@
 <div id="wrap">
     <header>
         <h1><a href="/">Les chats c tro lol</a></h1>
-        <p><?= \Carbon\Carbon::now()->formatLocalized('%A %d %B %Y') ?></p>
+        <p><?= \Carbon\Carbon::now()->formatLocalized('%A %d %B %Y') ?> </p>
     </header>
 
     <nav>

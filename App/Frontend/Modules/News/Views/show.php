@@ -1,6 +1,6 @@
 <p>Par <em><?= $news['auteur'] ?></em>, le <?= $news['dateAjout']->format('d/m/Y à H\hi') ?></p>
-<h2><?= $news['titre'] ?></h2>
-<p><?= nl2br($news['contenu']) ?></p>
+<h2 class="break"><?= $news['titre'] ?></h2>
+<p class="break"><?= nl2br($news['contenu']) ?></p>
 
 <?php if ($news['dateAjout'] != $news['dateModif']) { ?>
     <p style="text-align: right;">
@@ -28,7 +28,7 @@ foreach ($comments as $comment) {
                 <a href="admin/comment-delete-<?= $comment['id'] ?>.html">Supprimer</a>
             <?php } ?>
         </legend>
-        <p><?= nl2br(htmlspecialchars($comment['contenu'])) ?></p>
+        <p class="break"><?= nl2br(htmlspecialchars($comment['contenu'])) ?></p>
     </fieldset>
     <?php
 }

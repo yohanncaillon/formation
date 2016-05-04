@@ -14,7 +14,10 @@ body {
     margin: 10px 0 10px 0;
 }
 
-* {
-
+.break {
     word-wrap: break-word;
+}
+
+fieldset {
+    min-width: 100%;
 }
