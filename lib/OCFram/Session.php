@@ -5,6 +5,16 @@ session_start();
 
 class Session
 {
+
+    protected $app;
+
+    public function __construct($app)
+    {
+        $this->app = $app;
+
+    }
+
+
     public function getAttribute($attr)
     {
         return isset($_SESSION[$attr]) ? $_SESSION[$attr] : null;
@@ -33,18 +43,19 @@ class Session
         $_SESSION[$attr] = $value;
     }
 
-    public function setAuthenticated($authenticated = true)
+    public function setAuthenticated($authenticated = true, $user = null)
     {
         if (!is_bool($authenticated))
         {
             throw new \InvalidArgumentException('La valeur spécifiée à la méthode User::setAuthenticated() doit être un boolean');
         }
-
         $_SESSION['auth'] = $authenticated;
+
     }
 
     public function setFlash($value)
     {
         $_SESSION['flash'] = $value;
     }
+    
 }

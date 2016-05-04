@@ -6,6 +6,16 @@ use \Entity\User;
 class UsersManagerPDO extends UserManager
 {
 
+    public function add($login, $password)
+    {
+        $requete = $this->dao->prepare('INSERT INTO T_MEM_memberc SET MMC_name = :name, MMC_password = :password, MMC_dateadded = NOW(), MMC_datemodify = NOW()');
+        $requete->bindValue(':name', $login);
+        $requete->bindValue(':password', password_hash($password, PASSWORD_DEFAULT));
+        $result = $requete->execute();
+        
+        return $result;
+    }
+
     public function count()
     {
         return $this->dao->query('SELECT COUNT(*) FROM T_MEM_memberc')->fetchColumn();

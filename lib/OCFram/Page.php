@@ -26,7 +26,6 @@ class Page extends ApplicationComponent
         }
 
         $session = $this->app->session();
-
         extract($this->vars);
 
         ob_start();
