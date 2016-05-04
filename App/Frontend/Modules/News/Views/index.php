@@ -4,9 +4,9 @@
 <?php endforeach; ?>
 
 <?php if($pageNumber > 0): ?>
-<a href="/page-<?= $pageNumber-1 ?>/">Page précédente</a>
+<a href="/page-<?= $pageNumber-1 ?>/">< Page précédente</a>
 <?php endif; ?>
 
 <?php if ($next) : ?>
-<a style="float: right" href="/page-<?= $pageNumber+1 ?>/">Page suivante</a>
+<a style="float: right" href="/page-<?= $pageNumber+1 ?>/">Page suivante ></a>
 <?php endif; ?>

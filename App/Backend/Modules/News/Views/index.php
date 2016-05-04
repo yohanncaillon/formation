@@ -2,17 +2,31 @@
 <hr>
 <p style="text-align: center">Il y a actuellement <b><?= $nombreNews ?> news.</b> En voici la liste :</p>
 
-<table class="table table-striped">
-    <tr>
-        <th>Auteur</th>
+<table class="table table-bordered">
+    <thead>
+        <th>#</th>
         <th>Titre</th>
+        <th>Auteur</th>
         <th>Date d'ajout</th>
         <th>Dernière modification</th>
         <th>Action</th>
-    </tr>
+    </thead>
+    <tbody>
     <?php
-    foreach ($listeNews as $news) {
-        echo '<tr><td>', $news['auteur'], '</td><td>', $news['titre'], '</td><td>le ', $news['dateAjout']->format('d/m/Y à H\hi'), '</td><td>', ($news['dateAjout'] == $news['dateModif'] ? '-' : 'le ' . $news['dateModif']->format('d/m/Y à H\hi')), '</td><td><a href="news-update-', $news['id'], '.html"><img src="/images/update.png" alt="Modifier" /></a> <a href="news-delete-', $news['id'], '.html"><img src="/images/delete.png" alt="Supprimer" /></a></td></tr>', "\n";
-    }
+    $index = 1;
+    foreach ($listeNews as $news) :
     ?>
+        <tr>
+            <td><?=$index++ ?></td>
+            <td><a href="/news-<?=$news['id'] ?>.html"><?=$news['titre'] ?></a></td>
+            <td><?=$news['auteur'] ?></td>
+            <td><?=\Carbon\Carbon::instance($news['dateAjout'])->diffForHumans() ?></td>
+            <td><?=($news['dateAjout'] == $news['dateModif'] ? '-' : \Carbon\Carbon::instance($news['dateModif'])->diffForHumans()) ?></td>
+            <td>
+                <a href="news-update-<?=$news['id'] ?>.html"><img src="/images/update.png" alt="Modifier" /></a>
+                <a href="news-delete-<?=$news['id'] ?>.html"><img src="/images/delete.png" alt="Supprimer" /></a>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+    </tbody>
 </table>

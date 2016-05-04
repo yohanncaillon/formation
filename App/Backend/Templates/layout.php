@@ -28,6 +28,7 @@
                         <?php if ($session->isAuthenticated()) : ?>
                             <li class="active"><a href="/admin/">Admin</a></li>
                             <li><a href="/admin/news-insert.html">Ajouter une news</a></li>
+                            <li><a href="/admin/register">Ajouter un admin</a></li>
                             <li><a href="/admin/logout">Se déconnecter</a></li>
                         <?php endif; ?>
                     </ul>
@@ -37,7 +38,9 @@
         <div class="container">
             <div id="content-wrap">
                 <section id="main">
-                    <?php if ($session->hasFlash()) echo '<p style="text-align: center;">', $session->getFlash(), '</p>'; ?>
+                    <?php if ($session->hasFlash()) : ?>
+                        <div class="alert alert-info" role="alert"><?=$session->getFlash() ?></div>
+                    <?php endif; ?>
                     <?= $content ?>
                 </section>
             </div>
