@@ -1,6 +1,6 @@
 <p>Par <em><?= $news['auteur'] ?></em>, le <?= $news['dateAjout']->format('d/m/Y à H\hi') ?></p>
-<h2 class="break"><?= $news['titre'] ?></h2>
-<p class="break"><?= nl2br($news['contenu']) ?></p>
+<h2 class="break"><?= htmlentities($news['titre']) ?></h2>
+<p class="break"><?= htmlentities(nl2br($news['contenu'])) ?></p>
 
 <?php if ($news['dateAjout'] != $news['dateModif']) : ?>
     <p style="text-align: right;">
@@ -17,14 +17,14 @@
 foreach ($comments as $comment) : ?>
 <fieldset>
     <legend>
-        Posté par <strong><?= htmlspecialchars($comment['auteur']) ?></strong>
+        Posté par <strong><?= htmlentities($comment['auteur']) ?></strong>
         le <?= $comment['date']->format('d/m/Y à H\hi') ?>
         <?php if ($session->isAuthenticated()) : ?> -
             <a href="admin/comment-update-<?= $comment['id'] ?>.html">Modifier</a> |
             <a href="admin/comment-delete-<?= $comment['id'] ?>.html">Supprimer</a>
         <?php endif; ?>
     </legend>
-    <p class="break"><?= nl2br(htmlspecialchars($comment['contenu'])) ?></p>
+    <p class="break"><?= htmlentities(nl2br($comment['contenu'])) ?></p>
 </fieldset>
 <?php endforeach; ?>
 

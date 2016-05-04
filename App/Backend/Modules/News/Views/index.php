@@ -18,8 +18,8 @@
     ?>
         <tr>
             <td><?=$index++ ?></td>
-            <td><a href="/news-<?=$news['id'] ?>.html"><?=$news['titre'] ?></a></td>
-            <td><?=$news['auteur'] ?></td>
+            <td><a href="/news-<?=$news['id'] ?>.html"><?=htmlentities($news['titre']) ?></a></td>
+            <td><?=htmlentities($news['auteur']) ?></td>
             <td><?=\Carbon\Carbon::instance($news['dateAjout'])->diffForHumans() ?></td>
             <td><?=($news['dateAjout'] == $news['dateModif'] ? '-' : \Carbon\Carbon::instance($news['dateModif'])->diffForHumans()) ?></td>
             <td>

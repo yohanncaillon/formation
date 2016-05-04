@@ -40,7 +40,6 @@
             <?= $content ?>
         </section>
     </div>
-
     <footer></footer>
 </div>
 </body>
