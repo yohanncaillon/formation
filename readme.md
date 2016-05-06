@@ -25,6 +25,11 @@
 * Google is your best friend.
 * Remove all JavaScript Injection vulnerabilities. 
 
+# 7 - Add Feature : Ajax ! Flower Party :)
+* Change the comportment of the form to add a comment in a news page.
+* Form to add new comment must work now with ajax. So when user submit his form, don't reload the page but post an ajax query to valid the form.
+* Show errors or add new comment directly if there are no error.
+* The returned data of any ajax call need to be a JSON Object.
 # 6 - Improve your code : Url and Link
 Actually, you need to enter manually the value of a href attribute according to the route.xml file. 
 What happens if tomorrow i decided to edit a root ?
