@@ -7,9 +7,8 @@ class FrontendApplication extends Application
 {
     public function __construct()
     {
-        parent::__construct();
+        parent::__construct('Frontend');
 
-        $this->name = 'Frontend';
     }
 
     public function run()

@@ -8,13 +8,15 @@ class Route
     protected $url;
     protected $varsNames;
     protected $vars = [];
+    protected $name;
 
-    public function __construct($url, $module, $action, array $varsNames)
+    public function __construct($name, $url, $module, $action, array $varsNames)
     {
         $this->setUrl($url);
         $this->setModule($module);
         $this->setAction($action);
         $this->setVarsNames($varsNames);
+        $this->setName($name);
     }
 
     public function hasVars()
@@ -24,7 +26,15 @@ class Route
 
     public function match($url)
     {
-        if (preg_match('`^' . $this->url . '$`', $url, $matches)) {
+ 
+        $builtUrl = $this->url;
+        foreach ($this->varsNames as $var) {
+
+            $pattern = '/\{' . $var . '\}/';
+            $builtUrl = preg_replace($pattern, '([0-9]+)', $this->url);
+        }
+
+        if (preg_match('`^' . $builtUrl . '$`', $url, $matches)) {
             return $matches;
         } else {
             return false;
@@ -81,4 +91,32 @@ class Route
     {
         return $this->varsNames;
     }
+
+
+    public function url($params)
+    {
+        if($params == null)
+            return $this->url;
+
+        $builtUrl = $this->url;
+        foreach ($params as $param => $value) {
+
+            $pattern = '/\{'. $param .'\}/';
+
+            $builtUrl = preg_replace($pattern, $value, $builtUrl);
+        }
+        return $builtUrl;
+
+    }
+
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    public function name()
+    {
+        return $this->name;
+    }
+
 }

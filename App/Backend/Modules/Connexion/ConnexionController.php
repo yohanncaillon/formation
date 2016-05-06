@@ -9,7 +9,8 @@ use \FormBuilder\LoginFormBuilder;
 class ConnexionController extends BackController
 {
 
-    public function executeIndex(HTTPRequest $request) {
+    public function executeIndex(HTTPRequest $request)
+    {
 
         $this->page->addVar('title', 'Connexion');
 
@@ -18,11 +19,11 @@ class ConnexionController extends BackController
             $login = $request->postData('login');
             $password = $request->postData('password');
 
-            $user =  $this->managers->getManagerOf('Users')->authenticate($login, $password);
+            $user = $this->managers->getManagerOf('Users')->authenticate($login, $password);
 
-            if($user != null) {
+            if ($user != null) {
 
-                if(password_verify($password, $user->getPassword())) {
+                if (password_verify($password, $user->getPassword())) {
 
                     $this->app->session()->setAuthenticated(true, $user);
                     $this->app->httpResponse()->redirect('/');
@@ -32,7 +33,7 @@ class ConnexionController extends BackController
                     $this->app->session()->setFlash('Le mot de passe est incorrect.');
                 }
 
-                
+
             } else {
 
                 $this->app->session()->setFlash('Le pseudo est incorrect.');
@@ -41,7 +42,8 @@ class ConnexionController extends BackController
         }
     }
 
-    public function executeRegister(HTTPRequest $request) {
+    public function executeRegister(HTTPRequest $request)
+    {
 
         $this->page->addVar('title', 'Ajout');
         if ($request->postExists('login')) {
@@ -49,9 +51,9 @@ class ConnexionController extends BackController
             $login = $request->postData('login');
             $password = $request->postData('password');
 
-            $result =  $this->managers->getManagerOf('Users')->add($login, $password);
+            $result = $this->managers->getManagerOf('Users')->add($login, $password);
 
-            if($result == false) {
+            if ($result == false) {
 
                 $this->app->session()->setFlash('Une erreur est survenue.');
 
@@ -64,7 +66,8 @@ class ConnexionController extends BackController
 
     }
 
-    public function executeLogout(HTTPRequest $request) {
+    public function executeLogout(HTTPRequest $request)
+    {
 
         session_unset();
         session_destroy();

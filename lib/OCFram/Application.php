@@ -8,21 +8,17 @@ abstract class Application
     protected $name;
     protected $session;
     protected $config;
+    protected $router;
 
-    public function __construct()
+    public function __construct($appName)
     {
 
         $this->httpRequest = new HTTPRequest($this);
         $this->httpResponse = new HTTPResponse($this);
         $this->session = new Session($this);
         $this->config = new Config($this);
-        $this->name = '';
-    }
-
-
-    public function getController()
-    {
-        $router = new Router;
+        $this->name = $appName;
+        $this->router = Router::getInstance();
 
         $xml = new \DOMDocument;
         $xml->load(__DIR__ . '/../../App/' . $this->name . '/Config/routes.xml');
@@ -31,6 +27,7 @@ abstract class Application
 
         // On parcourt les routes du fichier XML.
         foreach ($routes as $route) {
+            
             $vars = [];
             // On regarde si des variables sont présentes dans l'URL.
             if ($route->hasAttribute('vars')) {
@@ -38,13 +35,18 @@ abstract class Application
             }
 
             // On ajoute la route au routeur.
-            $router->addRoute(new Route($route->getAttribute('url'), $route->getAttribute('module'), $route->getAttribute('action'), $vars));
+            $this->router->addRoute(new Route($route->getAttribute('name'), $route->getAttribute('url'), $route->getAttribute('module'), $route->getAttribute('action'), $vars));
         }
+    }
+
+
+    public function getController()
+    {
 
         try {
 
             // On récupère la route correspondante à l'URL.
-            $matchedRoute = $router->getRoute($this->httpRequest->requestURI());
+            $matchedRoute = $this->router->getRoute($this->httpRequest->requestURI());
         } catch (\RuntimeException $e) {
             if ($e->getCode() == Router::NO_ROUTE) {
                 // Si aucune route ne correspond, c'est que la page demandée n'existe pas.

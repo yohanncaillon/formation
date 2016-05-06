@@ -20,7 +20,7 @@ class NewsController extends BackController
 
         $this->app->session()->setFlash('La news a bien été supprimée !');
 
-        $this->app->httpResponse()->redirect('/');
+        $this->app->httpResponse()->redirect('/admin/');
     }
 
     public function executeDeleteComment(HTTPRequest $request)
@@ -99,10 +99,13 @@ class NewsController extends BackController
                 $news->setId($request->getData('id'));
             }
         } else {
+
             // L'identifiant de la news est transmis si on veut la modifier
             if ($request->getExists('id')) {
+
                 $news = $this->managers->getManagerOf('News')->getUnique($request->getData('id'));
             } else {
+
                 $news = new News;
             }
         }

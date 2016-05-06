@@ -1,4 +1,4 @@
-<p>Par <em><?= $news['auteur'] ?></em>, le <?= $news['dateAjout']->format('d/m/Y à H\hi') ?></p>
+<p>Par <em><?= htmlentities($news['auteur']) ?></em>, le <?= $news['dateAjout']->format('d/m/Y à H\hi') ?></p>
 <h2 class="break"><?= htmlentities($news['titre']) ?></h2>
 <p class="break"><?= htmlentities(nl2br($news['contenu'])) ?></p>
 
@@ -8,7 +8,7 @@
     </p>
 <?php endif; ?>
 
-<p><a href="commenter-<?= $news['id'] ?>.html">Ajouter un commentaire</a></p>
+<p><a href="<?=OCFram\Router::getInstance()->getRouteUrl("commenter", "Frontend", array("news" => $news['id'])) ?>">Ajouter un commentaire</a></p>
 
 <?php if (empty($comments)) : ?>
 <p>Aucun commentaire n'a encore été posté. Soyez le premier à en laisser un !</p>
@@ -20,12 +20,12 @@ foreach ($comments as $comment) : ?>
         Posté par <strong><?= htmlentities($comment['auteur']) ?></strong>
         le <?= $comment['date']->format('d/m/Y à H\hi') ?>
         <?php if ($session->isAuthenticated()) : ?> -
-            <a href="admin/comment-update-<?= $comment['id'] ?>.html">Modifier</a> |
-            <a href="admin/comment-delete-<?= $comment['id'] ?>.html">Supprimer</a>
+            <a href="<?=OCFram\Router::getInstance()->getRouteUrl("commentUpdate", "Backend", array("id" => $comment['id'])) ?>">Modifier</a> |
+            <a href="<?=OCFram\Router::getInstance()->getRouteUrl("commentDelete", "Backend", array("id" => $comment['id'])) ?>">Supprimer</a>
         <?php endif; ?>
     </legend>
     <p class="break"><?= htmlentities(nl2br($comment['contenu'])) ?></p>
 </fieldset>
 <?php endforeach; ?>
 
-<p><a href="commenter-<?= $news['id'] ?>.html">Ajouter un commentaire</a></p>
+<p><a href="<?=OCFram\Router::getInstance()->getRouteUrl("commenter", "Frontend", array("news" => $news['id'])) ?>">Ajouter un commentaire</a></p>

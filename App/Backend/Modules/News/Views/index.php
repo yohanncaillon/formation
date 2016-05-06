@@ -18,13 +18,13 @@
     ?>
         <tr>
             <td><?=$index++ ?></td>
-            <td><a href="/news-<?=$news['id'] ?>.html"><?=htmlentities($news['titre']) ?></a></td>
+            <td><a href="<?=\OCFram\Router::getInstance()->getRouteUrl("showNews", "Frontend", array("id" => $news['id'])) ?>"><?=htmlentities($news['titre']) ?></a></td>
             <td><?=htmlentities($news['auteur']) ?></td>
             <td><?=\Carbon\Carbon::instance($news['dateAjout'])->diffForHumans() ?></td>
             <td><?=($news['dateAjout'] == $news['dateModif'] ? '-' : \Carbon\Carbon::instance($news['dateModif'])->diffForHumans()) ?></td>
             <td>
-                <a href="news-update-<?=$news['id'] ?>.html"><img src="/images/update.png" alt="Modifier" /></a>
-                <a href="news-delete-<?=$news['id'] ?>.html"><img src="/images/delete.png" alt="Supprimer" /></a>
+                <a href="<?=\OCFram\Router::getInstance()->getRouteUrl("newsUpdate", "Backend", array("id" => $news['id'])) ?>"><img src="/images/update.png" alt="Modifier" /></a>
+                <a href="<?=\OCFram\Router::getInstance()->getRouteUrl("newsDelete", "Backend", array("id" => $news['id'])) ?>"><img src="/images/delete.png" alt="Supprimer" /></a>
             </td>
         </tr>
     <?php endforeach; ?>

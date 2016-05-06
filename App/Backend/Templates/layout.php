@@ -20,16 +20,16 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="/">Mon super site</a>
+                    <a class="navbar-brand" href="<?=OCFram\Router::getInstance()->getRouteUrl("index","Frontend") ?>">Mon super site</a>
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li><a href="/">Accueil</a></li>
+                        <li><a href="<?=OCFram\Router::getInstance()->getRouteUrl("index","Frontend") ?>">Accueil</a></li>
                         <?php if ($session->isAuthenticated()) : ?>
-                            <li class="active"><a href="/admin/">Admin</a></li>
-                            <li><a href="/admin/news-insert.html">Ajouter une news</a></li>
-                            <li><a href="/admin/register">Ajouter un admin</a></li>
-                            <li><a href="/admin/logout">Se déconnecter</a></li>
+                            <li><a href="<?=OCFram\Router::getInstance()->getRouteUrl("indexAdmin","Backend") ?>">Admin</a></li>
+                            <li><a href="<?=OCFram\Router::getInstance()->getRouteUrl("addNews", "Backend") ?>">Ajouter une news</a></li>
+                            <li><a href="<?=OCFram\Router::getInstance()->getRouteUrl("addAdmin", "Backend") ?>">Ajouter un admin</a></li>
+                            <li><a href="<?=OCFram\Router::getInstance()->getRouteUrl("logout", "Backend") ?>">Se déconnecter</a></li>
                         <?php endif; ?>
                     </ul>
                 </div><!--/.nav-collapse -->

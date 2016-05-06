@@ -22,7 +22,7 @@ class NewsController extends BackController
         // On récupère le manager des news.
         $manager = $this->managers->getManagerOf('News');
 
-        $listeNews = $manager->getList($page*$nombreNews, ($page*$nombreNews)+$nombreNews+1);
+        $listeNews = $manager->getList($page * $nombreNews, $nombreNews + 1);
 
         foreach ($listeNews as $news) {
             if (strlen($news->contenu()) > $nombreCaracteres) {
@@ -34,7 +34,7 @@ class NewsController extends BackController
         }
         $next = false;
 
-        if(sizeof($listeNews) == $nombreNews+1) {
+        if (sizeof($listeNews) == $nombreNews + 1) {
 
             $next = true;
             array_pop($listeNews);
@@ -83,7 +83,7 @@ class NewsController extends BackController
         if ($formHandler->process()) {
             $this->app->session()->setFlash('Le commentaire a bien été ajouté, merci !');
 
-            $this->app->httpResponse()->redirect('/news-' . $request->getData('news') . '.html');
+            $this->app->httpResponse()->redirect('/news-' . $request->getData('news') . '/');
         }
 
         $this->page->addVar('comment', $comment);
