@@ -26,12 +26,13 @@ class Route
 
     public function match($url)
     {
- 
+
         $builtUrl = $this->url;
         foreach ($this->varsNames as $var) {
 
             $pattern = '/\{' . $var . '\}/';
-            $builtUrl = preg_replace($pattern, '([0-9]+)', $this->url);
+            $builtUrl = preg_replace($pattern, '([0-9a-z]+)', $builtUrl);
+
         }
 
         if (preg_match('`^' . $builtUrl . '$`', $url, $matches)) {

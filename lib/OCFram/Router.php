@@ -78,7 +78,7 @@ class Router
                 return $laRoute->url($params);
 
         }
-        return "404";
+        return "notFound";
 
     }
 
