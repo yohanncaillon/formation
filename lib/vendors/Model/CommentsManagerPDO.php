@@ -16,6 +16,7 @@ class CommentsManagerPDO extends CommentsManager
         $q->execute();
 
         $comment->setId($this->dao->lastInsertId());
+        
     }
 
     public function delete($id)
@@ -34,7 +35,7 @@ class CommentsManagerPDO extends CommentsManager
             throw new \InvalidArgumentException('L\'identifiant de la news passé doit être un nombre entier valide');
         }
 
-        $q = $this->dao->prepare('SELECT id, news, auteur, contenu, date FROM comments WHERE news = :news');
+        $q = $this->dao->prepare('SELECT id, news, auteur, contenu, date FROM comments WHERE news = :news ORDER BY date');
         $q->bindValue(':news', $news, \PDO::PARAM_INT);
         $q->execute();
 

@@ -87,12 +87,30 @@ class NewsController extends BackController
         $form = $formBuilder->form();
 
         $formHandler = new FormHandler($form, $this->managers->getManagerOf('Comments'), $request);
+        $message = "Votre commentaire a bien été enregistré !";
 
-        $error = !$formHandler->process();
+        try {
+
+            $error = !$formHandler->process();
+
+        }catch (\Exception $e) {
+
+            $message = $e->getMessage();
+        }
+
         $this->page->addVar('erreur', $error);
-        $error ? $this->page->addVar('message', "") : $this->page->addVar('message', "");
+        $this->page->addVar('message', $message);
         $data = $this->managers->getManagerOf('Comments')->getListOf($request->getData('news'));
-        $this->page->addVar('commentaires', $data);
+        $comment = end($data);
+        
+        $comments_a[] = [
+
+            "auteur" => $comment->auteur(),
+            "contenu" => $comment->contenu(),
+            "html" => $comment->toHtml($this->app()->session())
+        ];
+
+        $this->page->addVar('comments', $comments_a);
 
     }
 }

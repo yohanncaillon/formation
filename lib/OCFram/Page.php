@@ -39,20 +39,9 @@ class Page extends ApplicationComponent
     public function getGeneratedPage()
     {
 
-        if (!file_exists($this->contentFile)) {
-            
-            throw new \RuntimeException('La vue spécifiée n\'existe pas');
-
-        }
-
         $session = $this->app->session();
         extract($this->vars);
 
-        ob_start();
-        require $this->contentFile;
-        $content = ob_get_clean();
-
-        ob_start();
         switch ($this->type) {
 
             case Page::AJAX_PAGE:
@@ -61,6 +50,18 @@ class Page extends ApplicationComponent
                 return json_encode($AJAXtable);
 
             default:
+
+                if (!file_exists($this->contentFile)) {
+
+                    throw new \RuntimeException('La vue spécifiée n\'existe pas');
+
+                }
+
+                ob_start();
+                require $this->contentFile;
+                $content = ob_get_clean();
+
+                ob_start();
                 require __DIR__ . '/../../App/' . $this->app->name() . '/Templates/layout.php';
                 return ob_get_clean();
         }

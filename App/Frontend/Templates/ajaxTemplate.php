@@ -1,7 +1,7 @@
 <?php
 $AJAXtable = [
-   "error" => $erreur,
+    "error" => $erreur,
     "message" => $message,
-    "data" => $content
+    "data" => $comments
 
 ];

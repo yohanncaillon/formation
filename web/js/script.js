@@ -6,6 +6,12 @@ $(document).ready(function () {
         var url = $(location).attr("href");
         var res = url.replace("news", "commenter");
 
+        if ($(".formComment input[type=text]").val() == "")
+            return false;
+
+        if($(".formComment textarea").val() == "")
+            return false;
+
         $.ajax({
             url:res,
             method:"post",
@@ -19,14 +25,13 @@ $(document).ready(function () {
 
             if(data.error != true) {
 
-                $('.comment-section').empty();
-                $('.comment-section').append(data.data);
+                $('.comment-section').append(data.data[0].html);
 
                 $(".formComment input[type=text]").val("");
                 $(".formComment textarea").val("");
             }
+            $("#main").prepend("<div class='alert alert-info' role='alert'>"+data.message+"</div>");
         });
-
 
         return false;
     });
