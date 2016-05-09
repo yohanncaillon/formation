@@ -21,7 +21,7 @@
 <?php endif; ?>
 <div class="comment-section">
 <?php foreach ($comments as $comment) : ?>
-<fieldset>
+<fieldset data-id="<?= $comment->id() ?>">
     <legend>
         Posté par <strong><?= htmlentities($comment['auteur']) ?></strong>
         le <?= $comment['date']->format('d/m/Y à H\hi') ?>

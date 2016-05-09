@@ -18,7 +18,8 @@ $(document).ready(function () {
             dataType: "json",
             data: {
                 "auteur": $(".formComment input[type=text]").val(),
-                "contenu" : $(".formComment textarea").val()
+                "contenu" : $(".formComment textarea").val(),
+                "offsetId" : $(".comment-section fieldset").last().attr('data-id')
             }
 
         }).done(function (data) {

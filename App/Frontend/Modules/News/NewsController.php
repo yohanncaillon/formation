@@ -100,17 +100,7 @@ class NewsController extends BackController
 
         $this->page->addVar('erreur', $error);
         $this->page->addVar('message', $message);
-        $data = $this->managers->getManagerOf('Comments')->getListOf($request->getData('news'));
-        $comment = end($data);
-        
-        $comments_a[] = [
-
-            "auteur" => $comment->auteur(),
-            "contenu" => $comment->contenu(),
-            "html" => $comment->toHtml($this->app()->session())
-        ];
-
-        $this->page->addVar('comments', $comments_a);
+        $this->page->addVar('comment', $this->managers->getManagerOf('Comments')->getListOf($request->getData('news'), $request->postData('offsetId')));
 
     }
 }

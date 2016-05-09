@@ -33,7 +33,7 @@ class Session
         return isset($_SESSION['flash']);
     }
 
-    public function isAuthenticated()
+    public static function isAuthenticated()
     {
         return isset($_SESSION['auth']) && $_SESSION['auth'] === true;
     }

@@ -3,8 +3,9 @@ namespace Entity;
 
 use \OCFram\Entity;
 use OCFram\Router;
+use OCFram\Session;
 
-class Comment extends Entity
+class Comment extends Entity implements \JsonSerializable
 {
     protected $news,
         $auteur,
@@ -67,16 +68,28 @@ class Comment extends Entity
         return $this->date;
     }
 
-    public function toHtml($session)
+    public function jsonSerialize() {
+
+        return [
+
+            "auteur" => $this->auteur(),
+            "contenu" => $this->contenu(),
+            "html" => $this->toHtml()
+            
+        ];
+        
+    }
+
+    public function toHtml()
     {
 
         $sessionData = "";
-        if ($session->isAuthenticated()) {
+        if (Session::isAuthenticated()) {
 
             $sessionData .= "- <a href='" . Router::getInstance()->getRouteUrl("commentUpdate", "Backend", array("id" => $this->id())) . "'>Modifier</a> |";
             $sessionData .= "<a href='" . Router::getInstance()->getRouteUrl("commentDelete", "Backend", array("id" => $this->id())) . "'> Supprimer</a>";
         }
 
-        return "<fieldset><legend>Posté par <strong>" . htmlentities($this->auteur) . "</strong> le " . $this->date->format('d/m/Y à H\hi') . " " . $sessionData . "</legend> <p class=\"break\">" . htmlentities($this->contenu()) . "</p></fieldset>";
+        return "<fieldset data-id='". $this->id() ."' ><legend>Posté par <strong>" . htmlentities($this->auteur) . "</strong> le " . $this->date->format('d/m/Y à H\hi') . " " . $sessionData . "</legend> <p class=\"break\">" . htmlentities($this->contenu()) . "</p></fieldset>";
     }
 }

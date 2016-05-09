@@ -46,7 +46,7 @@ abstract class CommentsManager extends Manager
      * @param $news La news sur laquelle on veut récupérer les commentaires
      * @return array
      */
-    abstract public function getListOf($news);
+    abstract public function getListOf($news, $offsetId = 0);
 
     /**
      * Méthode permettant de modifier un commentaire.
