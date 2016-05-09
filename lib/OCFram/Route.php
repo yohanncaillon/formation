@@ -31,7 +31,7 @@ class Route
         foreach ($this->varsNames as $var) {
 
             $pattern = '/\{' . $var . '\}/';
-            $builtUrl = preg_replace($pattern, '([0-9a-z]+)', $builtUrl);
+            $builtUrl = preg_replace($pattern, '([0-9a-zA-Z]+)', $builtUrl);
 
         }
 
@@ -96,15 +96,15 @@ class Route
 
     public function url($params)
     {
-        if($params == null)
+        if ($params == null)
             return $this->url;
 
         $builtUrl = $this->url;
         foreach ($params as $param => $value) {
 
-            $pattern = '/\{'. $param .'\}/';
-
+            $pattern = '/\{' . $param . '\}/';
             $builtUrl = preg_replace($pattern, $value, $builtUrl);
+
         }
         return $builtUrl;
 

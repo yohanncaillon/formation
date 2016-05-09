@@ -4,11 +4,12 @@ namespace OCFram;
 class Router
 {
     protected $routes = [];
-    protected  static $router = null;
+    protected static $router = null;
     const NO_ROUTE = 1;
 
-    private function __construct () {}
-    private function __clone () {}
+    private function __construct(){}
+
+    private function __clone(){}
 
     public function addRoute(Route $route)
     {
@@ -48,7 +49,7 @@ class Router
 
     public function getRouteUrl($name, $appName, array $params = null)
     {
-        if(isset($this->routes[$name])){
+        if (isset($this->routes[$name])) {
 
             return $this->routes[$name]->url($params);
 
@@ -71,18 +72,19 @@ class Router
                 $uneRoute = new Route($route->getAttribute('name'), $route->getAttribute('url'), $route->getAttribute('module'), $route->getAttribute('action'), $vars);
                 $this->addRoute($uneRoute); // On ajoute les routes du fichier
 
-                if($uneRoute->name() == $name)
+                if ($uneRoute->name() == $name)
                     $laRoute = $uneRoute;
             }
-            if($laRoute !=null)
+            if ($laRoute != null)
                 return $laRoute->url($params);
 
         }
-        return "notFound";
+        return "/error-404";
 
     }
 
-    public static function getInstance () {
+    public static function getInstance()
+    {
         if (!(self::$router instanceof self))
             self::$router = new self();
 

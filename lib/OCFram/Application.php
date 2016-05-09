@@ -27,7 +27,7 @@ abstract class Application
 
         // On parcourt les routes du fichier XML.
         foreach ($routes as $route) {
-            
+
             $vars = [];
             // On regarde si des variables sont présentes dans l'URL.
             if ($route->hasAttribute('vars')) {

@@ -2,6 +2,7 @@
 namespace Entity;
 
 use \OCFram\Entity;
+use OCFram\Router;
 
 class Comment extends Entity
 {
@@ -64,5 +65,18 @@ class Comment extends Entity
     public function date()
     {
         return $this->date;
+    }
+
+    public function toHtml($session)
+    {
+
+        $sessionData = "";
+        if ($session->isAuthenticated()) {
+
+            $sessionData .= "<a href='" . Router::getInstance()->getRouteUrl("commentUpdate", "Backend", array("id" => $this->id())) . "'>Modifier</a> |";
+            $sessionData .= "<a href='" . Router::getInstance()->getRouteUrl("commentDelete", "Backend", array("id" => $this->id())) . "'>Supprimer</a>";
+        }
+
+        return "<fieldset><legend>Posté par <strong>" . htmlentities($this->auteur) . "</strong> le " . $this->date->format('d/m/Y à H\hi') . " " . $sessionData . "</legend> <p class=\"break\">" . htmlentities($this->contenu()) . "</p></fieldset>";
     }
 }

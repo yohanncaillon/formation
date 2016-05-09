@@ -3,8 +3,28 @@ namespace OCFram;
 
 class Page extends ApplicationComponent
 {
+    const AJAX_PAGE = 'ajax';
+    const DEFAULT_PAGE = 'default';
     protected $contentFile;
     protected $vars = [];
+    protected $type;
+
+    /**
+     * @return mixed
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param mixed $type
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+    }
+
 
     public function addVar($var, $value)
     {
@@ -33,8 +53,19 @@ class Page extends ApplicationComponent
         $content = ob_get_clean();
 
         ob_start();
-        require __DIR__ . '/../../App/' . $this->app->name() . '/Templates/layout.php';
-        return ob_get_clean();
+        switch ($this->type) {
+
+            case Page::AJAX_PAGE:
+                require __DIR__ . '/../../App/' . $this->app->name() . '/Templates/ajaxTemplate.php';
+                header('Content-Type: application/json');
+                return json_encode($AJAXtable);
+
+            default:
+                require __DIR__ . '/../../App/' . $this->app->name() . '/Templates/layout.php';
+                return ob_get_clean();
+        }
+
+        
     }
 
     public function setContentFile($contentFile)

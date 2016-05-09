@@ -6,6 +6,8 @@ use \OCFram\HTTPRequest;
 use \Entity\Comment;
 use \FormBuilder\CommentFormBuilder;
 use \OCFram\FormHandler;
+use OCFram\HTTPResponse;
+use OCFram\Page;
 
 class NewsController extends BackController
 {
@@ -49,19 +51,26 @@ class NewsController extends BackController
     public function executeShow(HTTPRequest $request)
     {
         $news = $this->managers->getManagerOf('News')->getUnique($request->getData('id'));
+        $comments = $this->managers->getManagerOf('Comments')->getListOf($news->id());
 
         if (empty($news)) {
             $this->app->httpResponse()->redirect404();
         }
 
+        $formBuilder = new CommentFormBuilder(new Comment());
+        $formBuilder->build();
+        $form = $formBuilder->form();
+
+        $this->page->addVar('form', $form->createView());
         $this->page->addVar('title', $news->titre());
         $this->page->addVar('news', $news);
-        $this->page->addVar('comments', $this->managers->getManagerOf('Comments')->getListOf($news->id()));
+        $this->page->addVar('comments', $comments);
     }
 
     public function executeInsertComment(HTTPRequest $request)
     {
-        // Si le formulaire a été envoyé.
+        $this->page->setType(Page::AJAX_PAGE);
+
         if ($request->method() == 'POST') {
             $comment = new Comment([
                 'news' => $request->getData('news'),
@@ -72,7 +81,6 @@ class NewsController extends BackController
             $comment = new Comment;
 
         }
-
         $formBuilder = new CommentFormBuilder($comment);
         $formBuilder->build();
 
@@ -80,14 +88,11 @@ class NewsController extends BackController
 
         $formHandler = new FormHandler($form, $this->managers->getManagerOf('Comments'), $request);
 
-        if ($formHandler->process()) {
-            $this->app->session()->setFlash('Le commentaire a bien été ajouté, merci !');
+        $error = !$formHandler->process();
+        $this->page->addVar('erreur', $error);
+        $error ? $this->page->addVar('message', "") : $this->page->addVar('message', "");
+        $data = $this->managers->getManagerOf('Comments')->getListOf($request->getData('news'));
+        $this->page->addVar('commentaires', $data);
 
-            $this->app->httpResponse()->redirect('/news-' . $request->getData('news') . '/');
-        }
-
-        $this->page->addVar('comment', $comment);
-        $this->page->addVar('form', $form->createView());
-        $this->page->addVar('title', 'Ajout d\'un commentaire');
     }
 }

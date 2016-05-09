@@ -7,14 +7,20 @@
         <small><em>Modifiée le <?= $news['dateModif']->format('d/m/Y à H\hi') ?></em></small>
     </p>
 <?php endif; ?>
+<h2>Ajouter un commentaire</h2>
+<form action="" class="formComment">
+    <p>
+        <?= $form ?>
 
-<p><a href="<?=OCFram\Router::getInstance()->getRouteUrl("commenter", "Frontend", array("news" => $news['id'])) ?>">Ajouter un commentaire</a></p>
-
+        <input type="submit" value="Commenter"/>
+    </p>
+</form>
 <?php if (empty($comments)) : ?>
 <p>Aucun commentaire n'a encore été posté. Soyez le premier à en laisser un !</p>
-<?php endif;
 
-foreach ($comments as $comment) : ?>
+<?php endif; ?>
+<div class="comment-section">
+<?php foreach ($comments as $comment) : ?>
 <fieldset>
     <legend>
         Posté par <strong><?= htmlentities($comment['auteur']) ?></strong>
@@ -27,5 +33,5 @@ foreach ($comments as $comment) : ?>
     <p class="break"><?= htmlentities(nl2br($comment['contenu'])) ?></p>
 </fieldset>
 <?php endforeach; ?>
-
-<p><a href="<?=OCFram\Router::getInstance()->getRouteUrl("commenter", "Frontend", array("news" => $news['id'])) ?>">Ajouter un commentaire</a></p>
+</div>
+<br>

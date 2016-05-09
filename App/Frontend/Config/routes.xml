@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <routes>
-    <route name="index" url="/" module="News" action="index"/>
+    <route name="index" url="/" module="News" action="index" />
     <route name="showNews" url="/news-{id}/" module="News" action="show" vars="id"/>
-    <route name="indexNews" url="/page-{page}/" module="News" action="index" vars="page"/>
     <route name="commenter" url="/commenter-{news}/" module="News" action="insertComment" vars="news"/>
-    <route name="device" url="/device" module="Device" action="index"/>
+    <route name="device" url="/device-{var1}/{var2}/" module="Device" action="index" vars="var1,var2"/>
     <route name="page" url="/page-{page}/" module="News" action="index" vars="page" />
 </routes>
