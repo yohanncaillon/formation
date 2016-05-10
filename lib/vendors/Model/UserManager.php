@@ -7,7 +7,7 @@ use \Entity\User;
 abstract class UserManager extends Manager
 {
 
-    abstract public function add($login, $password);
+    abstract public function add(User $user);
 
     abstract public function authenticate($login, $password);
 
@@ -18,4 +18,6 @@ abstract class UserManager extends Manager
     abstract public function getUnique($id);
 
     abstract protected function modify(User $user);
+
+    abstract public function existsMemberUsingName($userName);
 }

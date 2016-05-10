@@ -10,6 +10,7 @@ abstract class Field
     protected $name;
     protected $validators = [];
     protected $value;
+    protected $saveValue = true;
 
     public function __construct(array $options = [])
     {
@@ -45,6 +46,15 @@ abstract class Field
     public function name()
     {
         return $this->name;
+    }
+
+    public function saveValue()
+    {
+        return $this->saveValue;
+    }
+    public function setSaveValue($value)
+    {
+        $this->saveValue = $value;
     }
 
     public function validators()

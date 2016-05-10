@@ -9,11 +9,13 @@ class Comment extends Entity implements \JsonSerializable
 {
     protected $news,
         $auteur,
+        $auteurId,
         $contenu,
         $date;
 
     const AUTEUR_INVALIDE = 1;
     const CONTENU_INVALIDE = 2;
+    const AUTEUR_INCONNU = 0;
 
     public function isValid()
     {
@@ -32,6 +34,12 @@ class Comment extends Entity implements \JsonSerializable
         }
 
         $this->auteur = $auteur;
+    }
+
+    public function setAuteurId($auteurId)
+    {
+
+        $this->auteurId = $auteurId;
     }
 
     public function setContenu($contenu)
@@ -68,28 +76,40 @@ class Comment extends Entity implements \JsonSerializable
         return $this->date;
     }
 
-    public function jsonSerialize() {
+    public function auteurId()
+    {
+        return $this->auteurId;
+    }
+
+    public function jsonSerialize()
+    {
 
         return [
 
             "auteur" => $this->auteur(),
             "contenu" => $this->contenu(),
             "html" => $this->toHtml()
-            
+
         ];
-        
+
     }
 
     public function toHtml()
     {
-
         $sessionData = "";
+        $userData = "Posté par <strong>" . htmlentities($this->auteur) . "</strong>";
+
         if (Session::isAuthenticated()) {
 
             $sessionData .= "- <a href='" . Router::getInstance()->getRouteUrl("commentUpdate", "Backend", array("id" => $this->id())) . "'>Modifier</a> |";
             $sessionData .= "<a href='" . Router::getInstance()->getRouteUrl("commentDelete", "Backend", array("id" => $this->id())) . "'> Supprimer</a>";
         }
 
-        return "<fieldset data-id='". $this->id() ."' ><legend>Posté par <strong>" . htmlentities($this->auteur) . "</strong> le " . $this->date->format('d/m/Y à H\hi') . " " . $sessionData . "</legend> <p class=\"break\">" . htmlentities($this->contenu()) . "</p></fieldset>";
+        if ($this->auteurId != Comment::AUTEUR_INCONNU) {
+
+            $userData = "Posté par <a href='" . Router::getInstance()->getRouteUrl("user", "Frontend", array("id" => $this->auteurId())) . "'><strong>" . htmlentities($this->auteur) . "</strong></a>";
+        }
+
+        return "<fieldset data-id='" . $this->id() . "' ><legend>" . $userData . " le " . $this->date->format('d/m/Y à H\hi') . " " . $sessionData . "</legend> <p class=\"break\">" . htmlentities($this->contenu()) . "</p></fieldset>";
     }
 }

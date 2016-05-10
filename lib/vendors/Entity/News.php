@@ -20,7 +20,6 @@ class News extends Entity
         return !(empty($this->auteur) || empty($this->titre) || empty($this->contenu));
     }
 
-
     // SETTERS //
 
     public function setAuteur($auteur)

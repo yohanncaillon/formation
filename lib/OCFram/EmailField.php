@@ -1,10 +1,9 @@
 <?php
-
 namespace OCFram;
 
-
-class PasswordField extends Field
+class EmailField extends Field
 {
+    protected $maxLength;
 
     public function buildWidget()
     {
@@ -14,7 +13,11 @@ class PasswordField extends Field
             $widget .= $this->errorMessage . '<br />';
         }
 
-        $widget .= '<div class="form-group"><label>' . $this->label . '</label><input class="form-control" type="password" name="' . $this->name . '"';
+        $widget .= '<div class="form-group"><label>' . $this->label . '</label><input class="form-control" type="email" name="' . $this->name . '"';
+
+        if (!empty($this->value)) {
+            $widget .= ' value="' . htmlspecialchars($this->value) . '"';
+        }
 
         if (!empty($this->maxLength)) {
             $widget .= ' maxlength="' . $this->maxLength . '"';

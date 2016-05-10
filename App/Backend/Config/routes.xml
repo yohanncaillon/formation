@@ -10,5 +10,4 @@
            vars="id"/>
     <route name="logout" url="/admin/logout" module="Connexion" action="logout"/>
     <route name="connexion" url="/admin/login" module="Connexion" action="index"/>
-    <route name="addAdmin" url="/admin/register" module="Connexion" action="register"/>
 </routes>

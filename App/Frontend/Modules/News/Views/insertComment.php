@@ -1,2 +1,2 @@
 <?php
-$content = $comment;
+return $comment_a;

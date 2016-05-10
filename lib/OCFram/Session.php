@@ -7,6 +7,7 @@ class Session
 {
 
     protected $app;
+    const ADMIN_INT = 1;
 
     public function __construct($app)
     {
@@ -49,8 +50,29 @@ class Session
         {
             throw new \InvalidArgumentException('La valeur spécifiée à la méthode User::setAuthenticated() doit être un boolean');
         }
-        $_SESSION['auth'] = $authenticated;
+        if($user != null) {
+            $_SESSION['auth'] = $authenticated;
+            $_SESSION['authId'] = $user->id();
+            $_SESSION['authName'] = $user->name();
+            $_SESSION['authStatus'] = $user->status();
+        }
 
+    }
+
+    public static function isAllowed($userName)
+    {
+        if(!isset($_SESSION['auth']))
+            return false;
+
+        if (self::isAdmin())
+            return true;
+
+        return $_SESSION['authName'] == $userName;
+    }
+
+    public static function isAdmin() {
+
+        return $_SESSION['authStatus'] == Session::ADMIN_INT;
     }
 
     public function setFlash($value)

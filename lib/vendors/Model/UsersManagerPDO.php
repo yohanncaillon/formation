@@ -6,14 +6,17 @@ use \Entity\User;
 class UsersManagerPDO extends UserManager
 {
 
-    public function add($login, $password)
+    public function add(User $user)
     {
-        $requete = $this->dao->prepare('INSERT INTO T_MEM_memberc SET MMC_name = :name, MMC_password = :password, MMC_dateadded = NOW(), MMC_datemodify = NOW()');
-        $requete->bindValue(':name', $login);
-        $requete->bindValue(':password', password_hash($password, PASSWORD_DEFAULT));
+        $requete = $this->dao->prepare('INSERT INTO T_MEM_memberc SET MMC_name = :name, MMC_email = :email ,MMC_password = :password, MMC_status = :status, MMC_dateadded = NOW(), MMC_datemodify = NOW()');
+        $requete->bindValue(':name', $user->name());
+        $requete->bindValue(':password', password_hash($user->password(), PASSWORD_DEFAULT));
+        $requete->bindValue(':email', $user->email());
+        $requete->bindValue(':status', $user->status());
         $result = $requete->execute();
-        
-        return $result;
+        $user->setId($this->dao->lastInsertId());
+
+        return $user;
     }
 
     public function count()
@@ -28,15 +31,13 @@ class UsersManagerPDO extends UserManager
 
     public function getUnique($id)
     {
-        $requete = $this->dao->prepare('SELECT MMC_id, MMC_name, MMC_password, MMC_dateadded, MMC_datemodify FROM T_MEM_memberc WHERE MMC_id = :id');
+        $requete = $this->dao->prepare('SELECT MMC_id, MMC_name, MMC_password, MMC_dateadded, MMC_email, MMC_status, MMC_datemodify FROM T_MEM_memberc WHERE MMC_id = :id');
         $requete->bindValue(':id', (int)$id, \PDO::PARAM_INT);
         $requete->execute();
 
-        $requete->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\OCFram\User');
+        $requete->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Entity\User');
 
         if ($user = $requete->fetch()) {
-            $user->setDateAjout(new \DateTime($user->dateAjout()));
-            $user->setDateModif(new \DateTime($user->dateModif()));
 
             return $user;
         }
@@ -58,22 +59,31 @@ class UsersManagerPDO extends UserManager
     public function authenticate($login, $password)
     {
 
-        $requete = $this->dao->prepare('SELECT MMC_id, MMC_name, MMC_password, MMC_dateadded, MMC_datemodify FROM T_MEM_memberc WHERE MMC_name = :name');
+        $requete = $this->dao->prepare('SELECT MMC_id, MMC_name, MMC_password, MMC_dateadded, MMC_email, MMC_status, MMC_datemodify FROM T_MEM_memberc WHERE MMC_name = :name');
 
         $requete->bindValue(':name', $login);
 
         $requete->execute();
 
-        if($result = $requete->fetch()) {
+        $requete->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Entity\User');
 
-            $user = new User();
-            $user->setId($result["MMC_name"]);
-            $user->setName($result["MMC_name"]);
-            $user->setPassword($result["MMC_password"]);
+        if ($user = $requete->fetch()) {
+
             return $user;
         }
 
         return null;
+
+    }
+
+    public function existsMemberUsingName($userName)
+    {
+
+        $requete = $this->dao->prepare('SELECT * FROM T_MEM_memberc WHERE MMC_name = :name');
+        $requete->bindValue(':name', $userName);
+        $requete->execute();
+
+        return $requete->fetch(\PDO::FETCH_ASSOC) != false;
 
     }
 }

@@ -15,15 +15,16 @@
     <div id="wrap">
         <header>
             <h1><a href="<?=OCFram\Router::getInstance()->getRouteUrl("index", "Frontend") ?>">Les chats c tro lol</a></h1>
-            <p><?= \Carbon\Carbon::now()->formatLocalized('%A %d %B %Y') ?> </p>
+            <p><?= \Carbon\Carbon::now()->formatLocalized('%A %d %B %Y') ?> | <?= \OCFram\Session::isAuthenticated() ? "Connecté en tant que : ". $session->getAttribute("authName") : "Non connecté" ; ?></p>
         </header>
         <nav>
             <ul>
                 <li><a href="<?=OCFram\Router::getInstance()->getRouteUrl("index","Frontend") ?>">Accueil</a></li>
+                <li><a href="<?=OCFram\Router::getInstance()->getRouteUrl("register", "Frontend") ?>">Inscription</a></li>
                 <?php if ($session->isAuthenticated()) : ?>
                     <li><a href="<?=OCFram\Router::getInstance()->getRouteUrl("indexAdmin","Backend") ?>">Admin</a></li>
                     <li><a href="<?=OCFram\Router::getInstance()->getRouteUrl("addNews", "Backend") ?>">Ajouter une news</a></li>
-                    <li><a href="<?=OCFram\Router::getInstance()->getRouteUrl("addAdmin", "Backend") ?>">Ajouter un admin</a></li>
+
                     <li><a href="<?=OCFram\Router::getInstance()->getRouteUrl("logout", "Backend") ?>">Se déconnecter</a></li>
                 <?php else : ?>
                     <li><a href="<?=OCFram\Router::getInstance()->getRouteUrl("connexion", "Backend") ?>">Connexion</a></li>

@@ -23,7 +23,7 @@ class ConnexionController extends BackController
 
             if ($user != null) {
 
-                if (password_verify($password, $user->getPassword())) {
+                if (password_verify($password, $user->password())) {
 
                     $this->app->session()->setAuthenticated(true, $user);
                     $this->app->httpResponse()->redirect('/');
@@ -40,30 +40,6 @@ class ConnexionController extends BackController
             }
 
         }
-    }
-
-    public function executeRegister(HTTPRequest $request)
-    {
-
-        $this->page->addVar('title', 'Ajout');
-        if ($request->postExists('login')) {
-
-            $login = $request->postData('login');
-            $password = $request->postData('password');
-
-            $result = $this->managers->getManagerOf('Users')->add($login, $password);
-
-            if ($result == false) {
-
-                $this->app->session()->setFlash('Une erreur est survenue.');
-
-            } else {
-
-                $this->app->session()->setFlash("L'utilisateur a été ajouté");
-            }
-
-        }
-
     }
 
     public function executeLogout(HTTPRequest $request)

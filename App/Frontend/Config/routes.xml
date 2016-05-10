@@ -5,4 +5,6 @@
     <route name="commenter" url="/commenter-{news}/" module="News" action="insertComment" vars="news"/>
     <route name="device" url="/device-{var1}/{var2}/" module="Device" action="index" vars="var1,var2"/>
     <route name="page" url="/page-{page}/" module="News" action="index" vars="page" />
+    <route name="register" url="/register" module="Register" action="register"/>
+    <route name="user" url="/user-{id}/" module="User" action="index" vars="id" />
 </routes>

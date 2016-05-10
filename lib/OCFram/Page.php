@@ -52,11 +52,11 @@ class Page extends ApplicationComponent
         switch ($this->type) {
 
             case Page::AJAX_PAGE:
-                
-                require $this->contentFile;
-                require __DIR__ . '/../../App/' . $this->app->name() . '/Templates/ajaxTemplate.php';
+
+                $content = require $this->contentFile;
+                $json_content = require __DIR__ . '/../../App/' . $this->app->name() . '/Templates/ajaxTemplate.php';
                 header('Content-Type: application/json');
-                return json_encode($AJAXtable);
+                return json_encode($json_content);
 
             default:
 
@@ -69,7 +69,7 @@ class Page extends ApplicationComponent
                 return ob_get_clean();
         }
 
-        
+
     }
 
     public function setContentFile($contentFile)

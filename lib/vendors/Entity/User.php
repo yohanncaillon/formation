@@ -5,15 +5,20 @@ use \OCFram\Entity;
 
 class User extends Entity
 {
-    protected $name;
-    protected $password;
+    protected $MMC_id;
+    protected $MMC_name;
+    protected $MMC_password;
+    protected $MMC_status;
+    protected $MMC_dateAdded;
+    protected $MMC_datemodify;
+    protected $MMC_email;
 
     /**
      * @return mixed
      */
-    public function getPassword()
+    public function password()
     {
-        return $this->password;
+        return $this->MMC_password;
     }
 
     /**
@@ -21,15 +26,15 @@ class User extends Entity
      */
     public function setPassword($password)
     {
-        $this->password = $password;
+        $this->MMC_password = $password;
     }
 
     /**
      * @return mixed
      */
-    public function getName()
+    public function name()
     {
-        return $this->name;
+        return $this->MMC_name;
     }
 
     /**
@@ -37,6 +42,57 @@ class User extends Entity
      */
     public function setName($name)
     {
-        $this->name = $name;
+        $this->MMC_name = $name;
     }
+
+    /**
+     * @return mixed
+     */
+    public function status()
+    {
+        return $this->MMC_status;
+    }
+
+    /**
+     * @param mixed $status
+     */
+    public function setStatus($status)
+    {
+        $this->MMC_status = $status;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function id()
+    {
+        return $this->MMC_id;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id)
+    {
+        $this->MMC_id = $id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function email()
+    {
+        return $this->MMC_email;
+    }
+
+    /**
+     * @param mixed $MMC_email
+     */
+    public function setEmail($MMC_email)
+    {
+        $this->MMC_email = $MMC_email;
+    }
+
+
+
 }

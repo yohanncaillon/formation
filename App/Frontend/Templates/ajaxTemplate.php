@@ -1,5 +1,5 @@
 <?php
-$AJAXtable = [
+return [
     "error" => $erreur,
     "message" => $message,
     "data" => $content

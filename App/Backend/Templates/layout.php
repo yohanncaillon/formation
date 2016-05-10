@@ -28,7 +28,6 @@
                         <?php if ($session->isAuthenticated()) : ?>
                             <li><a href="<?=OCFram\Router::getInstance()->getRouteUrl("indexAdmin","Backend") ?>">Admin</a></li>
                             <li><a href="<?=OCFram\Router::getInstance()->getRouteUrl("addNews", "Backend") ?>">Ajouter une news</a></li>
-                            <li><a href="<?=OCFram\Router::getInstance()->getRouteUrl("addAdmin", "Backend") ?>">Ajouter un admin</a></li>
                             <li><a href="<?=OCFram\Router::getInstance()->getRouteUrl("logout", "Backend") ?>">Se déconnecter</a></li>
                         <?php endif; ?>
                     </ul>
