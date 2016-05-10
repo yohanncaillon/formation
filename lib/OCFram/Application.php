@@ -66,12 +66,12 @@ abstract class Application
 
     abstract public function run();
 
-    public function httpRequest()
+    public function HttpRequest()
     {
         return $this->HttpRequest;
     }
 
-    public function httpResponse()
+    public function HttpResponse()
     {
         return $this->HttpResponse;
     }

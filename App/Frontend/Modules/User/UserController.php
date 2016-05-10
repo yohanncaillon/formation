@@ -17,12 +17,23 @@ class UserController extends BackController
     {
 
         $nombreNews = $this->App()->Config()->get('nombre_news');
-
+        $nombreCaracteres = $this->App->Config()->get('nombre_caracteres');
         $User = $this->Managers->getManagerOf("Users")->getUserUsingId($Request->getData("id"));
         if ($User == null)
-            $this->App->httpResponse()->redirect404();
+            $this->App->HttpResponse()->redirect404();
 
         $listeNews_a = $this->Managers->getManagerOf('News')->getNewsUsingUserId($User->id(), 0, $nombreNews);
+
+        foreach ($listeNews_a as $News) {
+
+            if (strlen($News->contenu()) > $nombreCaracteres) {
+                $debut = substr($News->contenu(), 0, $nombreCaracteres);
+                $debut = substr($debut, 0, strrpos($debut, ' ')) . '...';
+
+                $News->setContenu($debut);
+            }
+
+        }
 
         $this->Page->addVar('title', 'Liste des news de ' . $User->name());
         $this->Page->addVar('listeNews_a', $listeNews_a);

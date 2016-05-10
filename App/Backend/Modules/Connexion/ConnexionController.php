@@ -26,7 +26,7 @@ class ConnexionController extends BackController
                 if (password_verify($password, $User->password())) {
 
                     $this->App()->Session()->setAuthenticated(true, $User);
-                    $this->App()->httpResponse()->redirect('/');
+                    $this->App()->HttpResponse()->redirect('/');
 
                 } else {
 
@@ -48,7 +48,7 @@ class ConnexionController extends BackController
         session_unset();
         session_destroy();
         $this->App()->Session()->setAuthenticated(false, null);
-        $this->App()->httpResponse()->redirect('/');
+        $this->App()->HttpResponse()->redirect('/');
 
     }
 }

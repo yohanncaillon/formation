@@ -29,3 +29,16 @@ fieldset {
     height:50px;
 
 }
+
+.pre-footer {
+
+    border-top:1px solid rgba(0,0,0, 0.1);
+    padding: 10px;
+    margin-top:20px;
+}
+
+.pre-footer a {
+
+    color: #88ac0b;
+    font-weight:bold;
+}

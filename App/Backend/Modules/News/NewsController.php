@@ -21,7 +21,7 @@ class NewsController extends BackController
 
         $this->App()->Session()->setFlash('La news a bien été supprimée !');
 
-        $this->App()->httpResponse()->redirect('/admin/');
+        $this->App()->HttpResponse()->redirect('/admin/');
     }
 
     public function executeDeleteComment(HTTPRequest $Request)
@@ -30,7 +30,7 @@ class NewsController extends BackController
 
         $this->App()->Session()->setFlash('Le commentaire a bien été supprimé !');
 
-        $this->App()->httpResponse()->redirect('/');
+        $this->App()->HttpResponse()->redirect('/');
     }
 
     public function executeIndex(HTTPRequest $Request)
@@ -91,7 +91,7 @@ class NewsController extends BackController
         if ($FormHandler->process()) {
 
             $this->App()->Session()->setFlash('Le commentaire a bien été modifié');
-            $this->App()->httpResponse()->redirect('/admin/');
+            $this->App()->HttpResponse()->redirect('/admin/');
         }
 
         $this->Page->addVar('Form', $Form->createView());
@@ -110,12 +110,13 @@ class NewsController extends BackController
 
             if ($Request->getExists('id')) {
                 $News->setId($Request->getData('id'));
+                
             }
 
             if ($this->Managers->getManagerOf('News')->save($News)) {
 
                 $this->App()->Session()->setFlash($News->isNew() ? 'La news a bien été ajoutée !' : 'La news a bien été modifiée !');
-                $this->App()->httpResponse()->redirect('/admin/');
+                $this->App()->HttpResponse()->redirect('/admin/');
             }
 
 

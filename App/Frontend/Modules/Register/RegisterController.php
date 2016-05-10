@@ -49,7 +49,7 @@ class RegisterController extends BackController
             try {
                 $this->Managers->getManagerOf('Users')->insertUser($User);
                 $this->App()->Session()->setAuthenticated(true, $User);
-                $this->App()->httpResponse()->redirect('/');
+                $this->App()->HttpResponse()->redirect('/');
 
             } catch (\Exception $e) {
 

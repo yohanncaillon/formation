@@ -59,7 +59,7 @@ class NewsController extends BackController
         $User = $this->Managers->getManagerOf('Users')->getUserUsingId($News->auteur());
 
         if (empty($News)) {
-            $this->App()->httpResponse()->redirect404();
+            $this->App()->HttpResponse()->redirect404();
         }
 
         Session::isAuthenticated() ? $formBuilder = new CommentUserFormBuilder(new Comment()) : $formBuilder = new CommentFormBuilder(New Comment());
