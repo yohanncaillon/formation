@@ -27,29 +27,31 @@ class RegisterController extends BackController
 
         if ($request->method() == 'POST') {
 
-            $user = new User ([
+            $User = new User ([
                 'name' => $request->postData('name'),
                 'password' => $request->postData('password'),
                 'status' => 2,
                 'email' => $request->postData('email')
             ]);
             $password_confirm = $request->postData('password_confirm');
+
         } else {
 
-            $user = new User();
+            $User = new User();
             $password_confirm = "";
         }
 
-        $formBuilder = new RegisterFormBuilder($user, $password_confirm);
-        $formBuilder->build();
-        $form = $formBuilder->form();
+        $FormBuilder = new RegisterFormBuilder($User, $password_confirm);
+        $FormBuilder->build();
+        $Form = $FormBuilder->form();
 
-        if ($request->method() == 'POST' && $form->isValid()) {
+        if ($request->method() == 'POST' && $Form->isValid()) {
 
             try {
-                $this->managers->getManagerOf('Users')->add($user);
-                $this->app()->session()->setAuthenticated(true, $user);
-                $this->app->httpResponse()->redirect('/');
+                $this->managers->getManagerOf('Users')->insertUser($User);
+                $this->app()->session()->setAuthenticated(true, $User);
+                $this->App->httpResponse()->redirect('/');
+
             } catch (\Exception $e) {
 
                 switch ($e->getCode()) {
@@ -63,10 +65,10 @@ class RegisterController extends BackController
 
                 }
             }
-            $this->app->session()->setFlash($message);
+            $this->App->session()->setFlash($message);
 
         }
-        $this->page->addVar('form', $form->createView());
+        $this->page->addVar('Form', $Form->createView());
 
     }
 

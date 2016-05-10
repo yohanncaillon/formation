@@ -6,7 +6,7 @@ use \Entity\User;
 class UsersManagerPDO extends UserManager
 {
 
-    public function add(User $user)
+    public function insertUser(User $user)
     {
         $requete = $this->dao->prepare('INSERT INTO T_MEM_memberc SET MMC_name = :name, MMC_email = :email ,MMC_password = :password, MMC_status = :status, MMC_dateadded = NOW(), MMC_datemodify = NOW()');
         $requete->bindValue(':name', $user->name());
@@ -24,12 +24,12 @@ class UsersManagerPDO extends UserManager
         return $this->dao->query('SELECT COUNT(*) FROM T_MEM_memberc')->fetchColumn();
     }
 
-    public function delete($id)
+    public function deleteUserUsingId($id)
     {
         $this->dao->exec('DELETE FROM T_MEM_memberc WHERE MMC_id = ' . (int)$id);
     }
 
-    public function getUnique($id)
+    public function getUserUsingId($id)
     {
         $requete = $this->dao->prepare('SELECT MMC_id, MMC_name, MMC_password, MMC_dateadded, MMC_email, MMC_status, MMC_datemodify FROM T_MEM_memberc WHERE MMC_id = :id');
         $requete->bindValue(':id', (int)$id, \PDO::PARAM_INT);
@@ -45,7 +45,7 @@ class UsersManagerPDO extends UserManager
         return null;
     }
 
-    protected function modify(User $user)
+    protected function updateUser(User $user)
     {
         $requete = $this->dao->prepare('UPDATE T_MEM_memberc SET MMC_name = :name, MMC_password = :pass, MMC_datemodify = NOW() WHERE MMC_id = :id');
 

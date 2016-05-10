@@ -45,7 +45,7 @@ class Page extends ApplicationComponent
 
         }
 
-        $session = $this->app->session();
+        $session = $this->App->session();
         extract($this->vars);
 
 
@@ -54,7 +54,7 @@ class Page extends ApplicationComponent
             case Page::AJAX_PAGE:
 
                 $content = require $this->contentFile;
-                $json_content = require __DIR__ . '/../../App/' . $this->app->name() . '/Templates/ajaxTemplate.php';
+                $json_content = require __DIR__ . '/../../App/' . $this->App->name() . '/Templates/ajaxTemplate.php';
                 header('Content-Type: application/json');
                 return json_encode($json_content);
 
@@ -65,7 +65,7 @@ class Page extends ApplicationComponent
                 $content = ob_get_clean();
 
                 ob_start();
-                require __DIR__ . '/../../App/' . $this->app->name() . '/Templates/layout.php';
+                require __DIR__ . '/../../App/' . $this->App->name() . '/Templates/layout.php';
                 return ob_get_clean();
         }
 

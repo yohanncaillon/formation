@@ -23,19 +23,19 @@ abstract class Application
         $xml = new \DOMDocument;
         $xml->load(__DIR__ . '/../../App/' . $this->name . '/Config/routes.xml');
 
-        $routes = $xml->getElementsByTagName('route');
+        $routes_a = $xml->getElementsByTagName('route');
 
         // On parcourt les routes du fichier XML.
-        foreach ($routes as $route) {
+        foreach ($routes_a as $Route) {
 
-            $vars = [];
+            $var_a = [];
             // On regarde si des variables sont présentes dans l'URL.
-            if ($route->hasAttribute('vars')) {
-                $vars = explode(',', $route->getAttribute('vars'));
+            if ($Route->hasAttribute('vars')) {
+                $var_a = explode(',', $Route->getAttribute('vars'));
             }
 
             // On ajoute la route au routeur.
-            $this->router->addRoute(new Route($route->getAttribute('name'), $route->getAttribute('url'), $route->getAttribute('module'), $route->getAttribute('action'), $vars));
+            $this->router->addRoute(new Route($Route->getAttribute('name'), $Route->getAttribute('url'), $Route->getAttribute('module'), $Route->getAttribute('action'), $var_a));
         }
     }
 
@@ -47,7 +47,9 @@ abstract class Application
 
             // On récupère la route correspondante à l'URL.
             $matchedRoute = $this->router->getRoute($this->httpRequest->requestURI());
+
         } catch (\RuntimeException $e) {
+
             if ($e->getCode() == Router::NO_ROUTE) {
                 // Si aucune route ne correspond, c'est que la page demandée n'existe pas.
                 $this->httpResponse->redirect404();

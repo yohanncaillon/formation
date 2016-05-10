@@ -3,16 +3,16 @@ namespace OCFram;
 
 abstract class ApplicationComponent
 {
-    protected $app;
+    protected $App;
 
     public function __construct(Application $app)
     {
 
-        $this->app = $app;
+        $this->App = $app;
     }
 
     public function app()
     {
-        return $this->app;
+        return $this->App;
     }
 }

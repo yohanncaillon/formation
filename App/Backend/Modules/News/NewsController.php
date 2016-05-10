@@ -16,51 +16,49 @@ class NewsController extends BackController
     {
         $newsId = $request->getData('id');
 
-        $this->managers->getManagerOf('News')->delete($newsId);
-        $this->managers->getManagerOf('Comments')->deleteFromNews($newsId);
+        $this->managers->getManagerOf('News')->deleteNewsUsingId($newsId);
+        $this->managers->getManagerOf('Comments')->deleteCommentUsingNewsId($newsId);
 
-        $this->app->session()->setFlash('La news a bien été supprimée !');
+        $this->App->session()->setFlash('La news a bien été supprimée !');
 
-        $this->app->httpResponse()->redirect('/admin/');
+        $this->App->httpResponse()->redirect('/admin/');
     }
 
     public function executeDeleteComment(HTTPRequest $request)
     {
-        $this->managers->getManagerOf('Comments')->delete($request->getData('id'));
+        $this->managers->getManagerOf('Comments')->deleteCommentUsingId($request->getData('id'));
 
-        $this->app->session()->setFlash('Le commentaire a bien été supprimé !');
+        $this->App->session()->setFlash('Le commentaire a bien été supprimé !');
 
-        $this->app->httpResponse()->redirect('/');
+        $this->App->httpResponse()->redirect('/');
     }
 
     public function executeIndex(HTTPRequest $request)
     {
         $this->page->addVar('title', 'Gestion des news');
 
-        $manager = $this->managers->getManagerOf('News');
+        $Manager = $this->managers->getManagerOf('News');
 
         if (Session::isAdmin()) {
-            $this->page->addVar('listeNews', $manager->getList());
-            $this->page->addVar('nombreNews', $manager->count());
+            $this->page->addVar('listeNews_a', $Manager->getNews_a());
+            $this->page->addVar('nombreNews', $Manager->count());
         } else {
 
-            $listeNews = $manager->getNewsUsingUserId($this->app->session()->getAttribute("authId"));
-            $this->page->addVar('listeNews', $listeNews);
-            $this->page->addVar('nombreNews', sizeof($listeNews));
+            $listeNews_a = $Manager->getNewsUsingUserId($this->App->session()->getAttribute("authId"));
+            $this->page->addVar('listeNews_a', $listeNews_a);
+            $this->page->addVar('nombreNews', sizeof($listeNews_a));
         }
     }
 
     public function executeInsert(HTTPRequest $request)
     {
         $this->processForm($request);
-
         $this->page->addVar('title', 'Ajout d\'une news');
     }
 
     public function executeUpdate(HTTPRequest $request)
     {
         $this->processForm($request);
-
         $this->page->addVar('title', 'Modification d\'une news');
     }
 
@@ -70,7 +68,7 @@ class NewsController extends BackController
 
         if ($request->method() == 'POST') {
 
-            $comment = new Comment([
+            $Comment = new Comment([
 
                 'id' => $request->getData('id'),
                 'news' => $request->getData('news'),
@@ -80,30 +78,30 @@ class NewsController extends BackController
 
             ]);
         } else {
-            $comment = $this->managers->getManagerOf('Comments')->get($request->getData('id'));
+            $Comment = $this->managers->getManagerOf('Comments')->getCommentUsingId($request->getData('id'));
         }
 
-        $formBuilder = new CommentUserFormBuilder($comment);
+        $formBuilder = new CommentUserFormBuilder($Comment);
         $formBuilder->build();
 
-        $form = $formBuilder->form();
+        $Form = $formBuilder->form();
 
-        $formHandler = new FormHandler($form, $this->managers->getManagerOf('Comments'), $request);
+        $FormHandler = new FormHandler($Form, $this->managers->getManagerOf('Comments'), $request);
 
-        if ($formHandler->process()) {
-            $this->app->session()->setFlash('Le commentaire a bien été modifié');
+        if ($FormHandler->process()) {
 
-            $this->app->httpResponse()->redirect('/admin/');
+            $this->App->session()->setFlash('Le commentaire a bien été modifié');
+            $this->App->httpResponse()->redirect('/admin/');
         }
 
-        $this->page->addVar('form', $form->createView());
+        $this->page->addVar('Form', $Form->createView());
     }
 
     public function processForm(HTTPRequest $request)
     {
         if ($request->method() == 'POST') {
 
-            $news = new News([
+            $News = new News([
                 'auteur' => $this->app()->session()->getAttribute("authId"),
                 'titre' => $request->postData('titre'),
                 'contenu' => $request->postData('contenu')
@@ -111,14 +109,13 @@ class NewsController extends BackController
 
 
             if ($request->getExists('id')) {
-                $news->setId($request->getData('id'));
+                $News->setId($request->getData('id'));
             }
 
-            if ($this->managers->getManagerOf('News')->save($news)) {
+            if ($this->managers->getManagerOf('News')->save($News)) {
 
-                $this->app->session()->setFlash($news->isNew() ? 'La news a bien été ajoutée !' : 'La news a bien été modifiée !');
-
-                $this->app->httpResponse()->redirect('/admin/');
+                $this->App->session()->setFlash($News->isNew() ? 'La news a bien été ajoutée !' : 'La news a bien été modifiée !');
+                $this->App->httpResponse()->redirect('/admin/');
             }
 
 
@@ -127,18 +124,18 @@ class NewsController extends BackController
             // L'identifiant de la news est transmis si on veut la modifier
             if ($request->getExists('id')) {
 
-                $news = $this->managers->getManagerOf('News')->getUnique($request->getData('id'));
+                $News = $this->managers->getManagerOf('News')->getNewsUsingId($request->getData('id'));
             } else {
 
-                $news = new News;
+                $News = new News();
             }
 
         }
 
-        $formBuilder = new NewsFormBuilder($news);
-        $formBuilder->build();
-        $form = $formBuilder->form();
-        $this->page->addVar('form', $form->createView());
+        $FormBuilder = new NewsFormBuilder($News);
+        $FormBuilder->build();
+        $Form = $FormBuilder->form();
+        $this->page->addVar('Form', $Form->createView());
 
     }
 }

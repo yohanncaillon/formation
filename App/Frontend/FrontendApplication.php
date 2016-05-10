@@ -13,10 +13,10 @@ class FrontendApplication extends Application
 
     public function run()
     {
-        $controller = $this->getController();
-        $controller->execute();
+        $Controller = $this->getController();
+        $Controller->execute();
 
-        $this->httpResponse->setPage($controller->page());
+        $this->httpResponse->setPage($Controller->page());
         $this->httpResponse->send();
 
     }

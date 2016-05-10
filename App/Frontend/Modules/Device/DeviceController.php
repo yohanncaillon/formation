@@ -8,15 +8,15 @@ use \Mobile_Detect;
 class DeviceController extends BackController
 {
 
-    public function executeIndex(HTTPRequest $request)
+    public function executeIndex(HTTPRequest $Request)
     {
 
-        $detect = new Mobile_Detect;
-        $deviceType = "<b>" . ($detect->isMobile() ? ($detect->isTablet() ? 'une tablette' : 'un téléphone') : 'un ordinateur') . " </b><br>";
+        $Detect = new Mobile_Detect;
+        $deviceType = "<b>" . ($Detect->isMobile() ? ($Detect->isTablet() ? 'une tablette' : 'un téléphone') : 'un ordinateur') . " </b><br>";
 
-        foreach ($detect->getProperties() as $name => $match) {
+        foreach ($Detect->getProperties() as $name => $match) {
 
-            $check = $detect->version($name);
+            $check = $Detect->version($name);
             if ($check !== false) {
 
                 $deviceType .= " Le navigateur est composé de <i>" . $name . "</i>";

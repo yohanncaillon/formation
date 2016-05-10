@@ -29,7 +29,7 @@ abstract class BackController extends ApplicationComponent
             throw new \RuntimeException('L\'action "' . $this->action . '" n\'est pas définie sur ce module');
         }
 
-        $this->$method($this->app->httpRequest(), $this->app->httpResponse());
+        $this->$method($this->App->httpRequest(), $this->App->httpResponse());
     }
 
     public function page()
@@ -63,6 +63,6 @@ abstract class BackController extends ApplicationComponent
 
         $this->view = $view;
 
-        $this->page->setContentFile(__DIR__ . '/../../App/' . $this->app->name() . '/Modules/' . $this->module . '/Views/' . $this->view . '.php');
+        $this->page->setContentFile(__DIR__ . '/../../App/' . $this->App->name() . '/Modules/' . $this->module . '/Views/' . $this->view . '.php');
     }
 }

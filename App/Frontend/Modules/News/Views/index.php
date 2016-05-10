@@ -1,6 +1,6 @@
-<?php foreach ($listeNews as $news) : ?>
-    <h2><a class="break" href="<?=OCFram\Router::getInstance()->getRouteUrl("showNews", "Frontend", array("id"=>$news['id'])) ?>"><?= htmlentities($news['titre']) ?></a></h2>
-    <p><?=htmlentities(nl2br($news['contenu'])) ?></p>
+<?php foreach ($listeNews_a as $News) : ?>
+    <h2><a class="break" href="<?=OCFram\Router::getInstance()->getRouteUrl("showNews", "Frontend", array("id"=>$News['id'])) ?>"><?= htmlentities($News['titre']) ?></a></h2>
+    <p><?=htmlentities(nl2br($News['contenu'])) ?></p>
 <?php endforeach; ?>
 
 <?php if($pageNumber > 0): ?>

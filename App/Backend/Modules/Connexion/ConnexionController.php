@@ -19,24 +19,24 @@ class ConnexionController extends BackController
             $login = $request->postData('login');
             $password = $request->postData('password');
 
-            $user = $this->managers->getManagerOf('Users')->authenticate($login, $password);
+            $User = $this->managers->getManagerOf('Users')->authenticate($login, $password);
 
-            if ($user != null) {
+            if ($User != null) {
 
-                if (password_verify($password, $user->password())) {
+                if (password_verify($password, $User->password())) {
 
-                    $this->app->session()->setAuthenticated(true, $user);
-                    $this->app->httpResponse()->redirect('/');
+                    $this->App->session()->setAuthenticated(true, $User);
+                    $this->App->httpResponse()->redirect('/');
 
                 } else {
 
-                    $this->app->session()->setFlash('Le mot de passe est incorrect.');
+                    $this->App->session()->setFlash('Le mot de passe est incorrect.');
                 }
 
 
             } else {
 
-                $this->app->session()->setFlash('Le pseudo est incorrect.');
+                $this->App->session()->setFlash('Le pseudo est incorrect.');
             }
 
         }
@@ -47,8 +47,8 @@ class ConnexionController extends BackController
 
         session_unset();
         session_destroy();
-        $this->app->session()->setAuthenticated(false, null);
-        $this->app->httpResponse()->redirect('/');
+        $this->App->session()->setAuthenticated(false, null);
+        $this->App->httpResponse()->redirect('/');
 
     }
 }

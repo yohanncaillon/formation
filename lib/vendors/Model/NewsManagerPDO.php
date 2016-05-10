@@ -5,7 +5,7 @@ use \Entity\News;
 
 class NewsManagerPDO extends NewsManager
 {
-    protected function add(News $news)
+    protected function insertNews(News $news)
     {
         $requete = $this->dao->prepare('INSERT INTO news SET auteur = :auteur, titre = :titre, contenu = :contenu, dateAjout = NOW(), dateModif = NOW()');
 
@@ -21,12 +21,12 @@ class NewsManagerPDO extends NewsManager
         return $this->dao->query('SELECT COUNT(*) FROM news')->fetchColumn();
     }
 
-    public function delete($id)
+    public function deleteNewsUsingId($id)
     {
         $this->dao->exec('DELETE FROM news WHERE id = ' . (int)$id);
     }
 
-    public function getList($debut = -1, $limite = -1)
+    public function getNews_a($debut = -1, $limite = -1)
     {
 
         $sql = 'SELECT id, auteur, titre, contenu, dateAjout, dateModif FROM news ORDER BY id DESC';
@@ -50,7 +50,7 @@ class NewsManagerPDO extends NewsManager
         return $listeNews;
     }
 
-    public function getUnique($id)
+    public function getNewsUsingId($id)
     {
         $requete = $this->dao->prepare('SELECT id, auteur, titre, contenu, dateAjout, dateModif FROM news WHERE id = :id');
         $requete->bindValue(':id', (int)$id, \PDO::PARAM_INT);
@@ -68,7 +68,7 @@ class NewsManagerPDO extends NewsManager
         return null;
     }
 
-    protected function modify(News $news)
+    protected function updateNews(News $news)
     {
         $requete = $this->dao->prepare('UPDATE news SET auteur = :auteur, titre = :titre, contenu = :contenu, dateModif = NOW() WHERE id = :id');
 

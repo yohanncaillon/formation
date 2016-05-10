@@ -16,17 +16,18 @@ class UserController extends BackController
     public function executeIndex(HTTPRequest $request)
     {
 
-        $nombreNews = $this->app->config()->get('nombre_news');
-        $nombreCaracteres = $this->app->config()->get('nombre_caracteres');
-        $user = $this->managers->getManagerOf("Users")->getUnique($request->getData("id"));
-        if ($user == null)
-            $this->app->httpResponse()->redirect404();
+        $nombreNews = $this->App->config()->get('nombre_news');
+        $nombreCaracteres = $this->App->config()->get('nombre_caracteres');
+        $User = $this->managers->getManagerOf("Users")->getUserUsingId($request->getData("id"));
+        if ($User == null)
+            $this->App->httpResponse()->redirect404();
 
-        $listeNews = $this->managers->getManagerOf('News')->getNewsUsingUserId($user->id(), 0, $nombreNews);
+        $listeNews_a = $this->managers->getManagerOf('News')->getNewsUsingUserId($User->id(), 0, $nombreNews);
 
-        $this->page->addVar('title', 'Liste des news de ' . $user->name());
-        $this->page->addVar('listeNews', $listeNews);
-        $this->page->addVar('user', $user);
+        $this->page->addVar('title', 'Liste des news de ' . $User->name());
+        $this->page->addVar('listeNews_a', $listeNews_a);
+        $this->page->addVar('User', $User);
+        
     }
 
 

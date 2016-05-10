@@ -14,14 +14,14 @@ class BackendApplication extends Application
     public function run()
     {
         if ($this->session->isAuthenticated()) {
-            $controller = $this->getController();
+            $Controller = $this->getController();
         } else {
-            $controller = new Modules\Connexion\ConnexionController($this, 'Connexion', 'index');
+            $Controller = new Modules\Connexion\ConnexionController($this, 'Connexion', 'index');
         }
 
-        $controller->execute();
+        $Controller->execute();
 
-        $this->httpResponse->setPage($controller->page());
+        $this->httpResponse->setPage($Controller->page());
         $this->httpResponse->send();
 
     }

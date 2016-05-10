@@ -5,7 +5,7 @@ use \Entity\Comment;
 
 class CommentsManagerPDO extends CommentsManager
 {
-    protected function add(Comment $comment)
+    protected function insertComment(Comment $comment)
     {
         $q = $this->dao->prepare('INSERT INTO comments SET news = :news, auteur = :auteur, contenu = :contenu, auteurId = :auteurId, date = NOW()');
 
@@ -20,17 +20,17 @@ class CommentsManagerPDO extends CommentsManager
 
     }
 
-    public function delete($id)
+    public function deleteCommentUsingId($id)
     {
         $this->dao->exec('DELETE FROM comments WHERE id = ' . (int)$id);
     }
 
-    public function deleteFromNews($news)
+    public function deleteCommentUsingNewsId($news)
     {
         $this->dao->exec('DELETE FROM comments WHERE news = ' . (int)$news);
     }
 
-    public function getListOf($news, $offsetId = 0)
+    public function getCommentUsingNewsId_a($news, $offsetId = 0)
     {
         if ($offsetId == null)
             $offsetId = 0;
@@ -55,7 +55,7 @@ class CommentsManagerPDO extends CommentsManager
         return $comments;
     }
 
-    protected function modify(Comment $comment)
+    protected function UpdateComment(Comment $comment)
     {
         $q = $this->dao->prepare('UPDATE comments SET auteur = :auteur, contenu = :contenu WHERE id = :id');
 
@@ -66,7 +66,7 @@ class CommentsManagerPDO extends CommentsManager
         $q->execute();
     }
 
-    public function get($id)
+    public function getCommentUsingId($id)
     {
         $q = $this->dao->prepare('SELECT id, news, auteur, contenu FROM comments WHERE id = :id');
         $q->bindValue(':id', (int)$id, \PDO::PARAM_INT);
