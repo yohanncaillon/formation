@@ -26,9 +26,9 @@ class NewsController extends BackController
         // On récupère le manager des news.
         $manager = $this->managers->getManagerOf('News');
 
-        $listeNews = $manager->getList($page * $nombreNews, $nombreNews + 1);
+        $listeNews_a = $manager->getList($page * $nombreNews, $nombreNews + 1);
 
-        foreach ($listeNews as $news) {
+        foreach ($listeNews_a as $news) {
             if (strlen($news->contenu()) > $nombreCaracteres) {
                 $debut = substr($news->contenu(), 0, $nombreCaracteres);
                 $debut = substr($debut, 0, strrpos($debut, ' ')) . '...';
@@ -38,14 +38,14 @@ class NewsController extends BackController
         }
         $next = false;
 
-        if (sizeof($listeNews) == $nombreNews + 1) {
+        if (sizeof($listeNews_a) == $nombreNews + 1) {
 
             $next = true;
-            array_pop($listeNews);
+            array_pop($listeNews_a);
         }
 
         // On ajoute la variable $listeNews à la vue.
-        $this->page->addVar('listeNews', $listeNews);
+        $this->page->addVar('listeNews', $listeNews_a);
         $this->page->addVar('pageNumber', $page);
         $this->page->addVar('next', $next);
     }
@@ -53,7 +53,7 @@ class NewsController extends BackController
     public function executeShow(HTTPRequest $request)
     {
         $news = $this->managers->getManagerOf('News')->getUnique($request->getData('id'));
-        $comments = $this->managers->getManagerOf('Comments')->getListOf($news->id());
+        $comment_a = $this->managers->getManagerOf('Comments')->getListOf($news->id());
         $user = $this->managers->getManagerOf('Users')->getUnique($news->auteur());
 
         if (empty($news)) {
@@ -67,7 +67,7 @@ class NewsController extends BackController
         $this->page->addVar('form', $form->createView());
         $this->page->addVar('title', $news->titre());
         $this->page->addVar('news', $news);
-        $this->page->addVar('comments', $comments);
+        $this->page->addVar('comment_a', $comment_a);
         $this->page->addVar('user', $user);
     }
 

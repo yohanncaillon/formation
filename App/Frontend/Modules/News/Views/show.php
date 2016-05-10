@@ -13,12 +13,12 @@
 
     <input type="submit" value="Commenter"/>
 </form>
-<?php if (empty($comments)) : ?>
+<?php if (empty($comments_a)) : ?>
 <p>Aucun commentaire n'a encore été posté. Soyez le premier à en laisser un !</p>
 
 <?php endif; ?>
 <div class="comment-section">
-<?php foreach ($comments as $comment) : ?>
+<?php foreach ($comment_a as $comment) : ?>
 <fieldset data-id="<?= $comment->id() ?>">
     <legend>
         <?php if ($comment['auteurId'] != \Entity\Comment::AUTEUR_INCONNU) : ?>

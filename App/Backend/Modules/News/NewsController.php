@@ -39,7 +39,7 @@ class NewsController extends BackController
 
         $manager = $this->managers->getManagerOf('News');
 
-        if(Session::isAdmin()) {
+        if (Session::isAdmin()) {
             $this->page->addVar('listeNews', $manager->getList());
             $this->page->addVar('nombreNews', $manager->count());
         } else {
