@@ -13,18 +13,18 @@ use OCFram\Session;
 
 class NewsController extends BackController
 {
-    public function executeIndex(HTTPRequest $request)
+    public function executeIndex(HTTPRequest $Request)
     {
-        $nombreNews = $this->App->config()->get('nombre_news');
-        $nombreCaracteres = $this->App->config()->get('nombre_caracteres');
+        $nombreNews = $this->App()->Config()->get('nombre_news');
+        $nombreCaracteres = $this->App()->Config()->get('nombre_caracteres');
 
-        $request->getData('page') != null ? $page = $request->getData('page') : $page = 0;
+        $Request->getData('page') != null ? $page = $Request->getData('page') : $page = 0;
 
         // On ajoute une définition pour le titre.
-        $this->page->addVar('title', 'Liste des ' . $nombreNews . ' dernières news');
+        $this->Page->addVar('title', 'Liste des ' . $nombreNews . ' dernières news');
 
         // On récupère le manager des news.
-        $Manager = $this->managers->getManagerOf('News');
+        $Manager = $this->Managers->getManagerOf('News');
 
         $listeNews_a = $Manager->getNews_a($page * $nombreNews, $nombreNews + 1);
 
@@ -47,50 +47,50 @@ class NewsController extends BackController
         }
 
         // On ajoute la variable $listeNews à la vue.
-        $this->page->addVar('listeNews_a', $listeNews_a);
-        $this->page->addVar('pageNumber', $page);
-        $this->page->addVar('next', $next);
+        $this->Page->addVar('listeNews_a', $listeNews_a);
+        $this->Page->addVar('pageNumber', $page);
+        $this->Page->addVar('next', $next);
     }
 
-    public function executeShow(HTTPRequest $request)
+    public function executeShow(HTTPRequest $Request)
     {
-        $News = $this->managers->getManagerOf('News')->getNewsUsingId($request->getData('id'));
-        $comment_a = $this->managers->getManagerOf('Comments')->getCommentUsingNewsId_a($News->id());
-        $User = $this->managers->getManagerOf('Users')->getUserUsingId($News->auteur());
+        $News = $this->Managers->getManagerOf('News')->getNewsUsingId($Request->getData('id'));
+        $comment_a = $this->Managers->getManagerOf('Comments')->getCommentUsingNewsId_a($News->id());
+        $User = $this->Managers->getManagerOf('Users')->getUserUsingId($News->auteur());
 
         if (empty($News)) {
-            $this->App->httpResponse()->redirect404();
+            $this->App()->httpResponse()->redirect404();
         }
 
         Session::isAuthenticated() ? $formBuilder = new CommentUserFormBuilder(new Comment()) : $formBuilder = new CommentFormBuilder(New Comment());
         $formBuilder->build();
         $Form = $formBuilder->form();
 
-        $this->page->addVar('Form', $Form->createView());
-        $this->page->addVar('title', $News->titre());
-        $this->page->addVar('News', $News);
-        $this->page->addVar('comment_a', $comment_a);
-        $this->page->addVar('User', $User);
+        $this->Page->addVar('Form', $Form->createView());
+        $this->Page->addVar('title', $News->titre());
+        $this->Page->addVar('News', $News);
+        $this->Page->addVar('comment_a', $comment_a);
+        $this->Page->addVar('User', $User);
     }
 
-    public function executeInsertComment(HTTPRequest $request)
+    public function executeInsertComment(HTTPRequest $Request)
     {
-        $this->page->setType(Page::AJAX_PAGE);
+        $this->Page->setType(Page::AJAX_PAGE);
         $error = false;
         try {
 
-            if ($request->method() == 'POST') {
+            if ($Request->method() == 'POST') {
 
-                if ($request->postData('auteur') != null && $this->managers->getManagerOf('Users')->existsMemberUsingName($request->postData('auteur')))
+                if ($Request->postData('auteur') != null && $this->Managers->getManagerOf('Users')->existsMemberUsingName($Request->postData('auteur')))
                     throw new \Exception("Le nom d'utilisateur existe déjà !");
 
 
                 $Comment = new Comment([
 
-                    'news' => $request->getData('news'),
-                    'auteur' => Session::isAuthenticated() ? $this->app()->session()->getAttribute("authName") : $request->postData('auteur'),
-                    'auteurId' => Session::isAuthenticated() ? $this->app()->session()->getAttribute("authId") : Comment::AUTEUR_INCONNU,
-                    'contenu' => $request->postData('contenu')
+                    'news' => $Request->getData('news'),
+                    'auteur' => Session::isAuthenticated() ? $this->App()->Session()->getAttribute("authName") : $Request->postData('auteur'),
+                    'auteurId' => Session::isAuthenticated() ? $this->App()->Session()->getAttribute("authId") : Comment::AUTEUR_INCONNU,
+                    'contenu' => $Request->postData('contenu')
 
                 ]);
 
@@ -103,7 +103,7 @@ class NewsController extends BackController
 
             $formBuilder->build();
             $Form = $formBuilder->form();
-            $formHandler = new FormHandler($Form, $this->managers->getManagerOf('Comments'), $request);
+            $formHandler = new FormHandler($Form, $this->Managers->getManagerOf('Comments'), $Request);
 
             $message = "Votre commentaire a bien été enregistré !";
             $error = !$formHandler->process();
@@ -113,9 +113,9 @@ class NewsController extends BackController
             $message = $e->getMessage();
         }
 
-        $this->page->addVar('erreur', $error);
-        $this->page->addVar('message', $message);
-        $this->page->addVar('comment_a', $this->managers->getManagerOf('Comments')->getCommentUsingNewsId($request->getData('news'), $request->postData('offsetId')));
+        $this->Page->addVar('erreur', $error);
+        $this->Page->addVar('message', $message);
+        $this->Page->addVar('comment_a', $this->Managers->getManagerOf('Comments')->getCommentUsingNewsId_a($Request->getData('news'), $Request->postData('offsetId')));
 
     }
 }

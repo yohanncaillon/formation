@@ -3,7 +3,7 @@ namespace OCFram;
 
 abstract class FormBuilder
 {
-    protected $form;
+    protected $Form;
 
     public function __construct(Entity $entity)
     {
@@ -12,13 +12,13 @@ abstract class FormBuilder
 
     abstract public function build();
 
-    public function setForm(Form $form)
+    public function setForm(Form $Form)
     {
-        $this->form = $form;
+        $this->Form = $Form;
     }
 
     public function form()
     {
-        return $this->form;
+        return $this->Form;
     }
 }

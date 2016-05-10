@@ -3,9 +3,9 @@ namespace OCFram;
 
 class FormHandler
 {
-    protected $form;
-    protected $manager;
-    protected $request;
+    protected $Form;
+    protected $Manager;
+    protected $Request;
 
     public function __construct(Form $form, Manager $manager, HTTPRequest $request)
     {
@@ -16,8 +16,8 @@ class FormHandler
 
     public function process()
     {
-        if ($this->request->method() == 'POST' && $this->form->isValid()) {
-            $this->manager->save($this->form->entity());
+        if ($this->Request->method() == 'POST' && $this->Form->isValid()) {
+            $this->Manager->save($this->Form->entity());
 
             return true;
         }
@@ -25,18 +25,18 @@ class FormHandler
         return false;
     }
 
-    public function setForm(Form $form)
+    public function setForm(Form $Form)
     {
-        $this->form = $form;
+        $this->Form = $Form;
     }
 
-    public function setManager(Manager $manager)
+    public function setManager(Manager $Manager)
     {
-        $this->manager = $manager;
+        $this->Manager = $Manager;
     }
 
-    public function setRequest(HTTPRequest $request)
+    public function setRequest(HTTPRequest $Request)
     {
-        $this->request = $request;
+        $this->Request = $Request;
     }
 }

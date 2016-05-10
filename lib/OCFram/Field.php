@@ -8,7 +8,7 @@ abstract class Field
     protected $errorMessage;
     protected $label;
     protected $name;
-    protected $validators = [];
+    protected $validator_a = [];
     protected $value;
     protected $saveValue = true;
 
@@ -23,7 +23,7 @@ abstract class Field
 
     public function isValid()
     {
-        foreach ($this->validators as $validator) {
+        foreach ($this->validator_a as $validator) {
             if (!$validator->isValid($this->value)) {
                 $this->errorMessage = $validator->errorMessage();
                 return false;
@@ -59,7 +59,7 @@ abstract class Field
 
     public function validators()
     {
-        return $this->validators;
+        return $this->validator_a;
     }
 
     public function value()
@@ -90,11 +90,11 @@ abstract class Field
         }
     }
 
-    public function setValidators(array $validators)
+    public function setValidators(array $validator_a)
     {
-        foreach ($validators as $validator) {
-            if ($validator instanceof Validator && !in_array($validator, $this->validators)) {
-                $this->validators[] = $validator;
+        foreach ($validator_a as $validator) {
+            if ($validator instanceof Validator && !in_array($validator, $this->validator_a)) {
+                $this->validator_a[] = $validator;
             }
         }
     }

@@ -9,46 +9,46 @@ use \FormBuilder\LoginFormBuilder;
 class ConnexionController extends BackController
 {
 
-    public function executeIndex(HTTPRequest $request)
+    public function executeIndex(HTTPRequest $Request)
     {
 
-        $this->page->addVar('title', 'Connexion');
+        $this->Page->addVar('title', 'Connexion');
 
-        if ($request->postExists('login')) {
+        if ($Request->postExists('login')) {
 
-            $login = $request->postData('login');
-            $password = $request->postData('password');
+            $login = $Request->postData('login');
+            $password = $Request->postData('password');
 
-            $User = $this->managers->getManagerOf('Users')->authenticate($login, $password);
+            $User = $this->Managers->getManagerOf('Users')->getUserUsingName($login);
 
             if ($User != null) {
 
                 if (password_verify($password, $User->password())) {
 
-                    $this->App->session()->setAuthenticated(true, $User);
-                    $this->App->httpResponse()->redirect('/');
+                    $this->App()->Session()->setAuthenticated(true, $User);
+                    $this->App()->httpResponse()->redirect('/');
 
                 } else {
 
-                    $this->App->session()->setFlash('Le mot de passe est incorrect.');
+                    $this->App()->Session()->setFlash('Le mot de passe est incorrect.');
                 }
 
 
             } else {
 
-                $this->App->session()->setFlash('Le pseudo est incorrect.');
+                $this->App()->Session()->setFlash('Le pseudo est incorrect.');
             }
 
         }
     }
 
-    public function executeLogout(HTTPRequest $request)
+    public function executeLogout(HTTPRequest $Request)
     {
 
         session_unset();
         session_destroy();
-        $this->App->session()->setAuthenticated(false, null);
-        $this->App->httpResponse()->redirect('/');
+        $this->App()->Session()->setAuthenticated(false, null);
+        $this->App()->httpResponse()->redirect('/');
 
     }
 }

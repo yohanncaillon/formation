@@ -9,7 +9,7 @@ abstract class UserManager extends Manager
 
     abstract public function insertUser(User $user);
 
-    abstract public function authenticate($login, $password);
+    abstract public function getUserUsingName($name);
 
     abstract public function count();
 

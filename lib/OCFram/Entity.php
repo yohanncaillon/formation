@@ -5,7 +5,7 @@ abstract class Entity implements \ArrayAccess
 {
     use Hydrator;
 
-    protected $erreurs = [],
+    protected $erreur_a = [],
         $id;
 
     public function __construct(array $donnees = [])
@@ -22,7 +22,7 @@ abstract class Entity implements \ArrayAccess
 
     public function erreurs()
     {
-        return $this->erreurs;
+        return $this->erreur_a;
     }
 
     public function id()
@@ -35,9 +35,9 @@ abstract class Entity implements \ArrayAccess
         $this->id = (int)$id;
     }
 
-    public function hydrate(array $donnees)
+    public function hydrate(array $donnee_a)
     {
-        foreach ($donnees as $attribut => $valeur) {
+        foreach ($donnee_a as $attribut => $valeur) {
             $methode = 'set' . ucfirst($attribut);
 
             if (is_callable([$this, $methode])) {

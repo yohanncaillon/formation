@@ -6,7 +6,7 @@ class Page extends ApplicationComponent
     const AJAX_PAGE = 'ajax';
     const DEFAULT_PAGE = 'default';
     protected $contentFile;
-    protected $vars = [];
+    protected $var_a = [];
     protected $type;
 
     /**
@@ -33,7 +33,7 @@ class Page extends ApplicationComponent
             throw new \InvalidArgumentException('Le nom de la variable doit être une chaine de caractères non nulle');
         }
 
-        $this->vars[$var] = $value;
+        $this->var_a[$var] = $value;
     }
 
     public function getGeneratedPage()
@@ -45,8 +45,8 @@ class Page extends ApplicationComponent
 
         }
 
-        $session = $this->App->session();
-        extract($this->vars);
+        $session = $this->App()->Session();
+        extract($this->var_a);
 
 
         switch ($this->type) {

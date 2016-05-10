@@ -5,13 +5,13 @@ abstract class ApplicationComponent
 {
     protected $App;
 
-    public function __construct(Application $app)
+    public function __construct(Application $App)
     {
 
-        $this->App = $app;
+        $this->App = $App;
     }
 
-    public function app()
+    public function App()
     {
         return $this->App;
     }

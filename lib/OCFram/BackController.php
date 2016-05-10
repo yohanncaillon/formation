@@ -5,16 +5,16 @@ abstract class BackController extends ApplicationComponent
 {
     protected $action = '';
     protected $module = '';
-    protected $page = null;
+    protected $Page = null;
     protected $view = '';
-    protected $managers = null;
+    protected $Managers = null;
 
-    public function __construct(Application $app, $module, $action)
+    public function __construct(Application $App, $module, $action)
     {
-        parent::__construct($app);
+        parent::__construct($App);
 
-        $this->managers = new Managers('PDO', PDOFactory::getMysqlConnexion());
-        $this->page = new Page($app);
+        $this->Managers = new Managers('PDO', PDOFactory::getMysqlConnexion());
+        $this->Page = new Page($App);
 
         $this->setModule($module);
         $this->setAction($action);
@@ -34,7 +34,7 @@ abstract class BackController extends ApplicationComponent
 
     public function page()
     {
-        return $this->page;
+        return $this->Page;
     }
 
     public function setModule($module)
@@ -63,6 +63,6 @@ abstract class BackController extends ApplicationComponent
 
         $this->view = $view;
 
-        $this->page->setContentFile(__DIR__ . '/../../App/' . $this->App->name() . '/Modules/' . $this->module . '/Views/' . $this->view . '.php');
+        $this->Page->setContentFile(__DIR__ . '/../../App/' . $this->App->name() . '/Modules/' . $this->module . '/Views/' . $this->view . '.php');
     }
 }

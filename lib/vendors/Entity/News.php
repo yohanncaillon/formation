@@ -25,7 +25,7 @@ class News extends Entity
     public function setAuteur($auteur)
     {
         if (!is_string($auteur) || empty($auteur)) {
-            $this->erreurs[] = self::AUTEUR_INVALIDE;
+            $this->erreur_a[] = self::AUTEUR_INVALIDE;
         }
 
         $this->auteur = $auteur;
@@ -34,7 +34,7 @@ class News extends Entity
     public function setTitre($titre)
     {
         if (!is_string($titre) || empty($titre)) {
-            $this->erreurs[] = self::TITRE_INVALIDE;
+            $this->erreur_a[] = self::TITRE_INVALIDE;
         }
 
         $this->titre = $titre;
@@ -43,7 +43,7 @@ class News extends Entity
     public function setContenu($contenu)
     {
         if (!is_string($contenu) || empty($contenu)) {
-            $this->erreurs[] = self::CONTENU_INVALIDE;
+            $this->erreur_a[] = self::CONTENU_INVALIDE;
         }
 
         $this->contenu = $contenu;

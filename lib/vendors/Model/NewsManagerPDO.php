@@ -38,16 +38,16 @@ class NewsManagerPDO extends NewsManager
         $requete = $this->dao->query($sql);
         $requete->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Entity\News');
 
-        $listeNews = $requete->fetchAll();
+        $listeNews_a = $requete->fetchAll();
 
-        foreach ($listeNews as $news) {
+        foreach ($listeNews_a as $news) {
             $news->setDateAjout(new \DateTime($news->dateAjout()));
             $news->setDateModif(new \DateTime($news->dateModif()));
         }
 
         $requete->closeCursor();
 
-        return $listeNews;
+        return $listeNews_a;
     }
 
     public function getNewsUsingId($id)
@@ -88,7 +88,7 @@ class NewsManagerPDO extends NewsManager
         if ($debut != -1 || $limite != -1) {
             $sql .= ' LIMIT ' . (int)$limite . ' OFFSET ' . (int)$debut;
         }
-        
+
         $requete = $this->dao->prepare($sql);
         $requete->bindValue(':userId', $userId);
         $requete->execute();

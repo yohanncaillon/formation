@@ -5,16 +5,16 @@ use \Entity\User;
 
 class PasswordConfirmValidator extends Validator
 {
-    protected $user;
+    protected $User;
 
     public function __construct($error, User $user)
     {
         parent::__construct($error);
-        $this->user = $user;
+        $this->User = $user;
     }
 
     public function isValid($value)
     {
-        return $value == $this->user->password();
+        return $value == $this->User->password();
     }
 }

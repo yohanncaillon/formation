@@ -34,25 +34,25 @@ class CommentsManagerPDO extends CommentsManager
     {
         if ($offsetId == null)
             $offsetId = 0;
-        
+
         if (!ctype_digit($news)) {
             throw new \InvalidArgumentException('L\'identifiant de la news passé doit être un nombre entier valide');
         }
 
-        $q = $this->dao->prepare('SELECT id, news, auteur, contenu, auteurId, date FROM comments WHERE news = :news AND id > :offsetId ORDER BY date');
+        $q = $this->dao->prepare('SELECT id, news, auteur, contenu, auteurId, date FROM comments WHERE news = :news AND id > :offsetId ORDER BY date DESC');
         $q->bindValue(':news', $news, \PDO::PARAM_INT);
         $q->bindValue(':offsetId', $offsetId, \PDO::PARAM_INT);
         $q->execute();
 
         $q->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Entity\Comment');
 
-        $comments = $q->fetchAll();
+        $comment_a = $q->fetchAll();
 
-        foreach ($comments as $comment) {
-            $comment->setDate(new \DateTime($comment->date()));
+        foreach ($comment_a as $Comment) {
+            $Comment->setDate(new \DateTime($Comment->date()));
         }
 
-        return $comments;
+        return $comment_a;
     }
 
     protected function UpdateComment(Comment $comment)

@@ -28,7 +28,7 @@ class RegisterFormBuilder extends FormBuilder
     public function build()
     {
 
-        $this->form->add(new StringField([
+        $this->Form->add(new StringField([
             'label' => 'Pseudo',
             'name' => 'name',
             'maxLength' => 50,
@@ -73,8 +73,8 @@ class RegisterFormBuilder extends FormBuilder
             ],
 
         ]);
-        $this->form->add($passwordField);
-        $this->form->add($passwordConfirmField);
+        $this->Form->add($passwordField);
+        $this->Form->add($passwordConfirmField);
 
     }
 

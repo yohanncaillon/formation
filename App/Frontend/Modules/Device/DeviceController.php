@@ -25,6 +25,6 @@ class DeviceController extends BackController
 
         }
 
-        $this->page->addVar('device', $deviceType);
+        $this->Page->addVar('device', $deviceType);
     }
 }

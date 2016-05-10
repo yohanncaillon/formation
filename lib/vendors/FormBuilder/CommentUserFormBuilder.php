@@ -11,7 +11,7 @@ class CommentUserFormBuilder extends FormBuilder
 {
     public function build()
     {
-        $this->form->add(new TextField([
+        $this->Form->add(new TextField([
                 'label' => 'Contenu',
                 'name' => 'contenu',
                 'rows' => 7,

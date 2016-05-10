@@ -19,21 +19,20 @@ use OCFram\Page;
 class RegisterController extends BackController
 {
 
-
-    public function executeRegister(HTTPRequest $request)
+    public function executeRegister(HTTPRequest $Request)
     {
 
-        $this->page->addVar('title', 'Inscription');
+        $this->Page->addVar('title', 'Inscription');
 
-        if ($request->method() == 'POST') {
+        if ($Request->method() == 'POST') {
 
             $User = new User ([
-                'name' => $request->postData('name'),
-                'password' => $request->postData('password'),
-                'status' => 2,
-                'email' => $request->postData('email')
+                'name' => $Request->postData('name'),
+                'password' => $Request->postData('password'),
+                'status' => User::USER_WRITER,
+                'email' => $Request->postData('email')
             ]);
-            $password_confirm = $request->postData('password_confirm');
+            $password_confirm = $Request->postData('password_confirm');
 
         } else {
 
@@ -45,12 +44,12 @@ class RegisterController extends BackController
         $FormBuilder->build();
         $Form = $FormBuilder->form();
 
-        if ($request->method() == 'POST' && $Form->isValid()) {
+        if ($Request->method() == 'POST' && $Form->isValid()) {
 
             try {
-                $this->managers->getManagerOf('Users')->insertUser($User);
-                $this->app()->session()->setAuthenticated(true, $User);
-                $this->App->httpResponse()->redirect('/');
+                $this->Managers->getManagerOf('Users')->insertUser($User);
+                $this->App()->Session()->setAuthenticated(true, $User);
+                $this->App()->httpResponse()->redirect('/');
 
             } catch (\Exception $e) {
 
@@ -65,10 +64,10 @@ class RegisterController extends BackController
 
                 }
             }
-            $this->App->session()->setFlash($message);
+            $this->App()->Session()->setFlash($message);
 
         }
-        $this->page->addVar('Form', $Form->createView());
+        $this->Page->addVar('Form', $Form->createView());
 
     }
 

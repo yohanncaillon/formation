@@ -13,7 +13,7 @@ class UsersManagerPDO extends UserManager
         $requete->bindValue(':password', password_hash($user->password(), PASSWORD_DEFAULT));
         $requete->bindValue(':email', $user->email());
         $requete->bindValue(':status', $user->status());
-        $result = $requete->execute();
+        $requete->execute();
         $user->setId($this->dao->lastInsertId());
 
         return $user;
@@ -56,12 +56,12 @@ class UsersManagerPDO extends UserManager
         $requete->execute();
     }
 
-    public function authenticate($login, $password)
+    public function getUserUsingName($name)
     {
 
         $requete = $this->dao->prepare('SELECT MMC_id, MMC_name, MMC_password, MMC_dateadded, MMC_email, MMC_status, MMC_datemodify FROM T_MEM_memberc WHERE MMC_name = :name');
 
-        $requete->bindValue(':name', $login);
+        $requete->bindValue(':name', $name);
 
         $requete->execute();
 

@@ -1,6 +1,5 @@
 $(document).ready(function () {
 
-
     $(".formComment").submit(function () {
 
         var url = $(location).attr("href");
@@ -39,7 +38,7 @@ $(document).ready(function () {
             if (data.error != true) {
 
                 if(data.data[0] != null) {
-                    $('.comment-section').append(data.data[0].html);
+                    $('.comment-section').prepend(data.data[0].html);
 
                     $(".formComment input[type=text]").val("");
                     $(".formComment textarea").val("");

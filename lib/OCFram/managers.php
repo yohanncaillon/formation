@@ -5,7 +5,7 @@ class Managers
 {
     protected $api = null;
     protected $dao = null;
-    protected $managers = [];
+    protected $manager_a = [];
 
     public function __construct($api, $dao)
     {
@@ -20,12 +20,12 @@ class Managers
             throw new \InvalidArgumentException('Le module spécifié est invalide');
         }
 
-        if (!isset($this->managers[$module])) {
+        if (!isset($this->manager_a[$module])) {
             $manager = '\\Model\\' . $module . 'Manager' . $this->api;
 
-            $this->managers[$module] = new $manager($this->dao);
+            $this->manager_a[$module] = new $manager($this->dao);
         }
 
-        return $this->managers[$module];
+        return $this->manager_a[$module];
     }
 }

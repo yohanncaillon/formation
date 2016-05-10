@@ -13,6 +13,9 @@ class User extends Entity
     protected $MMC_datemodify;
     protected $MMC_email;
 
+    const USER_ADMIN = 1;
+    const USER_WRITER = 2;
+
     /**
      * @return mixed
      */
@@ -93,6 +96,20 @@ class User extends Entity
         $this->MMC_email = $MMC_email;
     }
 
+    public static function getStatusName($id)
+    {
+        switch ($id) {
+
+            case User::USER_ADMIN:
+                return "administrateur";
+
+            case User::USER_WRITER:
+                return "Rédacteur";
+
+            default:
+                return "Status inconnu";
+        }
+    }
 
 
 }

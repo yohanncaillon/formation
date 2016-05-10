@@ -30,7 +30,7 @@ class Comment extends Entity implements \JsonSerializable
     public function setAuteur($auteur)
     {
         if (!is_string($auteur) || empty($auteur)) {
-            $this->erreurs[] = self::AUTEUR_INVALIDE;
+            $this->erreur_a[] = self::AUTEUR_INVALIDE;
         }
 
         $this->auteur = $auteur;
@@ -45,7 +45,7 @@ class Comment extends Entity implements \JsonSerializable
     public function setContenu($contenu)
     {
         if (!is_string($contenu) || empty($contenu)) {
-            $this->erreurs[] = self::CONTENU_INVALIDE;
+            $this->erreur_a[] = self::CONTENU_INVALIDE;
         }
 
         $this->contenu = $contenu;

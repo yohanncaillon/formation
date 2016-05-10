@@ -1,20 +1,14 @@
 <?php
 namespace OCFram;
 
+use Entity\User;
+
 session_start();
 
 class Session
 {
 
-    protected $app;
     const ADMIN_INT = 1;
-
-    public function __construct($app)
-    {
-        $this->app = $app;
-
-    }
-
 
     public function getAttribute($attr)
     {
@@ -72,7 +66,7 @@ class Session
 
     public static function isAdmin() {
 
-        return $_SESSION['authStatus'] == Session::ADMIN_INT;
+        return $_SESSION['authStatus'] == User::USER_ADMIN;
     }
 
     public function setFlash($value)

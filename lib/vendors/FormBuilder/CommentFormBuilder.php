@@ -11,7 +11,7 @@ class CommentFormBuilder extends FormBuilder
 {
     public function build()
     {
-        $this->form->add(new StringField([
+        $this->Form->add(new StringField([
             'label' => 'Auteur',
             'name' => 'auteur',
             'maxLength' => 20,

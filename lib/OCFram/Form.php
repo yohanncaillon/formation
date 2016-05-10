@@ -3,8 +3,8 @@ namespace OCFram;
 
 class Form
 {
-    protected $entity;
-    protected $fields = [];
+    protected $Entity;
+    protected $field_a = [];
 
     public function __construct(Entity $entity)
     {
@@ -16,10 +16,10 @@ class Form
 
         if($field->saveValue()) {
             $attr = $field->name(); // On récupère le nom du champ.
-            $field->setValue($this->entity->$attr()); // On assigne la valeur correspondante au champ.
+            $field->setValue($this->Entity->$attr()); // On assigne la valeur correspondante au champ.
         }
 
-        $this->fields[] = $field; // On ajoute le champ passé en argument à la liste des champs.
+        $this->field_a[] = $field; // On ajoute le champ passé en argument à la liste des champs.
         return $this;
     }
 
@@ -28,7 +28,7 @@ class Form
         $view = '';
 
         // On génère un par un les champs du formulaire.
-        foreach ($this->fields as $field) {
+        foreach ($this->field_a as $field) {
             $view .= $field->buildWidget() . '<br />';
         }
 
@@ -40,7 +40,7 @@ class Form
         $valid = true;
 
         // On vérifie que tous les champs sont valides.
-        foreach ($this->fields as $field) {
+        foreach ($this->field_a as $field) {
             if (!$field->isValid()) {
                 $valid = false;
             }
@@ -51,11 +51,11 @@ class Form
 
     public function entity()
     {
-        return $this->entity;
+        return $this->Entity;
     }
 
-    public function setEntity(Entity $entity)
+    public function setEntity(Entity $Entity)
     {
-        $this->entity = $entity;
+        $this->Entity = $Entity;
     }
 }

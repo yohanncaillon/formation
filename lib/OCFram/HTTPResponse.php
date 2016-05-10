@@ -3,7 +3,7 @@ namespace OCFram;
 
 class HTTPResponse extends ApplicationComponent
 {
-    protected $page;
+    protected $Page;
     /**
      * @param mixed $type
      */
@@ -26,8 +26,8 @@ class HTTPResponse extends ApplicationComponent
 
     public function redirect404()
     {
-        $this->page = new Page($this->App);
-        $this->page->setContentFile(__DIR__ . '/../../Errors/404.php');
+        $this->Page = new Page($this->App);
+        $this->Page->setContentFile(__DIR__ . '/../../Errors/404.php');
         $this->addHeader('HTTP/1.0 404 Not Found');
 
         $this->send();
@@ -36,13 +36,13 @@ class HTTPResponse extends ApplicationComponent
     public function send()
     {
 
-        exit($this->page->getGeneratedPage());
+        exit($this->Page->getGeneratedPage());
 
     }
 
-    public function setPage(Page $page)
+    public function setPage(Page $Page)
     {
-        $this->page = $page;
+        $this->Page = $Page;
     }
 
     // Changement par rapport à la fonction setcookie() : le dernier argument est par défaut à true

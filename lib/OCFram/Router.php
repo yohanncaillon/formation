@@ -3,7 +3,7 @@ namespace OCFram;
 
 class Router
 {
-    protected $routes = [];
+    protected $route_a = [];
     protected static $router = null;
     const NO_ROUTE = 1;
 
@@ -13,32 +13,32 @@ class Router
 
     public function addRoute(Route $route)
     {
-        if (!in_array($route, $this->routes)) {
-            $this->routes[$route->name()] = $route;
+        if (!in_array($route, $this->route_a)) {
+            $this->route_a[$route->name()] = $route;
         }
     }
 
     public function getRoute($url)
     {
-        foreach ($this->routes as $route) {
+        foreach ($this->route_a as $route) {
             // Si la route correspond à l'URL
-            if (($varsValues = $route->match($url)) !== false) {
+            if (($varsValue_a = $route->match($url)) !== false) {
                 // Si elle a des variables
                 if ($route->hasVars()) {
-                    $varsNames = $route->varsNames();
-                    $listVars = [];
+                    $varsName_a = $route->varsNames();
+                    $listVar_a = [];
 
                     // On crée un nouveau tableau clé/valeur
                     // (clé = nom de la variable, valeur = sa valeur)
-                    foreach ($varsValues as $key => $match) {
+                    foreach ($varsValue_a as $key => $match) {
                         // La première valeur contient entièrement la chaine capturée (voir la doc sur preg_match)
                         if ($key !== 0) {
-                            $listVars[$varsNames[$key - 1]] = $match;
+                            $listVar_a[$varsName_a[$key - 1]] = $match;
                         }
                     }
 
                     // On assigne ce tableau de variables � la route
-                    $route->setVars($listVars);
+                    $route->setVars($listVar_a);
                 }
                 return $route;
             }
@@ -49,31 +49,31 @@ class Router
 
     public function getRouteUrl($name, $appName, array $params = null)
     {
-        if (isset($this->routes[$name])) {
+        if (isset($this->route_a[$name])) {
 
-            return $this->routes[$name]->url($params);
+            return $this->route_a[$name]->url($params);
 
         } else {
 
             $xml = new \DOMDocument;
             $xml->load(__DIR__ . '/../../App/' . $appName . '/Config/routes.xml');
 
-            $routesXml = $xml->getElementsByTagName('route');
+            $routeXml_a = $xml->getElementsByTagName('route');
             $laRoute = null;
             // On parcourt les routes du fichier XML.
-            foreach ($routesXml as $route) {
+            foreach ($routeXml_a as $route) {
 
-                $vars = [];
+                $var_a = [];
                 // On regarde si des variables sont présentes dans l'URL.
                 if ($route->hasAttribute('vars')) {
-                    $vars = explode(',', $route->getAttribute('vars'));
+                    $var_a = explode(',', $route->getAttribute('vars'));
                 }
 
-                $uneRoute = new Route($route->getAttribute('name'), $route->getAttribute('url'), $route->getAttribute('module'), $route->getAttribute('action'), $vars);
-                $this->addRoute($uneRoute); // On ajoute les routes du fichier
+                $Route = new Route($route->getAttribute('name'), $route->getAttribute('url'), $route->getAttribute('module'), $route->getAttribute('action'), $var_a);
+                $this->addRoute($Route); // On ajoute les routes du fichier
 
-                if ($uneRoute->name() == $name)
-                    $laRoute = $uneRoute;
+                if ($Route->name() == $name)
+                    $laRoute = $Route;
             }
             if ($laRoute != null)
                 return $laRoute->url($params);
