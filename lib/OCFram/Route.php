@@ -31,6 +31,7 @@ class Route
         foreach ($this->varsName_a as $var) {
 
             $pattern = '/\{' . $var . '\}/';
+
             $builtUrl = preg_replace($pattern, '([0-9a-zA-Z]+)', $builtUrl);
 
         }

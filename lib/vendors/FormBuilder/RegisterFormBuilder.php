@@ -15,12 +15,12 @@ class RegisterFormBuilder extends FormBuilder
 {
 
     protected $password_confirm;
-    protected $user;
+    protected $User;
 
     public function __construct(User $entity, $password_confirm)
     {
         parent::__construct($entity);
-        $this->user = $entity;
+        $this->User = $entity;
         $this->password_confirm = $password_confirm;
 
     }
@@ -49,7 +49,7 @@ class RegisterFormBuilder extends FormBuilder
 
         ]));
 
-        $passwordField = new PasswordField([
+        $PasswordField = new PasswordField([
             'label' => 'Mot de passe',
             'name' => 'password',
             'maxLength' => 200,
@@ -60,7 +60,7 @@ class RegisterFormBuilder extends FormBuilder
 
         ]);
 
-        $passwordConfirmField = new PasswordField([
+        $PasswordConfirmField = new PasswordField([
             'label' => 'Confirmez votre mot de passe',
             'name' => 'password_confirm',
             'value' => $this->password_confirm,
@@ -69,12 +69,12 @@ class RegisterFormBuilder extends FormBuilder
             'validators' => [
                 new MaxLengthValidator('Le titre spécifié est trop long (100 caractères maximum)', 100),
                 new NotNullValidator('Merci de spécifier un mot de passe'),
-                new PasswordConfirmValidator("Les mots de passe entrés ne sont pas les mêmes", $this->user)
+                new PasswordConfirmValidator("Les mots de passe entrés ne sont pas les mêmes", $this->User)
             ],
 
         ]);
-        $this->Form->add($passwordField);
-        $this->Form->add($passwordConfirmField);
+        $this->Form->add($PasswordField);
+        $this->Form->add($PasswordConfirmField);
 
     }
 

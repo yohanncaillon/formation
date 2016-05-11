@@ -78,7 +78,14 @@ class NewsController extends BackController
 
             ]);
         } else {
+
             $Comment = $this->Managers->getManagerOf('Comments')->getCommentUsingId($Request->getData('id'));
+
+            if($Comment == null)
+                $this->App()->HttpResponse()->redirect404();
+
+            if($Comment->auteurId() != $this->App()->Session()->getAttribute("authId"))
+                $this->App()->HttpResponse()->redirect404();
         }
 
         $formBuilder = new CommentUserFormBuilder($Comment);
@@ -99,14 +106,17 @@ class NewsController extends BackController
 
     public function processForm(HTTPRequest $Request)
     {
+
+
+
         if ($Request->method() == 'POST') {
 
             $News = new News([
                 'auteur' => $this->App()->Session()->getAttribute("authId"),
                 'titre' => $Request->postData('titre'),
+                'tag' => $Request->postData('tag'),
                 'contenu' => $Request->postData('contenu')
             ]);
-
 
             if ($Request->getExists('id')) {
                 $News->setId($Request->getData('id'));
@@ -126,6 +136,13 @@ class NewsController extends BackController
             if ($Request->getExists('id')) {
 
                 $News = $this->Managers->getManagerOf('News')->getNewsUsingId($Request->getData('id'));
+
+                if($News == null)
+                    $this->App()->HttpResponse()->redirect404();
+
+                if($News->auteur() != $this->App()->Session()->getAttribute("authId"))
+                    $this->App()->HttpResponse()->redirect404();
+
             } else {
 
                 $News = new News();

@@ -7,6 +7,7 @@
         <small><em>Modifiée le <?= $News['dateModif']->format('d/m/Y à H\hi') ?></em></small>
     </p>
 <?php endif; ?>
+<?= $News->tagHtml() ?>
 <h2>Ajouter un commentaire</h2>
 <form action="" class="formComment">
         <?= $Form ?>

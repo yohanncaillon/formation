@@ -118,4 +118,36 @@ class NewsController extends BackController
         $this->Page->addVar('comment_a', $this->Managers->getManagerOf('Comments')->getCommentUsingNewsId_a($Request->getData('news'), $Request->postData('offsetId')));
 
     }
+
+
+    public function executeTagged(HTTPRequest $Request)
+    {
+
+        $nombreNews = $this->App()->Config()->get('nombre_news');
+        $nombreCaracteres = $this->App->Config()->get('nombre_caracteres');
+        $tag = $Request->getData("name");
+
+        // On ajoute une définition pour le titre.
+        $this->Page->addVar('title', 'Liste des ' . $nombreNews . ' dernières news');
+
+        // On récupère le manager des news.
+        $Manager = $this->Managers->getManagerOf('News');
+
+        $listeNews_a = $Manager->getNewsUsingTag_a($tag, 0, $nombreNews);
+        
+        foreach ($listeNews_a as $News) {
+
+            if (strlen($News->contenu()) > $nombreCaracteres) {
+                $debut = substr($News->contenu(), 0, $nombreCaracteres);
+                $debut = substr($debut, 0, strrpos($debut, ' ')) . '...';
+
+                $News->setContenu($debut);
+            }
+
+        }
+
+        // On ajoute la variable $listeNews à la vue.
+        $this->Page->addVar('listeNews_a', $listeNews_a);
+        $this->Page->addVar('tag', $tag);
+    }
 }
