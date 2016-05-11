@@ -82,10 +82,10 @@ class NewsController extends BackController
 
             $Comment = $this->Managers->getManagerOf('Comments')->getCommentUsingId($Request->getData('id'));
 
-            if($Comment == null)
+            if ($Comment == null)
                 $this->App()->HttpResponse()->redirect404();
 
-            if($Comment->auteurId() != $this->App()->Session()->getAttribute("authId"))
+            if ($Comment->auteurId() != $this->App()->Session()->getAttribute("authId") && !$this->App()->Session()->isAdmin())
                 $this->App()->HttpResponse()->redirect404();
         }
 
@@ -109,18 +109,18 @@ class NewsController extends BackController
     {
 
         if ($Request->method() == 'POST') {
-            
+
             $tags_a = array();
             foreach (explode(",", $Request->postData('tagString')) as $tag) {
 
                 $Tag = new Tag([
 
-                    'name' => trim($tag),
+                    'name' => strtolower(trim($tag)),
 
                 ]);
 
                 // si le tag n'existe pas on l'ajoute à la base
-                if(!$this->Managers->getManagerOf('Tags')->existsTagUsingName($Tag->name())) {
+                if (!$this->Managers->getManagerOf('Tags')->existsTagUsingName($Tag->name())) {
 
                     $Tag = $this->Managers->getManagerOf('Tags')->insertTag($Tag);
 
@@ -144,13 +144,7 @@ class NewsController extends BackController
 
             if ($Request->getExists('id')) {
                 $News->setId($Request->getData('id'));
-                
-            }
 
-            if ($this->Managers->getManagerOf('News')->save($News)) {
-
-                $this->App()->Session()->setFlash($News->isNew() ? 'La news a bien été ajoutée !' : 'La news a bien été modifiée !');
-                $this->App()->HttpResponse()->redirect('/admin/');
             }
 
 
@@ -161,10 +155,10 @@ class NewsController extends BackController
 
                 $News = $this->Managers->getManagerOf('News')->getNewsUsingId($Request->getData('id'));
 
-                if($News == null)
+                if ($News == null)
                     $this->App()->HttpResponse()->redirect404();
 
-                if($News->auteur() != $this->App()->Session()->getAttribute("authId"))
+                if ($News->auteur() != $this->App()->Session()->getAttribute("authId") && !$this->App()->Session()->isAdmin())
                     $this->App()->HttpResponse()->redirect404();
 
             } else {
@@ -177,6 +171,15 @@ class NewsController extends BackController
         $FormBuilder = new NewsFormBuilder($News);
         $FormBuilder->build();
         $Form = $FormBuilder->form();
+
+        $FormHandler = new FormHandler($Form, $this->Managers->getManagerOf('News'), $Request);
+
+        if ($FormHandler->process()) {
+
+            $this->App()->Session()->setFlash($News->isNew() ? 'La news a bien été ajoutée !' : 'La news a bien été modifiée !');
+            $this->App()->HttpResponse()->redirect('/admin/');
+        }
+
         $this->Page->addVar('Form', $Form->createView());
 
     }

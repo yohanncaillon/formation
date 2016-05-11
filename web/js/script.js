@@ -69,6 +69,15 @@ $(document).ready(function () {
             }).done(function (data) {
 
                 $('.tagsProp span').html(data.data);
+                $('.tag-item').click(function () {
+
+                    var str = "";
+                    if ($("input[name=tagString]").val().indexOf(',') > -1) {
+
+                        str =  $("input[name=tagString]").val().replace(/,[^,]+$/, "") + ", ";
+                    }
+                    $("input[name=tagString]").val(str + $(this).html());
+                });
 
             });
         } else {
@@ -77,6 +86,7 @@ $(document).ready(function () {
         }
 
     });
+
 
 
 });

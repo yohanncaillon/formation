@@ -6,6 +6,7 @@ use \OCFram\StringField;
 use \OCFram\TextField;
 use \OCFram\MaxLengthValidator;
 use \OCFram\NotNullValidator;
+use OCFram\TextValidator;
 
 class NewsFormBuilder extends FormBuilder
 {
@@ -35,6 +36,7 @@ class NewsFormBuilder extends FormBuilder
                 'validators' => [
                     new MaxLengthValidator('Les tags spécifié sont trop long (100 caractères maximum)', 300),
                     new NotNullValidator('Merci de spécifier les tags de la news'),
+                    new TextValidator('Les tags ne doivent contenir que des lettres'),
                 ],
             ]));
     }

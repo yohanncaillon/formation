@@ -42,3 +42,8 @@ fieldset {
     color: #88ac0b;
     font-weight:bold;
 }
+
+.tag-item {
+
+    cursor: pointer;
+}
