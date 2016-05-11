@@ -67,20 +67,6 @@ abstract class NewsManager extends Manager
 
     abstract public function getNewsUsingUserId($userId, $debut = -1, $limite = -1);
 
-    public function getNewsUsingTag_a($tag, $debut = -1, $limite = -1)
-    {
-        $listeResult_a = array();
-        $listeNews_a = $this->getNews_a();
-        foreach ($listeNews_a as $news) {
-
-            if ($news->containsTag($tag))
-                $listeResult_a[] = $news;
-
-        }
-        if ($debut != -1 &&  $limite != -1)
-            return array_slice($listeResult_a, $debut, $limite);
-        
-        return $listeResult_a;
-
-    }
+    abstract function getNewsUsingTag_a($tag, $debut = -1, $limite = -1);
+    
 }

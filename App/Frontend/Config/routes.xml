@@ -7,5 +7,6 @@
     <route name="page" url="/page-{page}/" module="News" action="index" vars="page" />
     <route name="register" url="/register" module="Register" action="register"/>
     <route name="user" url="/user-{id}/" module="User" action="index" vars="id" />
-    <route name="tag" url="/tag-{name}/" module="News" action="tagged" vars="name" />
+    <route name="tag" url="/tag-{name}/" module="Tag" action="index" vars="name" />
+    <route name="search" url="/searchTag/" module="Tag" action="search" />
 </routes>

@@ -8,6 +8,7 @@ class User extends Entity
     protected $MMC_id;
     protected $MMC_name;
     protected $MMC_password;
+    protected $MMC_password_confirm;
     protected $MMC_status;
     protected $MMC_dateAdded;
     protected $MMC_datemodify;
@@ -30,6 +31,22 @@ class User extends Entity
     public function setPassword($password)
     {
         $this->MMC_password = $password;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function password_confirm()
+    {
+        return $this->MMC_password_confirm;
+    }
+
+    /**
+     * @param mixed $MMC_password_confirm
+     */
+    public function setPassword_confirm($MMC_password_confirm)
+    {
+        $this->MMC_password_confirm = $MMC_password_confirm;
     }
 
     /**

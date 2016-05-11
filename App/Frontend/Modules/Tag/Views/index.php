@@ -1,4 +1,4 @@
-<h1>Filtrer par tag : <?= $tag ?></h1>
+<h1>Filtrer par tag : <?= $tag->name() ?></h1>
 <hr>
 <?php foreach ($listeNews_a as $News) : ?>
     <div class="news">

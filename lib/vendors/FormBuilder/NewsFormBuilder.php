@@ -29,12 +29,12 @@ class NewsFormBuilder extends FormBuilder
                     new NotNullValidator('Merci de spécifier le contenu de la news'),
                 ],
             ]))->add(new StringField([
-                'label' => 'Tags',
-                'name' => 'tag',
+                'label' => 'Tags (à séparer avec des virgules)',
+                'name' => 'tagString',
                 'maxLength' => 300,
                 'validators' => [
-                    new MaxLengthValidator('Le titre spécifié est trop long (100 caractères maximum)', 300),
-                    new NotNullValidator('Merci de spécifier le titre de la news'),
+                    new MaxLengthValidator('Les tags spécifié sont trop long (100 caractères maximum)', 300),
+                    new NotNullValidator('Merci de spécifier les tags de la news'),
                 ],
             ]));
     }

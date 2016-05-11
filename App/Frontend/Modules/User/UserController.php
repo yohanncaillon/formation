@@ -40,6 +40,5 @@ class UserController extends BackController
         $this->Page->addVar('User', $User);
         
     }
-
-
+    
 }

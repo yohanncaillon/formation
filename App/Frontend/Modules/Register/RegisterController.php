@@ -30,17 +30,17 @@ class RegisterController extends BackController
                 'name' => $Request->postData('name'),
                 'password' => $Request->postData('password'),
                 'status' => User::USER_WRITER,
-                'email' => $Request->postData('email')
+                'email' => $Request->postData('email'),
+                'password_confirm' => $Request->postData('password_confirm'),
             ]);
-            $password_confirm = $Request->postData('password_confirm');
 
         } else {
 
             $User = new User();
-            $password_confirm = "";
+
         }
 
-        $FormBuilder = new RegisterFormBuilder($User, $password_confirm);
+        $FormBuilder = new RegisterFormBuilder($User);
         $FormBuilder->build();
         $Form = $FormBuilder->form();
 

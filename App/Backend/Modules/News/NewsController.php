@@ -1,6 +1,7 @@
 <?php
 namespace App\Backend\Modules\News;
 
+use Entity\Tag;
 use \OCFram\BackController;
 use \OCFram\HTTPRequest;
 use \Entity\News;
@@ -107,16 +108,39 @@ class NewsController extends BackController
     public function processForm(HTTPRequest $Request)
     {
 
-
-
         if ($Request->method() == 'POST') {
+            
+            $tags_a = array();
+            foreach (explode(",", $Request->postData('tagString')) as $tag) {
+
+                $Tag = new Tag([
+
+                    'name' => trim($tag),
+
+                ]);
+
+                // si le tag n'existe pas on l'ajoute à la base
+                if(!$this->Managers->getManagerOf('Tags')->existsTagUsingName($Tag->name())) {
+
+                    $Tag = $this->Managers->getManagerOf('Tags')->insertTag($Tag);
+
+                } else {
+
+                    $Tag = $this->Managers->getManagerOf('Tags')->getTagUsingName($Tag->name());
+                }
+
+
+                $tags_a[] = $Tag;
+            }
 
             $News = new News([
                 'auteur' => $this->App()->Session()->getAttribute("authId"),
                 'titre' => $Request->postData('titre'),
-                'tag' => $Request->postData('tag'),
-                'contenu' => $Request->postData('contenu')
+                'contenu' => $Request->postData('contenu'),
+                'tagString' => $Request->postData('tagString'),
+                'tag' => $tags_a,
             ]);
+
 
             if ($Request->getExists('id')) {
                 $News->setId($Request->getData('id'));

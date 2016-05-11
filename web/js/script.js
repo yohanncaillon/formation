@@ -37,7 +37,7 @@ $(document).ready(function () {
 
             if (data.error != true) {
 
-                if(data.data[0] != null) {
+                if (data.data[0] != null) {
                     $('.comment-section').prepend(data.data[0].html);
 
                     $(".formComment input[type=text]").val("");
@@ -51,12 +51,40 @@ $(document).ready(function () {
         return false;
     });
 
+    $("input[name=tagString]").on("change paste keyup", function () {
+
+        var valeur = $("input[name=tagString]").val();
+        valeur = valeur.split(",").slice(-1)[0].trim();
+
+        if (valeur != "") {
+
+            $.ajax({
+                url: "http://monsupersite/searchTag/",
+                method: "post",
+                dataType: "json",
+                data: {
+                    "name": valeur
+                }
+
+            }).done(function (data) {
+
+                $('.tagsProp span').html(data.data);
+
+            });
+        } else {
+
+            $('.tagsProp span').html("");
+        }
+
+    });
+
+
 });
 
 
 function setLoader(active) {
 
-    if(active) {
+    if (active) {
 
         $(".formComment input[type=submit]").css('display', 'none');
         $(".formComment").append("<img class='loader' src='../images/loading.gif' alt='' />");

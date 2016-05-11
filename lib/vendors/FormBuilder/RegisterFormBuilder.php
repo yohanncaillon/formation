@@ -9,21 +9,9 @@ use \OCFram\StringField;
 use \OCFram\EmailField;
 use \OCFram\MaxLengthValidator;
 use \OCFram\NotNullValidator;
-use \Entity\User;
 
 class RegisterFormBuilder extends FormBuilder
 {
-
-    protected $password_confirm;
-    protected $User;
-
-    public function __construct(User $entity, $password_confirm)
-    {
-        parent::__construct($entity);
-        $this->User = $entity;
-        $this->password_confirm = $password_confirm;
-
-    }
 
     public function build()
     {
@@ -63,13 +51,11 @@ class RegisterFormBuilder extends FormBuilder
         $PasswordConfirmField = new PasswordField([
             'label' => 'Confirmez votre mot de passe',
             'name' => 'password_confirm',
-            'value' => $this->password_confirm,
-            'saveValue' => false,
             'maxLength' => 200,
             'validators' => [
                 new MaxLengthValidator('Le titre spécifié est trop long (100 caractères maximum)', 100),
-                new NotNullValidator('Merci de spécifier un mot de passe'),
-                new PasswordConfirmValidator("Les mots de passe entrés ne sont pas les mêmes", $this->User)
+                new NotNullValidator('Merci de specifier le mot de passe de confirmation'),
+                new PasswordConfirmValidator("Les mots de passe entrés ne sont pas les mêmes", $PasswordField)
             ],
 
         ]);

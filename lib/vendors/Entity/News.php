@@ -9,7 +9,8 @@ class News extends Entity
     protected $auteur,
         $titre,
         $contenu,
-        $tag,
+        $tag_a,
+        $tagString,
         $dateAjout,
         $dateModif;
 
@@ -25,7 +26,16 @@ class News extends Entity
     // SETTERS //
 
     public function setTag($tags) {
-        $this->tag = $tags;
+
+        $this->tag_a = $tags;
+        if($this->tagString == null) {
+
+            foreach ($this->tag_a as $Tag) {
+
+                $this->tagString .= $Tag->name() .", ";
+            }
+            $this->tagString = substr($this->tagString, 0, (strlen($this->tagString)-2));
+        }
 
     }
 
@@ -95,28 +105,33 @@ class News extends Entity
 
     public function tag()
     {
-        return $this->tag;
-    }
-
-    public function containsTag($tag) {
-
-        $tag_a = explode(",", $this->tag);
-        foreach ($tag_a as $t) {
-
-            if (trim($t) == $tag)
-                return true;
-        }
-        return false;
+        return $this->tag_a;
     }
 
     public function tagHtml()
     {
         $retour = "<p> TAGS : ";
-        $tag_a = explode(",", $this->tag);
-        foreach ($tag_a as $t) {
+        foreach ($this->tag_a as $Tag) {
 
-            $retour .= "<a href='". Router::getInstance()->getRouteUrl("tag", "Frontend", array("name" => trim($t))) . "'>". trim($t) ."</a> ";
+            $retour .= "<a href='". Router::getInstance()->getRouteUrl("tag", "Frontend", array("name" => $Tag->name())) . "'>". $Tag->Name() ."</a> ";
         }
         return $retour . "</p>";
     }
+
+    /**
+     * @return mixed
+     */
+    public function tagString()
+    {
+        return $this->tagString;
+    }
+
+    /**
+     * @param mixed $tagString
+     */
+    public function setTagString($tagString)
+    {
+        $this->tagString = $tagString;
+    }
+
 }
