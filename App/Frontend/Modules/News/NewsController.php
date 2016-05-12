@@ -66,6 +66,9 @@ class NewsController extends BackController
         $formBuilder->build();
         $Form = $formBuilder->form();
 
+        $authCheck = $News->auteur() == $this->App()->Session()->getAttribute("authId") || $this->App()->Session()->isAdmin();
+
+        $this->Page->addVar('authCheck', $authCheck);
         $this->Page->addVar('Form', $Form->createView());
         $this->Page->addVar('title', $News->titre());
         $this->Page->addVar('News', $News);

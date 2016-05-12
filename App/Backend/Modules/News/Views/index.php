@@ -19,7 +19,7 @@
         <tr>
             <td><?=$index++ ?></td>
             <td><a href="<?=\OCFram\Router::getInstance()->getRouteUrl("showNews", "Frontend", array("id" => $News['id'])) ?>"><?=htmlentities($News['titre']) ?></a></td>
-            <td><?=htmlentities($News['auteur']) ?></td>
+            <td><a href="<?= \OCFram\Router::getInstance()->getRouteUrl("user", "Frontend", array("id" => $News['auteur'])) ?>"><em><?= htmlentities($News['auteurName']) ?></em></a></td>
             <td><?=\Carbon\Carbon::instance($News['dateAjout'])->diffForHumans() ?></td>
             <td><?=($News['dateAjout'] == $News['dateModif'] ? '-' : \Carbon\Carbon::instance($News['dateModif'])->diffForHumans()) ?></td>
             <td>

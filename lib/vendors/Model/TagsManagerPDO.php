@@ -9,7 +9,6 @@ class TagsManagerPDO extends TagsManager {
 
     public function insertTag(Tag $Tag)
     {
-
         $requete = $this->dao->prepare('INSERT INTO t_tag_tagsc SET TTC_name = :name');
         $requete->bindValue(':name', $Tag->name());
         $requete->execute();
@@ -51,7 +50,7 @@ class TagsManagerPDO extends TagsManager {
 
     }
 
-    public function searchTagUsingName($name)
+    public function searchTagUsingName_a($name)
     {
         $requete = $this->dao->prepare('SELECT * FROM T_tag_tagsc WHERE TTC_name LIKE :name');
         $requete->bindValue(':name', $name."%");

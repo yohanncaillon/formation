@@ -41,7 +41,7 @@ class NewsManagerPDO extends NewsManager
     public function getNews_a($debut = -1, $limite = -1)
     {
 
-        $sql = 'SELECT id, auteur, titre, contenu, dateAjout, dateModif FROM news ORDER BY id DESC';
+        $sql = 'SELECT id, auteur, MMC_name as auteurName, titre, contenu, dateAjout, dateModif FROM news INNER JOIN T_MEM_memberc ON auteur = MMC_id ORDER BY id DESC';
 
         if ($debut != -1 || $limite != -1) {
             $sql .= ' LIMIT ' . (int)$limite . ' OFFSET ' . (int)$debut;
@@ -65,7 +65,7 @@ class NewsManagerPDO extends NewsManager
 
     public function getNewsUsingId($id)
     {
-        $requete = $this->dao->prepare('SELECT id, auteur, titre, contenu, dateAjout, dateModif FROM news WHERE id = :id');
+        $requete = $this->dao->prepare('SELECT id, auteur, MMC_name as auteurName, titre, contenu, dateAjout, dateModif FROM news INNER JOIN T_MEM_memberc ON auteur = MMC_id WHERE id = :id');
         $requete->bindValue(':id', (int)$id, \PDO::PARAM_INT);
         $requete->execute();
 
@@ -127,7 +127,7 @@ class NewsManagerPDO extends NewsManager
     public function getNewsUsingUserId($userId, $debut = -1, $limite = -1)
     {
 
-        $sql = 'SELECT id, auteur, titre, contenu, dateAjout, dateModif FROM news WHERE auteur = :userId ORDER BY id DESC';
+        $sql = 'SELECT id, auteur, MMC_name as auteurName, titre, contenu, dateAjout, dateModif FROM news INNER JOIN T_mem_memberc ON auteur = MMC_id WHERE auteur = :userId ORDER BY id DESC';
 
         if ($debut != -1 || $limite != -1) {
             $sql .= ' LIMIT ' . (int)$limite . ' OFFSET ' . (int)$debut;
@@ -155,7 +155,7 @@ class NewsManagerPDO extends NewsManager
 
     public function getNewsUsingTag_a($tag, $debut = -1, $limite = -1)
     {
-        $sql = 'SELECT id, auteur, titre, contenu, dateAjout, dateModif FROM news INNER JOIN t_tag_tagsd ON ttd_fk_tnc = id WHERE ttd_fk_ttc = :tagId ORDER BY id DESC';
+        $sql = 'SELECT id, auteur, titre, MMC_name as auteurName, contenu, dateAjout, dateModif FROM news INNER JOIN t_tag_tagsd ON ttd_fk_tnc = id INNER JOIN T_mem_memberc ON auteur = MMC_id WHERE ttd_fk_ttc = :tagId ORDER BY id DESC';
 
         if ($debut != -1 || $limite != -1) {
             $sql .= ' LIMIT ' . (int)$limite . ' OFFSET ' . (int)$debut;

@@ -7,6 +7,7 @@ use OCFram\Router;
 class News extends Entity
 {
     protected $auteur,
+        $auteurName,
         $titre,
         $contenu,
         $tag_a,
@@ -132,6 +133,22 @@ class News extends Entity
     public function setTagString($tagString)
     {
         $this->tagString = $tagString;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function auteurName()
+    {
+        return $this->auteurName;
+    }
+
+    /**
+     * @param mixed $auteurName
+     */
+    public function setAuteurName($auteurName)
+    {
+        $this->auteurName = $auteurName;
     }
 
 }

@@ -53,8 +53,8 @@ class Tag extends Entity implements \JsonSerializable
     {
         return [
 
-            "TTC_id" => $this->id(),
-            "TTC_name" => $this->name()
+            "id" => $this->id(),
+            "name" => $this->name()
 
         ];
     }

@@ -66,7 +66,7 @@ class Session
 
     public static function isAdmin() {
 
-        return $_SESSION['authStatus'] == User::USER_ADMIN;
+        return isset($_SESSION['authStatus']) && $_SESSION['authStatus'] == User::USER_ADMIN;
     }
 
     public function setFlash($value)

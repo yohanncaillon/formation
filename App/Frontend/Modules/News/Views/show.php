@@ -1,4 +1,10 @@
 <p>Par <a href="<?= \OCFram\Router::getInstance()->getRouteUrl("user", "Frontend", array("id" => $User->id())) ?>"><em><?= htmlentities($User->name()) ?></em></a>, le <?= $News['dateAjout']->format('d/m/Y à H\hi') ?></p>
+<?php if($authCheck) : ?>
+    <div class="float-right">
+        <a href="<?=\OCFram\Router::getInstance()->getRouteUrl("newsUpdate", "Backend", array("id" => $News['id'])) ?>"><img src="/images/update.png" alt="Modifier" /></a>
+        <a href="<?=\OCFram\Router::getInstance()->getRouteUrl("newsDelete", "Backend", array("id" => $News['id'])) ?>"><img src="/images/delete.png" alt="Supprimer" /></a>
+    </div>
+<?php endif; ?>
 <h2 class="break"><?= htmlentities($News['titre']) ?></h2>
 <p class="break"><?= htmlentities(nl2br($News['contenu'])) ?></p>
 

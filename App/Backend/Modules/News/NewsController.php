@@ -49,6 +49,7 @@ class NewsController extends BackController
             $listeNews_a = $Manager->getNewsUsingUserId($this->App()->Session()->getAttribute("authId"));
             $this->Page->addVar('listeNews_a', $listeNews_a);
             $this->Page->addVar('nombreNews', sizeof($listeNews_a));
+
         }
     }
 
@@ -87,7 +88,7 @@ class NewsController extends BackController
                 $this->App()->HttpResponse()->redirect404();
 
             if ($Comment->auteurId() != $this->App()->Session()->getAttribute("authId") && !$this->App()->Session()->isAdmin())
-                $this->App()->HttpResponse()->redirect404();
+                $this->App()->HttpResponse()->redirect('/admin/login');
         }
 
         $formBuilder = new CommentUserFormBuilder($Comment);
@@ -131,8 +132,8 @@ class NewsController extends BackController
                     $Tag = $this->Managers->getManagerOf('Tags')->getTagUsingName($Tag->name());
                 }
 
-
-                $tags_a[] = $Tag;
+                if($Tag->id() != null)
+                    $tags_a[] = $Tag;
             }
 
             $News = new News([
@@ -161,7 +162,7 @@ class NewsController extends BackController
                     $this->App()->HttpResponse()->redirect404();
 
                 if ($News->auteur() != $this->App()->Session()->getAttribute("authId") && !$this->App()->Session()->isAdmin())
-                    $this->App()->HttpResponse()->redirect404();
+                    $this->App()->HttpResponse()->redirect('/admin/login');
 
             } else {
 

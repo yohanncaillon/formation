@@ -17,6 +17,6 @@ abstract class TagsManager extends Manager
 
     abstract public function deleteTagUsingId($id);
 
-    abstract public function searchTagUsingName($name);
+    abstract public function searchTagUsingName_a($name);
 
 }

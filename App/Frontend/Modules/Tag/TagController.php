@@ -52,7 +52,7 @@ class TagController extends BackController
         $this->Page->setType(Page::AJAX_PAGE);
         $this->Page->addVar('erreur', false);
         $this->Page->addVar('message', "");
-        $this->Page->addVar('data_a', $this->Managers->getManagerOf('Tags')->searchTagUsingName($Request->postData("name")));
+        $this->Page->addVar('data_a', $this->Managers->getManagerOf('Tags')->searchTagUsingName_a($Request->postData("name")));
 
     }
 }

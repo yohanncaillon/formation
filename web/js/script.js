@@ -68,13 +68,32 @@ $(document).ready(function () {
 
             }).done(function (data) {
 
-                $('.tagsProp span').html(data.data);
+                var html = "";
+
+                var existant = $("input[name=tagString]").val().split(",");
+
+                for (var i in data.data) {
+
+                    var exists = false;
+                    for (var y in existant) {
+
+                        if (data.data[i].name == existant[y].trim())
+                            exists = true;
+
+                    }
+                    if (!exists)
+                        html += "<i class='tag-item'>" + data.data[i].name + "</i> ";
+
+                }
+
+                $('.tagsProp span').html(html);
+
                 $('.tag-item').click(function () {
 
                     var str = "";
                     if ($("input[name=tagString]").val().indexOf(',') > -1) {
 
-                        str =  $("input[name=tagString]").val().replace(/,[^,]+$/, "") + ", ";
+                        str = $("input[name=tagString]").val().replace(/,[^,]+$/, "") + ", ";
                     }
                     $("input[name=tagString]").val(str + $(this).html());
                 });
@@ -86,7 +105,6 @@ $(document).ready(function () {
         }
 
     });
-
 
 
 });
