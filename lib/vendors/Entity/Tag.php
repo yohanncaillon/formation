@@ -2,6 +2,7 @@
 namespace Entity;
 
 use \OCFram\Entity;
+use OCFram\Router;
 
 class Tag extends Entity implements \JsonSerializable
 {
@@ -49,7 +50,7 @@ class Tag extends Entity implements \JsonSerializable
      * which is a value of any type other than a resource.
      * @since 5.4.0
      */
-    function jsonSerialize()
+    public function jsonSerialize()
     {
         return [
 
@@ -58,4 +59,9 @@ class Tag extends Entity implements \JsonSerializable
 
         ];
     }
+    public function tagHtml()
+    {
+        return "<a class='tag' href='". Router::getInstance()->getRouteUrl("tag", "Frontend", array("name" => $this->name())) . "'>". $this->name() ."</a>";
+    }
+
 }

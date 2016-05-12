@@ -47,3 +47,8 @@ fieldset {
 
     cursor: pointer;
 }
+
+.tag {
+
+    text-transform : capitalize;
+}

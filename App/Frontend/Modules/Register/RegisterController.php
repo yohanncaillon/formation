@@ -11,20 +11,18 @@ use FormBuilder\RegisterFormBuilder;
 use \OCFram\BackController;
 use \OCFram\HTTPRequest;
 use \Entity\User;
-use \FormBuilder\CommentFormBuilder;
-use \OCFram\FormHandler;
-use OCFram\HTTPResponse;
-use OCFram\Page;
+use \OCFram\Page;
 
 class RegisterController extends BackController
 {
 
     public function executeRegister(HTTPRequest $Request)
     {
-
         $this->Page->addVar('title', 'Inscription');
+        $message ="";
 
         if ($Request->method() == 'POST') {
+
 
             $User = new User ([
                 'name' => $Request->postData('name'),
@@ -49,7 +47,8 @@ class RegisterController extends BackController
             try {
                 $this->Managers->getManagerOf('Users')->insertUser($User);
                 $this->App()->Session()->setAuthenticated(true, $User);
-                $this->App()->HttpResponse()->redirect('/');
+                if (!$Request->isAjax())
+                    $this->App()->HttpResponse()->redirect('/');
 
             } catch (\Exception $e) {
 
@@ -63,11 +62,28 @@ class RegisterController extends BackController
                         $message = "Une erreur est survenue ! erreur " . $e->getMessage();
 
                 }
+                $this->App()->Session()->setFlash($message);
+                $this->Page->addVar('erreur', true);
             }
-            $this->App()->Session()->setFlash($message);
 
+            $this->Page->addVar('erreur', false);
+
+
+        } else {
+
+            $this->Page->addVar('erreur', true);
         }
+
         $this->Page->addVar('Form', $Form->createView());
+        $this->Page->addVar('message', $message);
+
+    }
+
+    public function executeRegisterAjax(HTTPRequest $Request) {
+
+        $this->Page->setType(Page::AJAX_PAGE);
+
+        $this->executeRegister($Request);
 
     }
 

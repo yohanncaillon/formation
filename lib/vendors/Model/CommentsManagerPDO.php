@@ -39,7 +39,7 @@ class CommentsManagerPDO extends CommentsManager
             throw new \InvalidArgumentException('L\'identifiant de la news passé doit être un nombre entier valide');
         }
 
-        $q = $this->dao->prepare('SELECT id, news, auteur, contenu, auteurId, date FROM comments WHERE news = :news AND id > :offsetId ORDER BY date DESC');
+        $q = $this->dao->prepare('SELECT c.id, news, c.auteur, n.titre as newsName, c.contenu, c.auteurId, date FROM comments as c INNER JOIN news n ON n.id = news WHERE news = :news AND c.id > :offsetId ORDER BY date DESC');
         $q->bindValue(':news', $news, \PDO::PARAM_INT);
         $q->bindValue(':offsetId', $offsetId, \PDO::PARAM_INT);
         $q->execute();
@@ -75,5 +75,28 @@ class CommentsManagerPDO extends CommentsManager
         $q->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Entity\Comment');
 
         return $q->fetch();
+    }
+
+    public function getCommentUsingUserId_a($user)
+    {
+
+        if (!ctype_digit($user)) {
+            throw new \InvalidArgumentException('L\'identifiant de la news passé doit être un nombre entier valide');
+        }
+
+        $q = $this->dao->prepare('SELECT c.id, news, c.auteur, n.titre as newsName, c.contenu, c.auteurId, date FROM comments as c INNER JOIN news n ON n.id = news WHERE c.auteurId = :auteur ORDER BY date DESC');
+        $q->bindValue(':auteur', $user, \PDO::PARAM_INT);
+        $q->execute();
+
+        $q->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Entity\Comment');
+
+        $comment_a = $q->fetchAll();
+
+        foreach ($comment_a as $Comment) {
+            $Comment->setDate(new \DateTime($Comment->date()));
+        }
+
+        return $comment_a;
+
     }
 }

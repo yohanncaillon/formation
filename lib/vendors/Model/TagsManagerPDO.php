@@ -1,11 +1,10 @@
 <?php
 namespace Model;
 
-use Entity\News;
 use \Entity\Tag;
 
-class TagsManagerPDO extends TagsManager {
-
+class TagsManagerPDO extends TagsManager
+{
 
     public function insertTag(Tag $Tag)
     {
@@ -53,7 +52,7 @@ class TagsManagerPDO extends TagsManager {
     public function searchTagUsingName_a($name)
     {
         $requete = $this->dao->prepare('SELECT * FROM T_tag_tagsc WHERE TTC_name LIKE :name');
-        $requete->bindValue(':name', $name."%");
+        $requete->bindValue(':name', $name . "%");
         $requete->execute();
         $requete->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Entity\Tag');
 

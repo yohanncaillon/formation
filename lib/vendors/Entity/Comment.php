@@ -9,6 +9,7 @@ class Comment extends Entity implements \JsonSerializable
 {
     protected $news,
         $auteur,
+        $newsName,
         $auteurId,
         $contenu,
         $date;
@@ -79,6 +80,22 @@ class Comment extends Entity implements \JsonSerializable
     public function auteurId()
     {
         return $this->auteurId;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function newsName()
+    {
+        return $this->newsName;
+    }
+
+    /**
+     * @param mixed $newsName
+     */
+    public function setNewsName($newsName)
+    {
+        $this->newsName = $newsName;
     }
 
     public function jsonSerialize()

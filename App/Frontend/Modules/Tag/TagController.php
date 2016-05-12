@@ -46,12 +46,11 @@ class TagController extends BackController
     }
 
 
-
     public function executeSearch(HTTPRequest $Request)
     {
         $this->Page->setType(Page::AJAX_PAGE);
         $this->Page->addVar('erreur', false);
-        $this->Page->addVar('message', "");
+        $this->Page->addVar('message', "Tag search");
         $this->Page->addVar('data_a', $this->Managers->getManagerOf('Tags')->searchTagUsingName_a($Request->postData("name")));
 
     }

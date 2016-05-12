@@ -1,5 +1,8 @@
 $(document).ready(function () {
 
+
+
+    //----------------------------------------------------------------------------------------
     $(".formComment").submit(function () {
 
         var url = $(location).attr("href");
@@ -50,7 +53,34 @@ $(document).ready(function () {
 
         return false;
     });
+    //----------------------------------------------------------------------------------------
 
+    $("#subscribe").on("submit", function () {
+
+
+        $.ajax({
+            url: "http://monsupersite/registerAjax",
+            method: "post",
+            dataType: "json",
+            data : $(this).serialize(),
+
+        }).done(function (data) {
+
+            console.log(data.error);
+            if (data.error) {
+
+                $(".wrap").html(data.data);
+            } else {
+
+                document.location.href="http://monsupersite/";
+            }
+
+        });
+
+        return false;
+    });
+
+    //----------------------------------------------------------------------------------------
     $("input[name=tagString]").on("paste keyup", function () {
 
         var valeur = $("input[name=tagString]").val();

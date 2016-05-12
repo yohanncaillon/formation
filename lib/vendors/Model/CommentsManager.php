@@ -48,6 +48,8 @@ abstract class CommentsManager extends Manager
      */
     abstract public function getCommentUsingNewsId_a($news, $offsetId = 0);
 
+    abstract public function getCommentUsingUserId_a($user);
+
     /**
      * Méthode permettant de modifier un commentaire.
      * @param $comment Le commentaire à modifier

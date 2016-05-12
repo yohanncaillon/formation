@@ -7,7 +7,6 @@ use \Entity\Comment;
 use \FormBuilder\CommentUserFormBuilder;
 use \FormBuilder\CommentFormBuilder;
 use \OCFram\FormHandler;
-use OCFram\HTTPResponse;
 use OCFram\Page;
 use OCFram\Session;
 

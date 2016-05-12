@@ -6,6 +6,8 @@ use OCFram\Router;
 
 class News extends Entity
 {
+    const ADDED = "added";
+    const MODIFIED = "modified";
     protected $auteur,
         $auteurName,
         $titre,
@@ -26,16 +28,17 @@ class News extends Entity
 
     // SETTERS //
 
-    public function setTag($tags) {
+    public function setTag($tags)
+    {
 
         $this->tag_a = $tags;
-        if($this->tagString == null) {
+        if ($this->tagString == null) {
 
             foreach ($this->tag_a as $Tag) {
 
-                $this->tagString .= $Tag->name() .", ";
+                $this->tagString .= $Tag->name() . ", ";
             }
-            $this->tagString = substr($this->tagString, 0, (strlen($this->tagString)-2));
+            $this->tagString = substr($this->tagString, 0, (strlen($this->tagString) - 2));
         }
 
     }
@@ -114,7 +117,7 @@ class News extends Entity
         $retour = "<p> TAGS : ";
         foreach ($this->tag_a as $Tag) {
 
-            $retour .= "<a href='". Router::getInstance()->getRouteUrl("tag", "Frontend", array("name" => $Tag->name())) . "'>". $Tag->Name() ."</a> ";
+            $retour .= $Tag->tagHtml() . " ";
         }
         return $retour . "</p>";
     }

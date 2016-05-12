@@ -132,7 +132,7 @@ class NewsController extends BackController
                     $Tag = $this->Managers->getManagerOf('Tags')->getTagUsingName($Tag->name());
                 }
 
-                if($Tag->id() != null)
+                if ($Tag->id() != null)
                     $tags_a[] = $Tag;
             }
 
