@@ -15,7 +15,7 @@
     <div id="wrap">
         <header>
             <h1><a href="<?=OCFram\Router::getInstance()->getRouteUrl("index", "Frontend") ?>">Les chats c tro lol</a></h1>
-            <p><?= \Carbon\Carbon::now()->formatLocalized('%A %d %B %Y') ?> | <?= \OCFram\Session::isAuthenticated() ? "Connecté en tant que <i>". $session->getAttribute("authName") . "</i> avec le status " . \Entity\User::getStatusName($session->getAttribute("authStatus")) : "Non connecté" ; ?></p>
+            <p><?= \Carbon\Carbon::now()->formatLocalized('%A %d %B %Y') ?> | <?= \OCFram\Session::isAuthenticated() ? "Connecté en tant que <a href='". \OCFram\Router::getInstance()->getRouteUrl("user", "Frontend", array("id" => $session->getAttribute("authId"))) ."'><i>". $session->getAttribute("authName") . "</i></a> avec le status " . \Entity\User::getStatusName($session->getAttribute("authStatus")) : "Non connecté" ; ?></p>
         </header>
         <nav>
             <ul>

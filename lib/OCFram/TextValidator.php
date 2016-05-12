@@ -24,6 +24,6 @@ class TextValidator extends Validator
 
     public function isValid($value)
     {
-        return preg_match('/^[a-zA-Z0-9' . $this->specialChars . ']+$/', $value);
+        return preg_match('/^[a-zA-Z0-9éèêë' . $this->specialChars . ']+$/', $value);
     }
 }

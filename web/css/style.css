@@ -52,3 +52,25 @@ fieldset {
 
     text-transform : capitalize;
 }
+
+#cloud-block {
+
+    width: 40%;
+    margin:50px auto;
+    text-align: justify;
+}
+
+.action {
+
+    margin-bottom: 30px;
+}
+
+.action span {
+
+    opacity:0.7;
+}
+
+header a {
+
+    color: white !important;
+}

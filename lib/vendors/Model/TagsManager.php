@@ -19,4 +19,6 @@ abstract class TagsManager extends Manager
 
     abstract public function searchTagUsingName_a($name);
 
+    abstract public function getTagsWithMostOccurence_a($nb);
+
 }

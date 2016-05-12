@@ -54,4 +54,12 @@ class TagController extends BackController
         $this->Page->addVar('data_a', $this->Managers->getManagerOf('Tags')->searchTagUsingName_a($Request->postData("name")));
 
     }
+
+    public function executeCloud(HTTPRequest $Request)
+    {
+
+        $listeTag_a = $this->Managers->getManagerOf('Tags')->getTagsWithMostOccurence_a($this->App()->Config()->get('nb_occurence_tag'));
+        $this->Page->addVar('listeTag_a', $listeTag_a);
+
+    }
 }

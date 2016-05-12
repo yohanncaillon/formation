@@ -124,7 +124,7 @@ class NewsManagerPDO extends NewsManager
 
     }
 
-    public function getNewsUsingUserId($userId, $debut = -1, $limite = -1)
+    public function getNewsUsingUserId_a($userId, $debut = -1, $limite = -1)
     {
 
         $sql = 'SELECT id, auteur, MMC_name as auteurName, titre, contenu, dateAjout, dateModif FROM news INNER JOIN T_mem_memberc ON auteur = MMC_id WHERE auteur = :userId ORDER BY id DESC';
@@ -138,9 +138,9 @@ class NewsManagerPDO extends NewsManager
         $requete->execute();
         $requete->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Entity\News');
 
-        $listeNews = $requete->fetchAll();
+        $listeNews_a = $requete->fetchAll();
 
-        foreach ($listeNews as $news) {
+        foreach ($listeNews_a as $news) {
             $news->setDateAjout(new \DateTime($news->dateAjout()));
             $news->setDateModif(new \DateTime($news->dateModif()));
             $this->getTag_a($news);
@@ -149,7 +149,7 @@ class NewsManagerPDO extends NewsManager
 
         $requete->closeCursor();
 
-        return $listeNews;
+        return $listeNews_a;
 
     }
 

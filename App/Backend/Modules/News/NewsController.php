@@ -46,7 +46,7 @@ class NewsController extends BackController
             $this->Page->addVar('nombreNews', $Manager->count());
         } else {
 
-            $listeNews_a = $Manager->getNewsUsingUserId($this->App()->Session()->getAttribute("authId"));
+            $listeNews_a = $Manager->getNewsUsingUserId_a($this->App()->Session()->getAttribute("authId"));
             $this->Page->addVar('listeNews_a', $listeNews_a);
             $this->Page->addVar('nombreNews', sizeof($listeNews_a));
 

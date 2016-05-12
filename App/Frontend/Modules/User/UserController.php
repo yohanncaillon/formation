@@ -22,7 +22,7 @@ class UserController extends BackController
         if ($User == null)
             $this->App->HttpResponse()->redirect404();
 
-        $listeNews_a = $this->Managers->getManagerOf('News')->getNewsUsingUserId($User->id());
+        $listeNews_a = $this->Managers->getManagerOf('News')->getNewsUsingUserId_a($User->id());
         $listeComment_a = $this->Managers->getManagerOf('Comments')->getCommentUsingUserId_a($User->id());
 
         $tab_a = array();

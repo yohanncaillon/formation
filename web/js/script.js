@@ -136,6 +136,12 @@ $(document).ready(function () {
 
     });
 
+    $(".cloud a").each(function () {
+
+        $(this).css("fontSize", $(this).parent().attr("data-poids")*5);
+
+    });
+
 
 });
 

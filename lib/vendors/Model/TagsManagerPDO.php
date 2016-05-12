@@ -58,4 +58,14 @@ class TagsManagerPDO extends TagsManager
 
         return $requete->fetchAll();
     }
+
+    public function getTagsWithMostOccurence_a($nb)
+    {
+        $requete = $this->dao->prepare('SELECT COUNT(TTD_id) as count, TTC_id, TTC_name FROM T_tag_tagsd INNER JOIN T_Tag_tagsc ON TTD_fk_TTC = TTC_id GROUP BY TTC_id ORDER BY COUNT(TTD_id) DESC LIMIT '.(int)$nb);
+        $requete->execute();
+        $requete->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\Entity\Tag');
+
+        return $requete->fetchAll();
+
+    }
 }

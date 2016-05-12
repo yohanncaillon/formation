@@ -65,7 +65,7 @@ abstract class NewsManager extends Manager
      */
     abstract protected function updateNews(News $news);
 
-    abstract public function getNewsUsingUserId($userId, $debut = -1, $limite = -1);
+    abstract public function getNewsUsingUserId_a($userId, $debut = -1, $limite = -1);
 
     abstract function getNewsUsingTag_a($tag, $debut = -1, $limite = -1);
     

@@ -10,4 +10,5 @@
     <route name="user" url="/user-{id}/" module="User" action="index" vars="id" />
     <route name="tag" url="/tag-{name}/" module="Tag" action="index" vars="name" />
     <route name="search" url="/searchTag/" module="Tag" action="search" />
+    <route name="cloud" url="/cloudTag/" module="Tag" action="cloud" />
 </routes>
