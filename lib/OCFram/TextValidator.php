@@ -12,19 +12,18 @@ namespace OCFram;
 class TextValidator extends Validator
 {
 
-    /**
-     * TextValidator constructor.
-     * @param string $string
-     */
-    public function __construct($string)
-    {
+    protected $specialChars;
 
+    public function __construct($errorMessage, $specialChars)
+    {
+        parent::__construct($errorMessage);
+
+        $this->specialChars = $specialChars;
 
     }
 
     public function isValid($value)
     {
-        
-
+        return preg_match('/^[a-zA-Z0-9' . $this->specialChars . ']+$/', $value);
     }
 }

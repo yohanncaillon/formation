@@ -10,6 +10,7 @@ use \FormBuilder\CommentUserFormBuilder;
 use \FormBuilder\NewsFormBuilder;
 use \OCFram\FormHandler;
 use \OCFram\Session;
+use OCFram\TextValidator;
 
 class NewsController extends BackController
 {
@@ -122,7 +123,8 @@ class NewsController extends BackController
                 // si le tag n'existe pas on l'ajoute à la base
                 if (!$this->Managers->getManagerOf('Tags')->existsTagUsingName($Tag->name())) {
 
-                    $Tag = $this->Managers->getManagerOf('Tags')->insertTag($Tag);
+                    if ((new TextValidator("error", ',\s'))->isValid($Tag->name()))
+                        $Tag = $this->Managers->getManagerOf('Tags')->insertTag($Tag);
 
                 } else {
 

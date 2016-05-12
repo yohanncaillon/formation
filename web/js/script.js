@@ -51,7 +51,7 @@ $(document).ready(function () {
         return false;
     });
 
-    $("input[name=tagString]").on("change paste keyup", function () {
+    $("input[name=tagString]").on("paste keyup", function () {
 
         var valeur = $("input[name=tagString]").val();
         valeur = valeur.split(",").slice(-1)[0].trim();
