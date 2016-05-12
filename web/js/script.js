@@ -142,6 +142,30 @@ $(document).ready(function () {
 
     });
 
+    $("#check-news").click(function () {
+
+        if($(this).is(':checked')) {
+
+            $(".type-news").css("display", "block");
+        } else {
+
+            $(".type-news").css("display", "none");
+        }
+
+    });
+
+    $("#check-comment").click(function () {
+
+        if($(this).is(':checked')) {
+
+            $(".type-comment").css("display", "block");
+        } else {
+
+            $(".type-comment").css("display", "none");
+        }
+
+    });
+
 
 });
 

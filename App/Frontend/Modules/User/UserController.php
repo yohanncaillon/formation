@@ -40,6 +40,7 @@ class UserController extends BackController
 
                 $tab_a[] = [
                     "id" => $News->id(),
+                    "type" => "news",
                     "date" => $News->dateAjout(),
                     "action" => News::ADDED,
                     "newsName" => $News->titre(),
@@ -49,6 +50,7 @@ class UserController extends BackController
 
                 $tab_a[] = [
                     "id" => $News->id(),
+                    "type" => "news",
                     "date" => $News->dateAjout(),
                     "action" => News::ADDED,
                     "newsName" => $News->titre(),
@@ -57,6 +59,7 @@ class UserController extends BackController
 
                 $tab_a[] = [
                     "id" => $News->id(),
+                    "type" => "news",
                     "date" => $News->dateModif(),
                     "action" => News::MODIFIED,
                     "newsName" => $News->titre(),
@@ -76,6 +79,7 @@ class UserController extends BackController
 
             $tab_a[] = [
                 "id" => $Comment->news(),
+                "type" => "comment",
                 "date" => $Comment->date(),
                 "newsName" => $Comment->newsName(),
                 "content" => $Comment->contenu(),
@@ -87,8 +91,10 @@ class UserController extends BackController
 
         });
 
+        $nbActions = $this->App->Config()->get('nb_action');
+
         $this->Page->addVar('title', 'Liste des actions de ' . $User->name());
-        $this->Page->addVar('listeAction_a', $tab_a);
+        $this->Page->addVar('listeAction_a', array_slice($tab_a, 0, $nbActions));
         $this->Page->addVar('User', $User);
 
     }

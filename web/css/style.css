@@ -74,3 +74,8 @@ header a {
 
     color: white !important;
 }
+
+.checkform label, .checkform p {
+
+    display: inline-block;
+}

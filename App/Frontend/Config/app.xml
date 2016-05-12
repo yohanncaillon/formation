@@ -3,4 +3,5 @@
     <define var="nombre_news" value="6"/>
     <define var="nombre_caracteres" value="200"/>
     <define var="nb_occurence_tag" value="15"/>
+    <define var="nb_action" value="10"/>
 </definitions>
