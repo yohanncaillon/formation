@@ -86,7 +86,7 @@ class RegisterController extends BackController
         $this->Page->addVar('erreur', $bool);
         $this->Page->addVar('bool', "");
 
-        $this->Page->addVar('message', $bool ? "Ce nom d'utilisateur existe déjà !" : "Ce nom est disponible");
+        $this->Page->addVar('message', $bool ? "Ce nom n'est pas disponible !" : "Ce nom est disponible");
     }
 
 }

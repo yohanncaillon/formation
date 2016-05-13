@@ -112,11 +112,11 @@ $(document).ready(function () {
 
     //--------------------------------------REGISTER--------------------------------------------------
 
+    $("input[name=name]").after("<span class='info-exist'></span>");
     $("input[name=name]").bind("keyup", function () {
 
         var input = $(this);
         var valeur = input.val();
-        input.after("<span class='info-exist'></span>");
 
         if (valeur.length >= MIN_SEARCH + 2) {
 
@@ -128,10 +128,22 @@ $(document).ready(function () {
 
             }).done(function (data) {
 
-                $("")
+                $(".info-exist").html(data.message);
+
+                if(data.error) {
+
+                    input.addClass("invalid");
+                } else {
+
+                    input.removeClass("invalid");
+                }
 
             });
 
+        } else {
+
+            $(".info-exist").html("");
+            input.removeClass("invalid");
         }
 
     });

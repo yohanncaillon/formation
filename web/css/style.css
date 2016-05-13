@@ -152,3 +152,7 @@ header a {
     }
 }
 
+.invalid {
+
+    border-color: #e74c3c;
+}
