@@ -25,7 +25,7 @@ class NewsController extends BackController
         // On récupère le manager des news.
         $Manager = $this->Managers->getManagerOf('News');
 
-        $listeNews_a = $Manager->getNews_a($page * $nombreNews, $nombreNews + 1);
+        $listeNews_a = $Manager->getNews_a(0, $nombreNews);
 
         foreach ($listeNews_a as $News) {
 
@@ -37,19 +37,41 @@ class NewsController extends BackController
             }
 
         }
-        $next = false;
-
-        if (sizeof($listeNews_a) == $nombreNews + 1) {
-
-            $next = true;
-            array_pop($listeNews_a);
-        }
 
         // On ajoute la variable $listeNews à la vue.
         $this->Page->addVar('listeNews_a', $listeNews_a);
-        $this->Page->addVar('pageNumber', $page);
-        $this->Page->addVar('next', $next);
     }
+
+    public function executelisteNews(HTTPRequest $Request)
+    {
+        $nombreNews = $this->App()->Config()->get('nombre_news');
+        $nombreCaracteres = $this->App()->Config()->get('nombre_caracteres');
+        $this->Page->setType(Page::AJAX_PAGE);
+        $this->Page->addVar('erreur', false);
+        $this->Page->addVar('message', "");
+
+        try {
+            $listeNews_a = $this->Managers->getManagerOf('News')->getNews_a($Request->postData("offset"), $nombreNews);
+            foreach ($listeNews_a as $News) {
+
+                if (strlen($News->contenu()) > $nombreCaracteres) {
+                    $debut = substr($News->contenu(), 0, $nombreCaracteres);
+                    $debut = substr($debut, 0, strrpos($debut, ' ')) . '...';
+
+                    $News->setContenu($debut);
+                }
+
+            }
+            $this->Page->addVar('news_a', $listeNews_a, $nombreNews);
+
+        } catch (\Exception $e) {
+
+            $this->Page->addVar('erreur', true);
+            $this->Page->addVar('message', $e->getMessage());
+        }
+
+    }
+
 
     public function executeShow(HTTPRequest $Request)
     {

@@ -4,7 +4,7 @@ namespace Entity;
 use \OCFram\Entity;
 use OCFram\Router;
 
-class News extends Entity
+class News extends Entity implements \JsonSerializable
 {
     const ADDED = "added";
     const MODIFIED = "modified";
@@ -154,4 +154,19 @@ class News extends Entity
         $this->auteurName = $auteurName;
     }
 
+    /**
+     * Specify data which should be serialized to JSON
+     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
+     * @return mixed data which can be serialized by <b>json_encode</b>,
+     * which is a value of any type other than a resource.
+     * @since 5.4.0
+     */
+    function jsonSerialize()
+    {
+
+        return [
+            "titre" => "<h2><a class='break' href='/news-". $this->id() ."/'>" . $this->titre() . "</a></h2>",
+            "content" => $this->contenu()
+        ];
+    }
 }

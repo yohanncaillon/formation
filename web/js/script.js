@@ -1,8 +1,63 @@
+"use strict";
+
 $(document).ready(function () {
 
+    const MIN_SEARCH = 2;
+
+    //---------------------------------------POST COMMENTAIRE-------------------------------------------------
+    $("input[name=tagString]").bind("keydown", function (event) {
+
+        if (event.keyCode === $.ui.keyCode.TAB &&
+            $(this).autocomplete("instance").menu.active) {
+            event.preventDefault();
+        }
+
+    }).autocomplete({
+        source: function (request, response) {
+
+            $.ajax({
+                url: "http://monsupersite/searchTag/",
+                method: "post",
+                dataType: "json",
+                data: {
+                    "name": extractLast(request.term)
+                },
+                success: function (data) {
+
+                    response($.map(data.data, function (object) {
+
+                        return object.name;
+                    }));
+                },
+            }, response);
+        },
+        search: function () {
+            // custom minLength
+            var term = extractLast(this.value);
+            if (term.length < MIN_SEARCH) {
+                return false;
+            }
+        },
+        focus: function () {
+            // prevent value inserted on focus
+            return false;
+        },
+        select: function (event, ui) {
+            var terms = split(this.value);
+            // remove the current input
+            terms.pop();
+            // add the selected item
+            terms.push(ui.item.value);
+            // add placeholder to get the comma-and-space at the end
+            terms.push("");
+            this.value = terms.join(", ");
+            return false;
+        }
+    });
 
 
-    //----------------------------------------------------------------------------------------
+    //---------------------------------------POST COMMENTAIRE-------------------------------------------------
+
     $(".formComment").submit(function () {
 
         var url = $(location).attr("href");
@@ -41,7 +96,8 @@ $(document).ready(function () {
             if (data.error != true) {
 
                 if (data.data[0] != null) {
-                    $('.comment-section').prepend(data.data[0].html);
+                    var comment = $(data.data[0].html).addClass('popin');
+                    $('.comment-section').prepend(comment);
 
                     $(".formComment input[type=text]").val("");
                     $(".formComment textarea").val("");
@@ -53,121 +109,133 @@ $(document).ready(function () {
 
         return false;
     });
-    //----------------------------------------------------------------------------------------
 
-    $("#subscribe").on("submit", function () {
+    //--------------------------------------REGISTER--------------------------------------------------
 
+    $("input[name=name]").bind("keyup", function () {
 
-        $.ajax({
-            url: "http://monsupersite/registerAjax",
-            method: "post",
-            dataType: "json",
-            data : $(this).serialize(),
+        var input = $(this);
+        var valeur = input.val();
+        input.after("<span class='info-exist'></span>");
 
-        }).done(function (data) {
-
-            console.log(data.error);
-            if (data.error) {
-
-                $(".wrap").html(data.data);
-            } else {
-
-                document.location.href="http://monsupersite/";
-            }
-
-        });
-
-        return false;
-    });
-
-    //----------------------------------------------------------------------------------------
-    $("input[name=tagString]").on("paste keyup", function () {
-
-        var valeur = $("input[name=tagString]").val();
-        valeur = valeur.split(",").slice(-1)[0].trim();
-
-        if (valeur != "") {
+        if (valeur.length >= MIN_SEARCH + 2) {
 
             $.ajax({
-                url: "http://monsupersite/searchTag/",
+                url: "http://monsupersite/checkName",
                 method: "post",
                 dataType: "json",
-                data: {
-                    "name": valeur
-                }
+                data: {"name": valeur},
 
             }).done(function (data) {
 
-                var html = "";
+                $("")
 
-                var existant = $("input[name=tagString]").val().split(",");
+            });
 
-                for (var i in data.data) {
+        }
 
-                    var exists = false;
-                    for (var y in existant) {
+    });
 
-                        if (data.data[i].name == existant[y].trim())
-                            exists = true;
+    //------------------------------------VOIR PLUS----------------------------------------------------
 
-                    }
-                    if (!exists)
-                        html += "<i class='tag-item'>" + data.data[i].name + "</i> ";
+    var scrollAuto = false;
+
+    $('.voirPlus').click(function () {
+
+        var button = $(this);
+        button.detach();
+        loadMore();
+
+    });
+
+    function loadMore() {
+
+        $('.pre-footer').append("<img class='loader' src='../images/loading.gif' alt='' />");
+
+        $.ajax({
+
+            url: "http://monsupersite/listeNews/",
+            method: "post",
+            dataType: "json",
+            data: {
+                "offset": $(".news").length
+            }
+
+        }).done(function (data) {
+
+            if (data.data.length > 0) {
+
+                scrollAuto = true;
+
+                for (var news in data.data) {
+
+                    $('.pre-footer').before("<div class='news fadein'>" + data.data[news].titre + "<p>" + data.data[news].content + "</p></div>");
 
                 }
 
-                $('.tagsProp span').html(html);
+                $(".loader").detach();
 
-                $('.tag-item').click(function () {
+            } else {
 
-                    var str = "";
-                    if ($("input[name=tagString]").val().indexOf(',') > -1) {
+                scrollAuto = false;
+                $('.pre-footer').before("<p style='text-align: center'>Vous êtes arrivé à la fin !</p>");
+                $(".loader").detach();
 
-                        str = $("input[name=tagString]").val().replace(/,[^,]+$/, "") + ", ";
-                    }
-                    $("input[name=tagString]").val(str + $(this).html());
-                });
+            }
+        });
 
-            });
-        } else {
+    }
 
-            $('.tagsProp span').html("");
+    $(window).scroll(function () {
+
+        if ($(window).scrollTop() + $(window).height() == $(document).height()) {
+
+
+            if (scrollAuto) {
+                scrollAuto = false;
+                loadMore();
+
+            }
+
         }
 
     });
+
+
+    //--------------------CLOUD SYSTEM--------------------------------------------------------------------
 
     $(".cloud a").each(function () {
 
-        $(this).css("fontSize", $(this).parent().attr("data-poids")*5);
+        $(this).css("fontSize", $(this).parent().attr("data-poids") * 5);
 
     });
 
+
+    //--------------------CHECK BOX FILTER--------------------------------------------------------------------
     $("#check-news").click(function () {
 
-        if($(this).is(':checked')) {
-
-            $(".type-news").css("display", "block");
-        } else {
-
-            $(".type-news").css("display", "none");
-        }
+        $(".type-news").slideToggle(500);
 
     });
 
     $("#check-comment").click(function () {
 
-        if($(this).is(':checked')) {
-
-            $(".type-comment").css("display", "block");
-        } else {
-
-            $(".type-comment").css("display", "none");
-        }
+        $(".type-comment").slideToggle(500);
 
     });
 
 
 });
+
+
+//--------------------FONCTIONS-------------------------------------------------------------------
+function split(val) {
+    return val.split(/,\s*/);
+}
+
+function extractLast(term) {
+    return split(term).pop();
+}
 
 
 function setLoader(active) {

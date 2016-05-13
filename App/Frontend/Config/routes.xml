@@ -4,11 +4,11 @@
     <route name="showNews" url="/news-{id}/" module="News" action="show" vars="id"/>
     <route name="commenter" url="/commenter-{news}/" module="News" action="insertComment" vars="news"/>
     <route name="device" url="/device-{var1}/{var2}/" module="Device" action="index" vars="var1,var2"/>
-    <route name="page" url="/page-{page}/" module="News" action="index" vars="page" />
     <route name="register" url="/register" module="Register" action="register"/>
-    <route name="registerAjax" url="/registerAjax" module="Register" action="registerAjax"/>
+    <route name="checkName" url="/checkName" module="Register" action="checkName"/>
     <route name="user" url="/user-{id}/" module="User" action="index" vars="id" />
     <route name="tag" url="/tag-{name}/" module="Tag" action="index" vars="name" />
     <route name="search" url="/searchTag/" module="Tag" action="search" />
     <route name="cloud" url="/cloudTag/" module="Tag" action="cloud" />
+    <route name="listeNews" url="/listeNews/" module="News" action="listeNews" />
 </routes>

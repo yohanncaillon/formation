@@ -79,12 +79,14 @@ class RegisterController extends BackController
 
     }
 
-    public function executeRegisterAjax(HTTPRequest $Request) {
+    public function executeCheckName(HTTPRequest $Request) {
 
         $this->Page->setType(Page::AJAX_PAGE);
+        $bool = $this->Managers->getManagerOf('Users')->existsMemberUsingName($Request->postData("name"));
+        $this->Page->addVar('erreur', $bool);
+        $this->Page->addVar('bool', "");
 
-        $this->executeRegister($Request);
-
+        $this->Page->addVar('message', $bool ? "Ce nom d'utilisateur existe déjà !" : "Ce nom est disponible");
     }
 
 }
