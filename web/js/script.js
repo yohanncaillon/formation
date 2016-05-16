@@ -4,13 +4,40 @@ $(document).ready(function () {
 
     const MIN_SEARCH = 2;
 
-    //---------------------------------------POST COMMENTAIRE-------------------------------------------------
+    //---------------------------------------GESTION TAGS-------------------------------------------------
+
+    // initialisation pour la modification de news
+    if ($(".update-news input[name=tagString]").length) {
+        var terms = split($(".update-news input[name=tagString]").val());
+        $(".update-news input[name=tagString]").val("");
+    }
+
+    for (var term in terms) {
+
+        $("input[name=tagString]").before(spanTag(terms[term]));
+    }
+
     $("input[name=tagString]").bind("keydown", function (event) {
 
         if (event.keyCode === $.ui.keyCode.TAB &&
             $(this).autocomplete("instance").menu.active) {
             event.preventDefault();
         }
+
+        if (event.keyCode === $.ui.keyCode.BACKSPACE && this.value.length == 0) {
+
+            $(".input-auto").last().detach();
+            event.preventDefault();
+        }
+
+        if (event.keyCode === $.ui.keyCode.SPACE && this.value.trim().length > MIN_SEARCH) {
+
+            event.preventDefault();
+            $("input[name=tagString]").before(spanTag(this.value.trim()));
+            this.value = "";
+
+        }
+
 
     }).autocomplete({
         source: function (request, response) {
@@ -31,30 +58,31 @@ $(document).ready(function () {
                 },
             }, response);
         },
+        delay: 500,
+
         search: function () {
-            // custom minLength
+
             var term = extractLast(this.value);
             if (term.length < MIN_SEARCH) {
                 return false;
             }
         },
         focus: function () {
-            // prevent value inserted on focus
+
             return false;
         },
         select: function (event, ui) {
-            var terms = split(this.value);
-            // remove the current input
-            terms.pop();
-            // add the selected item
-            terms.push(ui.item.value);
-            // add placeholder to get the comma-and-space at the end
-            terms.push("");
-            this.value = terms.join(", ");
+
+            $("input[name=tagString]").before(spanTag(ui.item.value));
+            this.value = "";
+
             return false;
         }
     });
 
+
+    $(".insert-news").submit(verifTags);
+    $(".update-news").submit(verifTags);
 
     //---------------------------------------POST COMMENTAIRE-------------------------------------------------
 
@@ -72,7 +100,6 @@ $(document).ready(function () {
             setLoader(false);
             return false;
         }
-
 
         if ($(".formComment textarea").val() == "") {
 
@@ -97,18 +124,62 @@ $(document).ready(function () {
 
                 if (data.data[0] != null) {
                     var comment = $(data.data[0].html).addClass('popin');
+                    setTimeout(function () {
+
+                        comment.removeClass("popin");
+                    }, 500);
+
+                    if ($(".comment").length == 0) {
+
+                        $('.formComment + p').detach();
+                    }
+
                     $('.comment-section').prepend(comment);
 
                     $(".formComment input[type=text]").val("");
                     $(".formComment textarea").val("");
+                    $(".delete-comment").click(deleteComment);
                 }
             }
+            $("#main .alert").detach();
             $("#main").prepend("<div class='alert alert-info' role='alert'>" + data.message + "</div>");
             setLoader(false);
         });
 
         return false;
     });
+
+    //--------------------------------------DELETE COMMENT--------------------------------------------
+
+    $('.delete-comment').click(deleteComment);
+
+    function deleteComment(event) {
+
+        event.preventDefault();
+        var a = $(event.target);
+
+        $.ajax({
+            url: a.attr("href"),
+            method: "get",
+            datatype: "json"
+
+        }).done(function (data) {
+
+            if (!data.error) {
+
+                a.parent().parent().addClass("removeComment");
+                setTimeout(function () {
+
+                    a.parent().parent().detach();
+                }, 500);
+
+            }
+            $("#main .alert").detach();
+            $("#main").prepend("<div class='alert alert-info' role='alert'>" + data.message + "</div>");
+        });
+
+        return false;
+    }
 
     //--------------------------------------REGISTER--------------------------------------------------
 
@@ -120,25 +191,29 @@ $(document).ready(function () {
 
         if (valeur.length >= MIN_SEARCH + 2) {
 
-            $.ajax({
-                url: "http://monsupersite/checkName",
-                method: "post",
-                dataType: "json",
-                data: {"name": valeur},
+            typewatch(function () {
 
-            }).done(function (data) {
+                $.ajax({
+                    url: "http://monsupersite/checkName",
+                    method: "post",
+                    dataType: "json",
+                    data: {"name": valeur},
 
-                $(".info-exist").html(data.message);
+                }).done(function (data) {
 
-                if(data.error) {
+                    $(".info-exist").html(data.message);
 
-                    input.addClass("invalid");
-                } else {
+                    if (data.error) {
 
-                    input.removeClass("invalid");
-                }
+                        input.addClass("invalid");
+                    } else {
 
-            });
+                        input.removeClass("invalid");
+                    }
+
+                });
+
+            }, 500);
 
         } else {
 
@@ -147,6 +222,68 @@ $(document).ready(function () {
         }
 
     });
+
+    var typewatch = function () {
+        var timer = 0;  // store the timer id
+        return function (callback, ms) {
+            clearTimeout(timer);  // if the function is called before the timeout
+            timer = setTimeout(callback, ms); // clear the timer and start it over
+        }
+    }();
+
+    //--------------------------------------EMAIL CHECK-----------------------------------------------
+    $("input[name=email]").after("<span class='info-mail'></span>");
+    $("input[name=email]").on("keyup", function () {
+
+        var input = $(this);
+
+        typewatch(function () {
+
+            if (validateEmail(input.val())) {
+
+                $(".info-mail").html("Email valide");
+                input.removeClass("invalid");
+            } else {
+
+                $(".info-mail").html("Email invalide !");
+                input.addClass("invalid");
+            }
+
+        }, 500);
+
+    });
+
+    //--------------------------------------PASSWORD CONFIRM-------------------------------------------
+    $("input[name=password_confirm]").after("<span class='info-passcheck'></span>");
+
+    $("input[name=password_confirm]").bind("keyup", function () {
+
+        var input = $(this);
+
+        typewatch(function () {
+            if ($("input[name=password_confirm]").val() == $("input[name=password]").val()) {
+
+                $(".info-passcheck").html("Confirmation valide");
+                input.removeClass("invalid");
+            } else {
+
+                if ($("input[name=password_confirm]").val().length > MIN_SEARCH) {
+
+                    $(".info-passcheck").html("Mots de passe différents !");
+                    input.addClass("invalid");
+
+                } else {
+
+                    $(".info-passcheck").html("");
+                    input.removeClass("invalid");
+                }
+
+            }
+
+        }, 500);
+
+    });
+
 
     //------------------------------------VOIR PLUS----------------------------------------------------
 
@@ -249,6 +386,11 @@ function extractLast(term) {
     return split(term).pop();
 }
 
+function spanTag(val) {
+
+    return "<span class='input-auto label label-primary'>" + val + "</span>";
+}
+
 
 function setLoader(active) {
 
@@ -264,4 +406,21 @@ function setLoader(active) {
 
     }
 
+}
+function verifTags() {
+
+    var input = $("input[name=tagString]");
+    var value = "";
+
+    $(".input-auto").each(function () {
+
+        value += $(this).html() + ", ";
+
+    });
+    input.val(value);
+
+}
+
+function validateEmail(mail) {
+    return (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail));
 }

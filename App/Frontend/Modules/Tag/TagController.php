@@ -21,7 +21,10 @@ class TagController extends BackController
         $nombreCaracteres = $this->App->Config()->get('nombre_caracteres');
         $Tag = $this->Managers->getManagerOf('Tags')->getTagUsingName($Request->getData("name"));
 
-        // On ajoute une définition pour le titre.
+        if($Tag == null)
+            $this->App()->HttpResponse()->redirect404();
+
+        
         $this->Page->addVar('title', 'Liste des ' . $nombreNews . ' dernières news');
 
         // On récupère le manager des news.

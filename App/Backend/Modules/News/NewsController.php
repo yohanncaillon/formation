@@ -9,8 +9,10 @@ use \Entity\Comment;
 use \FormBuilder\CommentUserFormBuilder;
 use \FormBuilder\NewsFormBuilder;
 use \OCFram\FormHandler;
+use OCFram\Page;
 use \OCFram\Session;
 use OCFram\TextValidator;
+
 
 class NewsController extends BackController
 {
@@ -28,11 +30,19 @@ class NewsController extends BackController
 
     public function executeDeleteComment(HTTPRequest $Request)
     {
-        $this->Managers->getManagerOf('Comments')->deleteCommentUsingId($Request->getData('id'));
+        $this->Page->setType(Page::AJAX_PAGE);
+        $error = false;
+        $message = 'Le commentaire a bien été supprimé !';
+        try {
+            $this->Managers->getManagerOf('Comments')->deleteCommentUsingId($Request->getData('id'));
+        } catch (\Exception $e) {
 
-        $this->App()->Session()->setFlash('Le commentaire a bien été supprimé !');
+            $error = true;
+            $message = $e->getMessage();
+        }
+        $this->Page->addVar('erreur', $error);
+        $this->Page->addVar('message', $message);
 
-        $this->App()->HttpResponse()->redirect('/');
     }
 
     public function executeIndex(HTTPRequest $Request)
@@ -132,7 +142,8 @@ class NewsController extends BackController
                     $Tag = $this->Managers->getManagerOf('Tags')->getTagUsingName($Tag->name());
                 }
 
-                if ($Tag->id() != null)
+                // si ne tag existe bien et qu'il n'a pas déjà été traité
+                if ($Tag->id() != null && !in_array($Tag, $tags_a))
                     $tags_a[] = $Tag;
             }
 

@@ -119,7 +119,7 @@ class Comment extends Entity implements \JsonSerializable
         if (Session::isAuthenticated()) {
 
             $sessionData .= "- <a href='" . Router::getInstance()->getRouteUrl("commentUpdate", "Backend", array("id" => $this->id())) . "'>Modifier</a> |";
-            $sessionData .= "<a href='" . Router::getInstance()->getRouteUrl("commentDelete", "Backend", array("id" => $this->id())) . "'> Supprimer</a>";
+            $sessionData .= "<a class='delete-comment' href='" . Router::getInstance()->getRouteUrl("commentDelete", "Backend", array("id" => $this->id())) . "'> Supprimer</a>";
         }
 
         if ($this->auteurId != Comment::AUTEUR_INCONNU) {
@@ -127,6 +127,6 @@ class Comment extends Entity implements \JsonSerializable
             $userData = "Posté par <a href='" . Router::getInstance()->getRouteUrl("user", "Frontend", array("id" => $this->auteurId())) . "'><strong>" . htmlentities($this->auteur) . "</strong></a>";
         }
 
-        return "<fieldset data-id='" . $this->id() . "' ><legend>" . $userData . " le " . $this->date->format('d/m/Y à H\hi') . " " . $sessionData . "</legend> <p class=\"break\">" . htmlentities($this->contenu()) . "</p></fieldset>";
+        return "<fieldset class='comment' data-id='" . $this->id() . "' ><legend>" . $userData . " le " . $this->date->format('d/m/Y à H\hi') . " " . $sessionData . "</legend> <p class=\"break\">" . htmlentities($this->contenu()) . "</p></fieldset>";
     }
 }

@@ -30,7 +30,7 @@ class NewsFormBuilder extends FormBuilder
                     new NotNullValidator('Merci de spécifier le contenu de la news'),
                 ],
             ]))->add(new StringField([
-                'label' => 'Tags (à séparer avec des virgules)',
+                'label' => 'Tags (à séparer avec des espaces) : ',
                 'name' => 'tagString',
                 'maxLength' => 300,
                 'validators' => [

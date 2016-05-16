@@ -26,7 +26,7 @@
 <?php endif; ?>
 <div class="comment-section">
 <?php foreach ($comment_a as $Comment) : ?>
-<fieldset data-id="<?= $Comment->id() ?>">
+<fieldset class="comment" data-id="<?= $Comment->id() ?>">
     <legend>
         <?php if ($Comment['auteurId'] != \Entity\Comment::AUTEUR_INCONNU) : ?>
         Posté par <a href="<?= \OCFram\Router::getInstance()->getRouteUrl("user", "Frontend", array("id" => $Comment['auteurId'])) ?>"><strong><?= htmlentities($Comment['auteur']) ?></strong></a>
@@ -36,7 +36,7 @@
         le <?= $Comment['date']->format('d/m/Y à H\hi') ?>
         <?php if (\OCFram\Session::isAllowed($Comment['auteur'])) : ?> -
             <a href="<?=OCFram\Router::getInstance()->getRouteUrl("commentUpdate", "Backend", array("id" => $Comment['id'])) ?>">Modifier</a> |
-            <a href="<?=OCFram\Router::getInstance()->getRouteUrl("commentDelete", "Backend", array("id" => $Comment['id'])) ?>">Supprimer</a>
+            <a class="delete-comment" href="<?=OCFram\Router::getInstance()->getRouteUrl("commentDelete", "Backend", array("id" => $Comment['id'])) ?>">Supprimer</a>
         <?php endif; ?>
     </legend>
     <p class="break"><?= htmlentities(nl2br($Comment['contenu'])) ?></p>

@@ -1,6 +1,7 @@
 body {
 
     margin-top: 50px;
+    transition: all 0.5s;
 }
 
 .form-signin {
@@ -155,4 +156,31 @@ header a {
 .invalid {
 
     border-color: #e74c3c;
+}
+
+input[name=tagString] {
+
+    display: inline-block;
+    width: auto;
+    margin-left: 5px;
+}
+
+.input-auto {
+
+    font-weight: bold;
+    margin: 0 5px;
+    font-size: larger;
+
+}
+
+.comment {
+
+    transition: all 0.5s;
+    transform-origin: 0 0;
+}
+
+.removeComment {
+
+    opacity:0;
+    transform: scaleY(0);
 }

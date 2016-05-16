@@ -1,6 +1,6 @@
 <h1>Modifier une news</h1>
 <hr>
-<form action="" method="post">
+<form action="" class="update-news" method="post">
     <?= $Form ?>
     <p class="tagsProp">Proposition de Tag : <span></span></p>
     <div id="tag_bar"></div>
