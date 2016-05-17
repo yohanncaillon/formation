@@ -36,9 +36,9 @@ class News extends Entity implements \JsonSerializable
 
             foreach ($this->tag_a as $Tag) {
 
-                $this->tagString .= $Tag->name() . ", ";
+                $this->tagString .= $Tag->name() . " ";
             }
-            $this->tagString = substr($this->tagString, 0, (strlen($this->tagString) - 2));
+            $this->tagString = substr($this->tagString, 0, (strlen($this->tagString) - 1));
         }
 
     }

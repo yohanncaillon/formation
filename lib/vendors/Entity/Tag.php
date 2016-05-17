@@ -61,7 +61,7 @@ class Tag extends Entity implements \JsonSerializable
     }
     public function tagHtml()
     {
-        return "<a class='tag' href='". Router::getInstance()->getRouteUrl("tag", "Frontend", array("name" => $this->name())) . "'>". $this->name() ."</a>";
+        return "<a class='tag' href='". Router::getInstance()->getRouteUrl("tag", "Frontend", array("name" => $this->name(), "id" => $this->id())) . "'>". $this->name() ."</a>";
     }
 
 }

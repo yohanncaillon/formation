@@ -20,6 +20,7 @@ class Router
 
     public function getRoute($url)
     {
+
         foreach ($this->route_a as $route) {
             // Si la route correspond à l'URL
             if (($varsValue_a = $route->match($url)) !== false) {
@@ -64,12 +65,18 @@ class Router
             foreach ($routeXml_a as $route) {
 
                 $var_a = [];
+                $pattern_a = [];
+
                 // On regarde si des variables sont présentes dans l'URL.
                 if ($route->hasAttribute('vars')) {
                     $var_a = explode(',', $route->getAttribute('vars'));
                 }
 
-                $Route = new Route($route->getAttribute('name'), $route->getAttribute('url'), $route->getAttribute('module'), $route->getAttribute('action'), $var_a);
+                if ($route->hasAttribute('patterns')) {
+                    $pattern_a = explode(',', $route->getAttribute('patterns'));
+                }
+
+                $Route = new Route($route->getAttribute('name'), $route->getAttribute('url'), $route->getAttribute('module'), $route->getAttribute('action'), $var_a, $pattern_a);
                 $this->addRoute($Route); // On ajoute les routes du fichier
 
                 if ($Route->name() == $name)

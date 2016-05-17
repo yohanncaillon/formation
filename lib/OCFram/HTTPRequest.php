@@ -40,7 +40,8 @@ class HTTPRequest
 
     public function requestURI()
     {
-        return $_SERVER['REQUEST_URI'];
+
+        return urldecode($_SERVER['REQUEST_URI']);
     }
 
     public function isAjax()

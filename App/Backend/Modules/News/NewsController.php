@@ -123,7 +123,8 @@ class NewsController extends BackController
         if ($Request->method() == 'POST') {
 
             $tags_a = array();
-            foreach (explode(",", $Request->postData('tagString')) as $tag) {
+
+            foreach (preg_split('/ /', $Request->postData('hiddenTags'), null, PREG_SPLIT_NO_EMPTY) as $tag) {
 
                 $Tag = new Tag([
 
@@ -134,7 +135,7 @@ class NewsController extends BackController
                 // si le tag n'existe pas on l'ajoute à la base
                 if (!$this->Managers->getManagerOf('Tags')->existsTagUsingName($Tag->name())) {
 
-                    if ((new TextValidator("error", ',\s'))->isValid($Tag->name()))
+                    if ((new TextValidator("error"))->isValid($Tag->name()))
                         $Tag = $this->Managers->getManagerOf('Tags')->insertTag($Tag);
 
                 } else {
@@ -151,7 +152,7 @@ class NewsController extends BackController
                 'auteur' => $this->App()->Session()->getAttribute("authId"),
                 'titre' => $Request->postData('titre'),
                 'contenu' => $Request->postData('contenu'),
-                'tagString' => $Request->postData('tagString'),
+                'tagString' => $Request->postData('hiddenTags'),
                 'tag' => $tags_a,
             ]);
 

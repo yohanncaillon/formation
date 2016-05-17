@@ -7,7 +7,7 @@
     <route name="register" url="/register" module="Register" action="register"/>
     <route name="checkName" url="/checkName" module="Register" action="checkName"/>
     <route name="user" url="/user-{id}/" module="User" action="index" vars="id" />
-    <route name="tag" url="/tag-{name}/" module="Tag" action="index" vars="name" />
+    <route name="tag" url="/tag-{id}/{name}/" module="Tag" action="index" vars="id,name" patterns="([0-9a-zA-Z]+),(.+)" />
     <route name="search" url="/searchTag/" module="Tag" action="search" />
     <route name="cloud" url="/cloudTag/" module="Tag" action="cloud" />
     <route name="listeNews" url="/listeNews/" module="News" action="listeNews" />

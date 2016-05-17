@@ -19,7 +19,7 @@ class RegisterController extends BackController
     public function executeRegister(HTTPRequest $Request)
     {
         $this->Page->addVar('title', 'Inscription');
-        $message ="";
+        $message = "";
 
         if ($Request->method() == 'POST') {
 
@@ -38,7 +38,7 @@ class RegisterController extends BackController
 
         }
 
-        $FormBuilder = new RegisterFormBuilder($User);
+        $FormBuilder = new RegisterFormBuilder($User, $this->Managers->getManagerOf('Users'), "existsMemberUsingName");
         $FormBuilder->build();
         $Form = $FormBuilder->form();
 
@@ -52,16 +52,8 @@ class RegisterController extends BackController
 
             } catch (\Exception $e) {
 
-                switch ($e->getCode()) {
+                $message = "Une erreur est survenue ! erreur " . $e->getMessage();
 
-                    case 23000:
-                        $message = "Le nom d'utilisateur existe déjà ! ";
-                        break;
-
-                    default:
-                        $message = "Une erreur est survenue ! erreur " . $e->getMessage();
-
-                }
                 $this->App()->Session()->setFlash($message);
                 $this->Page->addVar('erreur', true);
             }
@@ -79,7 +71,8 @@ class RegisterController extends BackController
 
     }
 
-    public function executeCheckName(HTTPRequest $Request) {
+    public function executeCheckName(HTTPRequest $Request)
+    {
 
         $this->Page->setType(Page::AJAX_PAGE);
         $bool = $this->Managers->getManagerOf('Users')->existsMemberUsingName($Request->postData("name"));

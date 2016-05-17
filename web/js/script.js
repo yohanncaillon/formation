@@ -7,36 +7,69 @@ $(document).ready(function () {
     //---------------------------------------GESTION TAGS-------------------------------------------------
 
     // initialisation pour la modification de news
-    if ($(".update-news input[name=tagString]").length) {
-        var terms = split($(".update-news input[name=tagString]").val());
-        $(".update-news input[name=tagString]").val("");
+    if ($("input[name=tagString]").length && $("input[name=tagString]").val().length > 0) {
+
+        var terms = split($("input[name=tagString]").val());
+        $("input[name=tagString]").val("");
+
+        for (var term in terms) {
+            if (terms[term].length > 0)
+                $("input[name=tagString]").before(spanTag(terms[term]));
+        }
+
     }
 
-    for (var term in terms) {
 
-        $("input[name=tagString]").before(spanTag(terms[term]));
-    }
+    $('.close-span').click(function () {
 
-    $("input[name=tagString]").bind("keydown", function (event) {
+        $(this).parent().fadeOut(function () {
+            $(this).remove();
+        });
+    });
+
+    var autoFocus = false;
+
+    $("input[name=tagString]").bind("keydown change", function (event) {
+
 
         if (event.keyCode === $.ui.keyCode.TAB &&
             $(this).autocomplete("instance").menu.active) {
             event.preventDefault();
         }
 
-        if (event.keyCode === $.ui.keyCode.BACKSPACE && this.value.length == 0) {
+        if (event.keyCode === $.ui.keyCode.BACKSPACE && this.selectionStart == 0 && window.getSelection() == 0) {
 
-            $(".input-auto").last().detach();
+            $(".input-auto").last().fadeOut(function () {
+                $(this).remove();
+            });
             event.preventDefault();
+        }
+
+        if (event.keyCode === $.ui.keyCode.ENTER && this.value.trim().length > MIN_SEARCH && !autoFocus) {
+
+            event.preventDefault();
+            if (!checkTagExist(this.value.trim()))
+                $("input[name=tagString]").before(spanTag(this.value.trim()));
+
+            this.value = "";
+
         }
 
         if (event.keyCode === $.ui.keyCode.SPACE && this.value.trim().length > MIN_SEARCH) {
 
             event.preventDefault();
-            $("input[name=tagString]").before(spanTag(this.value.trim()));
+            if (!checkTagExist(this.value.trim()))
+                $("input[name=tagString]").before(spanTag(this.value.trim()));
+
             this.value = "";
 
         }
+
+
+        $('.close-span').click(function () {
+
+            $(this).parent().detach();
+        });
 
 
     }).autocomplete({
@@ -69,12 +102,24 @@ $(document).ready(function () {
         },
         focus: function () {
 
+            autoFocus = true;
+
             return false;
+        },
+        close: function () {
+
+            autoFocus = false;
+
         },
         select: function (event, ui) {
 
-            $("input[name=tagString]").before(spanTag(ui.item.value));
+            if (!checkTagExist(ui.item.value))
+                $("input[name=tagString]").before(spanTag(ui.item.value));
             this.value = "";
+            $('.close-span').click(function () {
+
+                $(this).parent().detach();
+            });
 
             return false;
         }
@@ -128,11 +173,6 @@ $(document).ready(function () {
 
                         comment.removeClass("popin");
                     }, 500);
-
-                    if ($(".comment").length == 0) {
-
-                        $('.formComment + p').detach();
-                    }
 
                     $('.comment-section').prepend(comment);
 
@@ -245,8 +285,17 @@ $(document).ready(function () {
                 input.removeClass("invalid");
             } else {
 
-                $(".info-mail").html("Email invalide !");
-                input.addClass("invalid");
+                if (input.val().length == 0) {
+
+                    $(".info-mail").html("");
+                    input.removeClass("invalid");
+
+                } else {
+
+                    $(".info-mail").html("Email invalide !");
+                    input.addClass("invalid");
+                }
+
             }
 
         }, 500);
@@ -256,9 +305,12 @@ $(document).ready(function () {
     //--------------------------------------PASSWORD CONFIRM-------------------------------------------
     $("input[name=password_confirm]").after("<span class='info-passcheck'></span>");
 
-    $("input[name=password_confirm]").bind("keyup", function () {
+    $("input[name=password_confirm]").bind("keyup", passwordCheck);
+    $("input[name=password]").bind("keyup", passwordCheck);
 
-        var input = $(this);
+    function passwordCheck() {
+
+        var input = $("input[name=password_confirm]");
 
         typewatch(function () {
             if ($("input[name=password_confirm]").val() == $("input[name=password]").val()) {
@@ -282,7 +334,7 @@ $(document).ready(function () {
 
         }, 500);
 
-    });
+    }
 
 
     //------------------------------------VOIR PLUS----------------------------------------------------
@@ -299,7 +351,7 @@ $(document).ready(function () {
 
     function loadMore() {
 
-        $('.pre-footer').append("<img class='loader' src='../images/loading.gif' alt='' />");
+        $('.pre-footer').append("<img class='loader' src='../images/loading.gif' alt='loader' />");
 
         $.ajax({
 
@@ -379,7 +431,7 @@ $(document).ready(function () {
 
 //--------------------FONCTIONS-------------------------------------------------------------------
 function split(val) {
-    return val.split(/,\s*/);
+    return val.split(/ \s*/);
 }
 
 function extractLast(term) {
@@ -388,7 +440,7 @@ function extractLast(term) {
 
 function spanTag(val) {
 
-    return "<span class='input-auto label label-primary'>" + val + "</span>";
+    return "<span class='input-auto label label-primary'>" + escapeHtml(val) + "<i class='close-span'></i></span>";
 }
 
 
@@ -409,12 +461,14 @@ function setLoader(active) {
 }
 function verifTags() {
 
-    var input = $("input[name=tagString]");
+    //var input = $("input[name=tagString]");
+    var input = $("<input type='hidden' name='hiddenTags'>");
+    $("input[name=tagString]").after(input);
     var value = "";
 
     $(".input-auto").each(function () {
 
-        value += $(this).html() + ", ";
+        value += $(this).text() + " ";
 
     });
     input.val(value);
@@ -423,4 +477,36 @@ function verifTags() {
 
 function validateEmail(mail) {
     return (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail));
+}
+
+
+function escapeHtml(unsafe) {
+    return unsafe
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+function checkTagExist(val) {
+
+    var exists = false;
+    $(".input-auto").each(function () {
+
+        if ($(this).text().trim() == val)
+            exists = true;
+
+    });
+
+    if (exists) {
+        $("input[name=tagString]").addClass("errorAnimate");
+        setTimeout(function () {
+
+            $("input[name=tagString]").removeClass("errorAnimate");
+        }, 300);
+    }
+
+    return exists;
+
 }

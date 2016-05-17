@@ -9,14 +9,16 @@ class Route
     protected $varsName_a;
     protected $var_a = [];
     protected $name;
+    protected $pattern_a;
 
-    public function __construct($name, $url, $module, $action, array $varsNames)
+    public function __construct($name, $url, $module, $action, array $varsNames, array $pattern_a)
     {
         $this->setUrl($url);
         $this->setModule($module);
         $this->setAction($action);
         $this->setVarsNames($varsNames);
         $this->setName($name);
+        $this->pattern_a = $pattern_a;
     }
 
     public function hasVars()
@@ -28,15 +30,16 @@ class Route
     {
 
         $builtUrl = $this->url;
-        foreach ($this->varsName_a as $var) {
+        foreach ($this->varsName_a as $i => $var) {
 
             $pattern = '/\{' . $var . '\}/';
 
-            $builtUrl = preg_replace($pattern, '([0-9a-zA-Z]+)', $builtUrl);
+            $builtUrl = preg_replace($pattern, isset($this->pattern_a[$i]) ? $this->pattern_a[$i] : '([0-9a-zA-Z]+)', $builtUrl);
 
         }
 
         if (preg_match('`^' . $builtUrl . '$`', $url, $matches)) {
+
             return $matches;
         } else {
             return false;

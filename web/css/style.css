@@ -170,6 +170,8 @@ input[name=tagString] {
     font-weight: bold;
     margin: 0 5px;
     font-size: larger;
+    position: relative;
+    padding-right: 15px;
 
 }
 
@@ -183,4 +185,58 @@ input[name=tagString] {
 
     opacity:0;
     transform: scaleY(0);
+}
+
+.no-comment {
+
+    display: block;
+}
+
+fieldset + .no-comment {
+
+    display: none;
+}
+
+.close-span {
+
+    position: absolute;
+    top:1px;
+    right:1px;
+    font-size:smaller;
+    cursor: pointer;
+}
+
+.close-span::after {
+
+    content: 'x';
+
+}
+
+.errorAnimate {
+
+    animation: errorAnimate 0.1s infinite;
+}
+
+@keyframes errorAnimate {
+    0% {
+        transform: translateX(-2px);
+        border:1px solid red;
+    }
+
+    33% {
+
+        transform: translateX(0px);
+        border:1px solid red;
+
+    }
+    66% {
+        transform: translateX(2px);
+        border:1px solid red;
+    }
+
+    100% {
+
+        transform: translateX(0px);
+        border:1px solid red;
+    }
 }

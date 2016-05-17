@@ -29,13 +29,18 @@ abstract class Application
         foreach ($routes_a as $Route) {
 
             $var_a = [];
+            $pattern_a = [];
             // On regarde si des variables sont présentes dans l'URL.
             if ($Route->hasAttribute('vars')) {
                 $var_a = explode(',', $Route->getAttribute('vars'));
             }
 
+            if ($Route->hasAttribute('patterns')) {
+                $pattern_a = explode(',', $Route->getAttribute('patterns'));
+            }
+
             // On ajoute la route au routeur.
-            $this->Router->addRoute(new Route($Route->getAttribute('name'), $Route->getAttribute('url'), $Route->getAttribute('module'), $Route->getAttribute('action'), $var_a));
+            $this->Router->addRoute(new Route($Route->getAttribute('name'), $Route->getAttribute('url'), $Route->getAttribute('module'), $Route->getAttribute('action'), $var_a, $pattern_a));
         }
     }
 
