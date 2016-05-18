@@ -163,7 +163,9 @@ input[name=tagString] {
     display: inline-block;
     width: auto;
     margin-left: 5px;
+    position: relative;
 }
+
 
 .input-auto {
 
@@ -239,4 +241,9 @@ fieldset + .no-comment {
         transform: translateX(0px);
         border:1px solid red;
     }
+}
+
+.short-error {
+
+    color: red;
 }

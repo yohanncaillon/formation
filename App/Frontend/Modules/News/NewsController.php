@@ -50,10 +50,10 @@ class NewsController extends BackController
         $this->Page->addVar('erreur', false);
         $this->Page->addVar('message', "");
 
-        sleep(1);
+        //sleep(1);
 
         try {
-            $listeNews_a = $this->Managers->getManagerOf('News')->getNews_a($Request->postData("offset"), $nombreNews);
+            $listeNews_a = $this->Managers->getManagerOf('News')->getNews_a($Request->postData("offset"), $nombreNews+1);
             foreach ($listeNews_a as $News) {
 
                 if (strlen($News->contenu()) > $nombreCaracteres) {

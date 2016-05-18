@@ -128,7 +128,7 @@ class NewsController extends BackController
 
                 $Tag = new Tag([
 
-                    'name' => strtolower(trim($tag)),
+                    'name' => mb_strtolower(trim($tag), 'UTF-8'),
 
                 ]);
 

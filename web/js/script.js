@@ -4,6 +4,7 @@ $(document).ready(function () {
 
     const MIN_SEARCH = 2;
 
+
     //---------------------------------------GESTION TAGS-------------------------------------------------
 
     // initialisation pour la modification de news
@@ -16,9 +17,7 @@ $(document).ready(function () {
             if (terms[term].length > 0)
                 $("input[name=tagString]").before(spanTag(terms[term]));
         }
-
     }
-
 
     $('.close-span').click(function () {
 
@@ -48,20 +47,22 @@ $(document).ready(function () {
         if (event.keyCode === $.ui.keyCode.ENTER && this.value.trim().length > MIN_SEARCH && !autoFocus) {
 
             event.preventDefault();
-            if (!checkTagExist(this.value.trim()))
+            if (checkTagCorrect(this.value.trim())) {
                 $("input[name=tagString]").before(spanTag(this.value.trim()));
+                this.value = "";
+            }
 
-            this.value = "";
 
         }
 
         if (event.keyCode === $.ui.keyCode.SPACE && this.value.trim().length > MIN_SEARCH) {
 
             event.preventDefault();
-            if (!checkTagExist(this.value.trim()))
+            if (checkTagCorrect(this.value.trim())) {
                 $("input[name=tagString]").before(spanTag(this.value.trim()));
+                this.value = "";
+            }
 
-            this.value = "";
 
         }
 
@@ -113,9 +114,12 @@ $(document).ready(function () {
         },
         select: function (event, ui) {
 
-            if (!checkTagExist(ui.item.value))
+            if (checkTagCorrect(ui.item.value)) {
                 $("input[name=tagString]").before(spanTag(ui.item.value));
-            this.value = "";
+                this.value = "";
+            }
+
+
             $('.close-span').click(function () {
 
                 $(this).parent().detach();
@@ -273,7 +277,7 @@ $(document).ready(function () {
 
     //--------------------------------------EMAIL CHECK-----------------------------------------------
     $("input[name=email]").after("<span class='info-mail'></span>");
-    $("input[name=email]").on("keyup", function () {
+    $("input[name=email]").on("keyup change", function () {
 
         var input = $(this);
 
@@ -364,7 +368,9 @@ $(document).ready(function () {
 
         }).done(function (data) {
 
-            if (data.data.length > 0) {
+            //il y a une page en plus
+            if (data.data.length == 7) {
+                data.data.pop(); //on retire le dernier
 
                 scrollAuto = true;
 
@@ -379,6 +385,11 @@ $(document).ready(function () {
             } else {
 
                 scrollAuto = false;
+                for (var news in data.data) {
+
+                    $('.pre-footer').before("<div class='news fadein'>" + data.data[news].titre + "<p>" + data.data[news].content + "</p></div>");
+
+                }
                 $('.pre-footer').before("<p style='text-align: center'>Vous êtes arrivé à la fin !</p>");
                 $(".loader").detach();
 
@@ -390,7 +401,6 @@ $(document).ready(function () {
     $(window).scroll(function () {
 
         if ($(window).scrollTop() + $(window).height() == $(document).height()) {
-
 
             if (scrollAuto) {
                 scrollAuto = false;
@@ -461,7 +471,6 @@ function setLoader(active) {
 }
 function verifTags() {
 
-    //var input = $("input[name=tagString]");
     var input = $("<input type='hidden' name='hiddenTags'>");
     $("input[name=tagString]").after(input);
     var value = "";
@@ -489,24 +498,57 @@ function escapeHtml(unsafe) {
         .replace(/'/g, "&#039;");
 }
 
-function checkTagExist(val) {
+var messageEnCours = false;
 
-    var exists = false;
+function checkTagCorrect(val) {
+
+
+    var correct = true;
+    var message = "Valeur incorrecte !";
     $(".input-auto").each(function () {
 
-        if ($(this).text().trim() == val)
-            exists = true;
+        if ($(this).text().trim() == val) {
+
+            correct = false;
+            message = "Le tag a déjà été ajouté !";
+        }
 
     });
 
-    if (exists) {
+    var regex = /['\/~`\!@#\$%\^&\*\(\)_\-\+=\{\}\[\]\|;:"\<\>,\.\?\\]/g;
+    if (val.match(regex) != null) {
+
+        correct = false;
+        message = "Caractères interdits utilisés !";
+    }
+
+    if (!correct) {
+
         $("input[name=tagString]").addClass("errorAnimate");
+        if(!messageEnCours) {
+            $("input[name=tagString]").after("<span class='short-error'> " + message + "</span>");
+            messageEnCours = true;
+        }
+
+
         setTimeout(function () {
 
             $("input[name=tagString]").removeClass("errorAnimate");
+
         }, 300);
+
+        setTimeout(function () {
+
+            $(".short-error").fadeOut(function () {
+
+                $(".short-error").remove();
+                messageEnCours = false;
+            });
+
+
+        }, 1500);
     }
 
-    return exists;
+    return correct;
 
 }
